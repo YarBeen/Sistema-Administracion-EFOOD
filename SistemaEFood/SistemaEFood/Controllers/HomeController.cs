@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SistemaEFood.Models;
+using SistemaEFood.Modelos.ViewModels;
 using System.Diagnostics;
 
 namespace SistemaEFood.Controllers

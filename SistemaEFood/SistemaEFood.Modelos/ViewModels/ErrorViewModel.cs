@@ -1,4 +1,4 @@
-namespace SistemaEFood.Models
+namespace SistemaEFood.Modelos.ViewModels
 {
     public class ErrorViewModel
     {

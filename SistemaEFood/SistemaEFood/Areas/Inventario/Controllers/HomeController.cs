@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.Modelos.ViewModels;
 using System.Diagnostics;
 
-namespace SistemaEFood.Controllers
+namespace SistemaEFood.Areas.Inventario.Controllers
 {
+    [Area("Inventario")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

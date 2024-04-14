@@ -15,7 +15,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
         public UnidadTrabajo(ApplicationDbContext db)
         {
-            _db = db;   
+            _db = db;
+            Tarjeta = new TarjetaRepositorio(_db);
         }
 
         public void Dispose()

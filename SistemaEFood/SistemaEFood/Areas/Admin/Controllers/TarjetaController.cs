@@ -77,6 +77,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
             {
                 return Json(new { success = false, message = "Error al borrar Tarjeta" });
             }
+
             _unidadTrabajo.Tarjeta.Remover(tarjetaDb);
             await _unidadTrabajo.Guardar();
             return Json(new { success = true, message = "Tarjeta borrada exitosamente" });

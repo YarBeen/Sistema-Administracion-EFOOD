@@ -14,7 +14,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         private readonly ApplicationDbContext _db;
         public ITarjetaRepositorio Tarjeta { get; private set; }
         public IProcesadorDePagoRepositorio ProcesadorDePago { get; private set; }
-        public UnidadTrabajo(ApplicationDbContext db)
+     
          public IRolRepositorio Rol { get; private set; }
 
         public UnidadTrabajo(ApplicationDbContext db)

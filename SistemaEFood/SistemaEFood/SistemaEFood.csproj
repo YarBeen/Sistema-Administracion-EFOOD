@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-SistemaEFood-61b3c05e-0e3d-4fb6-9d29-16506f4f4406</UserSecretsId>
   </PropertyGroup>

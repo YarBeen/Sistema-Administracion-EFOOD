@@ -9,7 +9,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     {
         ITarjetaRepositorio Tarjeta { get; }
         IProcesadorDePagoRepositorio ProcesadorDePago { get; }
-        IRolRepositorio Rol { get; }
+        IUsuarioRepositorio Usuario {  get; }
         Task Guardar();
     }
 }

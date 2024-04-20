@@ -14,15 +14,15 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         private readonly ApplicationDbContext _db;
         public ITarjetaRepositorio Tarjeta { get; private set; }
         public IProcesadorDePagoRepositorio ProcesadorDePago { get; private set; }
-     
-         public IRolRepositorio Rol { get; private set; }
 
-        public UnidadTrabajo(ApplicationDbContext db)
+		public IUsuarioRepositorio Usuario { get; private set; }
+
+		public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
             Tarjeta = new TarjetaRepositorio(_db);
-            Rol = new RolRepositorio(_db);
             ProcesadorDePago = new ProcesadorDePagoRepositorio(_db);
+            Usuario = new UsuarioRepositorio(_db);
         }
         public void Dispose()
         {

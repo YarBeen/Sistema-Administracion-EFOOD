@@ -86,6 +86,11 @@ namespace SistemaEFood.AccesoDatos.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -137,6 +142,10 @@ namespace SistemaEFood.AccesoDatos.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -224,62 +233,44 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-
-            modelBuilder.Entity("SistemaEFood.Modelos.Rol", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
-
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                b.Property<string>("Nombre")
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnType("nvarchar(40)");
-
-                b.HasKey("Id");
-
-                b.ToTable("Roles");
-            });
             modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorDePago", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                b.Property<bool>("Estado")
-                    .HasColumnType("bit");
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
 
-                b.Property<string>("Metodo")
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnType("nvarchar(40)");
+                    b.Property<string>("Metodo")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                b.Property<string>("NombreOpcionDePago")
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnType("nvarchar(40)");
+                    b.Property<string>("NombreOpcionDePago")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                b.Property<string>("Procesador")
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnType("nvarchar(40)");
+                    b.Property<string>("Procesador")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                b.Property<string>("Tipo")
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnType("nvarchar(40)");
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                b.Property<bool>("Verificacion")
-                    .HasColumnType("bit");
+                    b.Property<bool>("Verificacion")
+                        .HasColumnType("bit");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.ToTable("ProcesadorDePago");
-            });
+                    b.ToTable("ProcesadorDePago");
+                });
 
             modelBuilder.Entity("SistemaEFood.Modelos.Tarjeta", b =>
                 {
@@ -297,6 +288,26 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tarjetas");
+                });
+
+            modelBuilder.Entity("SistemaEFood.Modelos.Usuario", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PreguntaSeguridad")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("RespuestaSeguridad")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasDiscriminator().HasValue("Usuario");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

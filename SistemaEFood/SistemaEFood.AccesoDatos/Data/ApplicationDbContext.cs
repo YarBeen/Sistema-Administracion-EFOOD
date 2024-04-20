@@ -13,10 +13,10 @@ namespace SistemaEFood.AccesoDatos.Data
         }
         public DbSet<Tarjeta> Tarjetas { get; set; }
         public DbSet<ProcesadorDePago> ProcesadorDePago { get; set; }
-        public DbSet<Rol> Roles { get; set; }
+		public DbSet<Usuario> Usuarios { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

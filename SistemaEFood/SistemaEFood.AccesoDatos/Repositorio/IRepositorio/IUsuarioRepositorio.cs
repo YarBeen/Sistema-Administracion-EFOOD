@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 {
-    public interface IRolRepositorio : IRepositorio<Rol>
+    public interface IUsuarioRepositorio : IRepositorio<Usuario>
     {
-        void Actualizar(Rol rol);
+        
 
     }
 }

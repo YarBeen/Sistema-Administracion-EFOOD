@@ -12,11 +12,13 @@ namespace SistemaEFood.AccesoDatos.Repositorio
     {
         private readonly ApplicationDbContext _db;
         public ITarjetaRepositorio Tarjeta { get; private set; }
+		public IRolRepositorio Rol { get; private set; }
 
-        public UnidadTrabajo(ApplicationDbContext db)
+		public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
             Tarjeta = new TarjetaRepositorio(_db);
+            Rol = new RolRepositorio(_db);
         }
 
         public void Dispose()

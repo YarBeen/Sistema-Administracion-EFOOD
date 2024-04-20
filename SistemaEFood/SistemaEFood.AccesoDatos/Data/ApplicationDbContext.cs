@@ -13,7 +13,9 @@ namespace SistemaEFood.AccesoDatos.Data
         }
         public DbSet<Tarjeta> Tarjetas { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		public DbSet<Rol> Roles { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

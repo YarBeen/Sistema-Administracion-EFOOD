@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaEFood.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 {
-    public interface IUnidadTrabajo : IDisposable
+    public interface IRolRepositorio : IRepositorio<Rol>
     {
-        ITarjetaRepositorio Tarjeta { get; }
-        IRolRepositorio Rol { get; }
-        Task Guardar();
+        void Actualizar(Rol rol);
+
     }
 }

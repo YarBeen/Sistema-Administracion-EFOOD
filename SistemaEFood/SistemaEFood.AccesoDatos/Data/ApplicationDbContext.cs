@@ -12,7 +12,7 @@ namespace SistemaEFood.AccesoDatos.Data
         {
         }
         public DbSet<Tarjeta> Tarjetas { get; set; }
-
+        public DbSet<ProcesadorDePago> ProcesadorDePago { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

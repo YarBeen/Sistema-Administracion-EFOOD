@@ -9,6 +9,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     public interface IUnidadTrabajo : IDisposable
     {
          ITarjetaRepositorio Tarjeta { get; }
+         IProcesadorDePagoRepositorio ProcesadorDePago { get; }
         Task Guardar();
     }
 }

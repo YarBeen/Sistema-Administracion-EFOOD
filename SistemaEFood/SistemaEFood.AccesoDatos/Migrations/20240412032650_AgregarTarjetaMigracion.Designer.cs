@@ -227,7 +227,7 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SistemaEFood.Modelos.Tarjeta", b =>
+            modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorDePago", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

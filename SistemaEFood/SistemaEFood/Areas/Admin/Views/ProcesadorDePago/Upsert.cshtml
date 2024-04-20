@@ -1,0 +1,126 @@
+﻿@model SistemaEFood.Modelos.ProcesadorDePago
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear Procesador De Pago";
+}
+
+
+<form method="post">
+    <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
+        <div class="row border-0">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+
+        @if (Model.Id != 0)
+        {
+            titulo = "Actualizar Procesador De Pago";
+            <input type="hidden" asp-for="Id" id="id" />
+        }
+        <div class="col-12 border-bottom p-0">
+            <h2 class="text-primary">@titulo</h2>
+        </div>
+
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Codigo</label>
+                <input type="text" asp-for="Id" class="form-control" placeholder="Codigo" id="Codigo" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Procesador</label>
+                <input type="text" asp-for="Procesador" class="form-control" placeholder="Nombre del Procesador" />
+                <span asp-validation-for="Procesador" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Nombre en opcion de pago</label>
+                <input type="text" asp-for="NombreOpcionDePago" class="form-control" placeholder="Nombre de la opcion de pago" />
+                <span asp-validation-for="NombreOpcionDePago" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Tipo</label>
+                <input type="text" asp-for="Tipo" class="form-control" placeholder="Nombre del Tipo" />
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+       <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Estado</label>
+                <select asp-for="Estado" class="form-select">
+                    <option value=true>Activo</option>
+                    <option value=false>Inactivo</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+        </div>
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label>Requiere Verificacion</label>
+                    <select asp-for="Verificacion" class="form-select">
+                        <option value=true>Activo</option>
+                        <option value=false>Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Verificacion" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label>Metodo</label>
+                    <input type="text" asp-for="Metodo" class="form-control" placeholder="Nombre del Metodo" />
+                    <span asp-validation-for="Metodo" class="text-danger"></span>
+                </div>
+        <br />
+        <div>
+            @if (Model.Id != 0)
+            {
+                <partial name="_BotonesActualizarYRegresar" model="Model.Id" />
+            }
+            else
+            {
+                <partial name="_BotonesCrearYRegresar" model="Model.Id" />
+            }
+        </div>
+
+
+
+    </div>
+
+
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        document.getElementById("nombre").addEventListener('change', function () {
+            validarNombre();
+        });
+
+        function validarNombre() {
+            var url = '@Url.Content("~/")' + "Admin/Tarjeta/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombre = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombre.value = ";"
+                    }
+                });
+            })
+        }
+
+    </script>
+
+}
+

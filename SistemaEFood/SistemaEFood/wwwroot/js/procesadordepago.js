@@ -25,8 +25,9 @@ function loadDataTable() {
             "url": "/Admin/ProcesadorDePago/ObtenerTodos"
         },
         "columns": [
-            { "data": "nombre", "width": "20%" },
-            { "data": "descripcion", "width": "40%" },
+            { "data": "id", "width": "10%" },
+            { "data": "procesador", "width": "40%" },
+            { "data": "tipo", "width": "20%" },
             {
                 "data": "estado",
                 "render": function (data) {
@@ -38,12 +39,13 @@ function loadDataTable() {
                     }
                 }, "width": "20%"
             },
+           
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                           <a href="/Admin/ProecesadorDePago/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                           <a href="/Admin/ProcesadorDePago/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                               <i class="bi bi-pencil-square"></i>  
                            </a>
                            <a onclick=Delete("/Admin/ProcesadorDePago/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
@@ -51,7 +53,7 @@ function loadDataTable() {
                            </a> 
                         </div>
                     `;
-                }, "width": "20%"
+                }, "width": "10%"
             }
         ]
 
@@ -72,6 +74,8 @@ function Delete(url) {
                 type: "POST",
                 url: url,
                 success: function (data) {
+
+
                     if (data.success) {
                         toastr.success(data.message);
                         datatable.ajax.reload();

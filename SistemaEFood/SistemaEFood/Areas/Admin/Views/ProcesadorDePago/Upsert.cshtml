@@ -24,10 +24,12 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Codigo</label>
-                <input type="text" asp-for="Id" class="form-control" placeholder="Codigo" id="Codigo" />
+                <input type="text" asp-for="Id" class="form-control" placeholder="Codigo" />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
         </div>
+
+
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Procesador</label>
@@ -100,21 +102,21 @@
 
     <script>
 
-        document.getElementById("nombre").addEventListener('change', function () {
+        document.getElementById("procesador").addEventListener('change', function () {
             validarNombre();
         });
 
         function validarNombre() {
-            var url = '@Url.Content("~/")' + "Admin/Tarjeta/ValidarNombre";
+            var url = '@Url.Content("~/")' + "Admin/ProcesadorPago/ValidarNombre";
             var id = '#id';
-            var nombre = '#nombre';
+            var procesador = '#procesador';
 
-            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+            $.getJSON(url, { id: $(id).val(), procesador: $(procesador).val() }, function (data) {
                 $.each(data, function (key, value) {
                     if (value) {
-                        var nombre = document.getElementById("nombre");
+                        var procesador = document.getElementById("procesador");
                         swal("Error", "Nombre ya Existe", "error");
-                        nombre.value = ";"
+                        procesador.value = ";"
                     }
                 });
             })

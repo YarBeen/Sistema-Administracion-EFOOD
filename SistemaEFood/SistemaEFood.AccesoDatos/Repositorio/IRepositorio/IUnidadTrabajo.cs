@@ -10,6 +10,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         ITarjetaRepositorio Tarjeta { get; }
         IProcesadorDePagoRepositorio ProcesadorDePago { get; }
         IUsuarioRepositorio Usuario {  get; }
+
+        ILineaComidaRepositorio LineaComida {  get; }
         Task Guardar();
     }
 }

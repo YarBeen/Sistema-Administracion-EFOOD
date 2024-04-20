@@ -15,6 +15,8 @@ namespace SistemaEFood.AccesoDatos.Data
         public DbSet<ProcesadorDePago> ProcesadorDePago { get; set; }
 		public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<LineaComida> LineasComida { get; set; }
+
 
 		protected override void OnModelCreating(ModelBuilder builder)
         {

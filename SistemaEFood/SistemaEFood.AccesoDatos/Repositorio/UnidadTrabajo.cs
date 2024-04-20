@@ -17,12 +17,15 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
 		public IUsuarioRepositorio Usuario { get; private set; }
 
+        public ILineaComidaRepositorio LineaComida { get; private set; }
+
 		public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
             Tarjeta = new TarjetaRepositorio(_db);
             ProcesadorDePago = new ProcesadorDePagoRepositorio(_db);
             Usuario = new UsuarioRepositorio(_db);
+            LineaComida = new LineaComidaRepositorio(_db);
         }
         public void Dispose()
         {

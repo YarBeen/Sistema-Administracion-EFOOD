@@ -22,20 +22,20 @@ function loadDataTable() {
             }
         },
         "ajax": {
-            "url": "/Admin/Tarjeta/ObtenerTodos"
+            "url": "/Admin/LineaComida/ObtenerTodos"
         },
         "columns": [
-            { "data": "id", "width": "20%" },
+            { "data": "id", "width": "20%"},
             { "data": "nombre", "width": "40%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Tarjeta/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/LineaComida/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a onclick=Delete("/Admin/Tarjeta/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/LineaComida/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>
@@ -49,7 +49,7 @@ function loadDataTable() {
 
 function Delete(url) {
     swal({
-        title: "Esta seguro de Eliminar la Tarjeta?",
+        title: "Esta seguro de Eliminar la linea de comida?",
         text: "Este registro no se podrá recuper",
         icon: "warning",
         buttons: true,

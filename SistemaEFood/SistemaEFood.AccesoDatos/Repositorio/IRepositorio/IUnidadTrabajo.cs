@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 {
     public interface IUnidadTrabajo : IDisposable
-    {
+  
         ITarjetaRepositorio Tarjeta { get; }
         IRolRepositorio Rol { get; }
+        IProcesadorDePagoRepositorio ProcesadorDePago { get; }
         Task Guardar();
     }
 }

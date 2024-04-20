@@ -224,23 +224,62 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+
             modelBuilder.Entity("SistemaEFood.Modelos.Rol", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                b.Property<string>("Nombre")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Roles");
-                });
+                b.ToTable("Roles");
+            });
+            modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorDePago", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<bool>("Estado")
+                    .HasColumnType("bit");
+
+                b.Property<string>("Metodo")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
+
+                b.Property<string>("NombreOpcionDePago")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
+
+                b.Property<string>("Procesador")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
+
+                b.Property<string>("Tipo")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
+
+                b.Property<bool>("Verificacion")
+                    .HasColumnType("bit");
+
+                b.HasKey("Id");
+
+                b.ToTable("ProcesadorDePago");
+            });
 
             modelBuilder.Entity("SistemaEFood.Modelos.Tarjeta", b =>
                 {

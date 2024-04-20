@@ -30,6 +30,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 return View(procesadorDePago);
             }
             procesadorDePago = await _unidadTrabajo.ProcesadorDePago.Obtener(id.GetValueOrDefault());
+
             if(procesadorDePago == null)
             {
                 return NotFound();

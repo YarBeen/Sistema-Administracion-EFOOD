@@ -18,7 +18,11 @@ namespace SistemaEFood.AccesoDatos.Data
         public DbSet<LineaComida> LineasComida { get; set; }
 
 
-		protected override void OnModelCreating(ModelBuilder builder)
+
+        public DbSet<TiqueteDeDescuento> TiqueteDeDescuento { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

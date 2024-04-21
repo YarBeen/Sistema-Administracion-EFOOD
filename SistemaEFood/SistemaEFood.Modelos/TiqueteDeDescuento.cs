@@ -20,6 +20,7 @@ namespace SistemaEFood.Modelos
         public String Nombre { get; set; }
 
         [Required(ErrorMessage = "Cantidad de Disponibles es requerido")]
+
         public int Disponibles { get; set; }
         [Required(ErrorMessage = "Cantidad de Descuento es requerido")]
         public int Descuento { get; set; }

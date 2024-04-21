@@ -1,0 +1,104 @@
+﻿@model SistemaEFood.Modelos.TiqueteDeDescuento
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear Tiquete De Descuento";
+}
+
+
+<form method="post">
+    <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
+        <div class="row border-0">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+
+        @if (Model.Id != 0)
+        {
+            titulo = "Actualizar Tiquete De Descuento";
+            <input type="hidden" asp-for="Id" id="id" />
+        }
+        <div class="col-12 border-bottom p-0">
+            <h2 class="text-primary">@titulo</h2>
+        </div>
+
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Codigo</label>
+                <input type="text" asp-for="Codigo" class="form-control" placeholder="Codigo" />
+                <span asp-validation-for="Codigo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Disponibles</label>
+                <input type="text" asp-for="Disponibles" class="form-control" placeholder="Cantidad de disponibles" min="0" title="Por favor ingresa solo números" />
+                <span asp-validation-for="Disponibles" class="text-danger" data-val-msg="El valor tiene que ser un número"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Descuento</label>
+                <input type="number" asp-for="Descuento" class="form-control" placeholder="Descuento" min="1" max="100" title="Por favor ingresa un número entre 0 y 100" />
+                <span asp-validation-for="Descuento" class="text-danger"></span>
+            </div>
+        </div>
+
+
+
+        <br />
+        <div>
+            @if (Model.Id != 0)
+            {
+                <partial name="_BotonesActualizarYRegresar" model="Model.Id" />
+            }
+            else
+            {
+                <partial name="_BotonesCrearYRegresar" model="Model.Id" />
+            }
+        </div>
+
+
+
+    </div>
+
+
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        document.getElementById("nombre").addEventListener('change', function () {
+            validarNombre();
+        });
+
+        function validarNombre() {
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombre = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombre.value = ";"
+                    }
+                });
+            })
+        }
+
+    </script>
+
+}
+

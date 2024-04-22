@@ -12,10 +12,14 @@ namespace SistemaEFood.AccesoDatos.Data
         {
         }
         public DbSet<Tarjeta> Tarjetas { get; set; }
+        public DbSet<TipoPrecio> TiposPrecio { get; set; }
+
         public DbSet<ProcesadorDePago> ProcesadorDePago { get; set; }
 		public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<LineaComida> LineasComida { get; set; }
+
+        
 
 
 

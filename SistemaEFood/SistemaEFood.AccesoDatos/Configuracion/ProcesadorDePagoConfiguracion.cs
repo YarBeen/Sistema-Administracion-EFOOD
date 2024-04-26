@@ -22,6 +22,9 @@ namespace SistemaEFood.AccesoDatos.Configuracion
             builder.Property(X => X.Verificacion).IsRequired();
             builder.Property(X => X.Metodo).IsRequired().HasMaxLength(40);
 
+            //Many to many
+            builder.HasMany(X => X.Tarjetas).WithMany(Y => Y.ProcesadoresDePagos).UsingEntity(J => J.ToTable("TarjetaProcesador")); //.OnDelete(DeleteBehavior.NoAction);
+
 
         }
     }

@@ -31,6 +31,10 @@ namespace SistemaEFood.Modelos
         [MaxLength(40, ErrorMessage = "El Tipo es de maximo 40 caracteres")]
         public String Metodo { get; set; }
 
+        //Momentaneamente sin el required. Despues lo pondre como required.
+
+        public ICollection<Tarjeta> Tarjetas { get; set; }
+
 
     }
 }

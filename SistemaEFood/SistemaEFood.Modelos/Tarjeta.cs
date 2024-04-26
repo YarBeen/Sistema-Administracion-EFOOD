@@ -15,5 +15,8 @@ namespace SistemaEFood.Modelos
         [MaxLength(40,ErrorMessage ="El nombre es de maximo 40 caracteres")]
         public String Nombre { get; set; }
 
+
+        public ICollection<ProcesadorDePago> ProcesadoresDePagos { get; set; }
+
     }
 }

@@ -16,10 +16,12 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public IProcesadorDePagoRepositorio ProcesadorDePago { get; private set; }
 
         public ITiqueteDeDescuentoRepositorio TiqueteDeDescuento { get; private set; }
-		public IUsuarioRepositorio Usuario { get; private set; }
+        public IUsuarioRepositorio Usuario { get; private set; }
 
         public ILineaComidaRepositorio LineaComida { get; private set; }
         public ITipoPrecioRepositorio TipoPrecio { get; private set; }
+
+        public IProductoRepositorio Producto { get; private set; }
 
         public UnidadTrabajo(ApplicationDbContext db)
         {
@@ -30,6 +32,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             Usuario = new UsuarioRepositorio(_db);
             LineaComida = new LineaComidaRepositorio(_db);
             TipoPrecio = new TipoPrecioRepositorio(_db);
+            Producto = new ProductoRepositorio(_db);
         }
         public void Dispose()
         {

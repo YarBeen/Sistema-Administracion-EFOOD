@@ -19,7 +19,7 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<LineaComida> LineasComida { get; set; }
 
-        
+        public DbSet<Producto> Productos { get; set; }
 
 
 

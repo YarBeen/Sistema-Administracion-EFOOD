@@ -33,7 +33,7 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Procesador</label>
-                <input type="text" asp-for="Procesador" class="form-control" placeholder="Nombre del Procesador" />
+                <input type="text" asp-for="Procesador" class="form-control" placeholder="Nombre del Procesador" id="procesador"/>
                 <span asp-validation-for="Procesador" class="text-danger"></span>
             </div>
         </div>
@@ -99,30 +99,35 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-        document.getElementById("procesador").addEventListener('change', function () {
-            validarNombre();
+            document.querySelector("form").addEventListener('submit', function (event) {
+
+                event.preventDefault();
+
+
+                validarNombre();
+            });
         });
-
         function validarNombre() {
             var url = '@Url.Content("~/")' + "Admin/ProcesadorPago/ValidarNombre";
             var id = '#id';
             var procesador = '#procesador';
-
-            $.getJSON(url, { id: $(id).val(), procesador: $(procesador).val() }, function (data) {
+        $.getJSON(url, { id: $(id).val(), procesador: $(procesador).val() }, function (data) {
                 $.each(data, function (key, value) {
                     if (value) {
-                        var procesador = document.getElementById("procesador");
-                        swal("Error", "Nombre ya Existe", "error");
-                        procesador.value = ";"
+                    var procesador = document.getElementById("procesador");
+                        swal("Error", "Procesador ya Existe", "error");
+                    procesador.value = "";
+
+
+                        return;
+
                     }
+                    document.querySelector("form").submit();
                 });
             })
         }
-
     </script>
-
-}
 

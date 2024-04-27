@@ -24,14 +24,14 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Codigo</label>
-                <input type="text" asp-for="Codigo" class="form-control" placeholder="Codigo" />
+                <input type="text" asp-for="Codigo" class="form-control" placeholder="Codigo" id="codigo"/>
                 <span asp-validation-for="Codigo" class="text-danger"></span>
             </div>
         </div>
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Nombre</label>
-                <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre" id="nombre"/>
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
         </div>
@@ -75,31 +75,56 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-
-
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-        document.getElementById("nombre").addEventListener('change', function () {
-            validarNombre();
+            document.querySelector("form").addEventListener('submit', function (event) {
+
+                event.preventDefault();
+
+
+                validarNombre();
+                validarCodigo();
+            });
         });
-
+        
         function validarNombre() {
-            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarNombre";
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDescuento/ValidarNombre";
             var id = '#id';
             var nombre = '#nombre';
-
             $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
                 $.each(data, function (key, value) {
                     if (value) {
                         var nombre = document.getElementById("nombre");
                         swal("Error", "Nombre ya Existe", "error");
-                        nombre.value = ";"
+                        nombre.value = "";
+
+
+                        return;
+
                     }
+                    document.querySelector("form").submit();
                 });
             })
         }
+        function validarCodigo(){
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDescuento/ValidarNombre";
+            var id = '#id';
+            var codigo = '#codigo';
+        $.getJSON(url, { id: $(id).val(), codigo: $(codigo).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                    var codigo = document.getElementById("codigo");
+                        swal("Error", "Codigo ya Existe", "error");
+                        nombre.value = "";
 
+
+                        return;
+
+                    }
+                    document.querySelector("form").submit();
+                });
+            })
+        }
     </script>
-
-}
 

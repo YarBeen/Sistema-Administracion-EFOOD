@@ -106,6 +106,26 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return Json(new { data = false });
         }
 
+        [ActionName("ValidarCodigo")]
+        public async Task<IActionResult> ValidarCodigo(string codigo, int id = 0)
+        {
+            bool valor = false;
+            var lista = await _unidadTrabajo.TiqueteDeDescuento.ObtenerTodos();
+            if (id == 0)
+            {
+                valor = lista.Any(b => b.Codigo.ToLower().Trim() == codigo.ToLower().Trim());
+            }
+            else
+            {
+                valor = lista.Any(b => b.Codigo.ToLower().Trim() == codigo.ToLower().Trim() && b.Id != id);
+            }
+            if (valor)
+            {
+                return Json(new { data = true });
+            }
+            return Json(new { data = false });
+        }
+
         #endregion
 
     }

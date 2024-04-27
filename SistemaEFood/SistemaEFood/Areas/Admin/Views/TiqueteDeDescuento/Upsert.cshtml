@@ -84,12 +84,15 @@
 
 
                 validarNombre();
-                validarCodigo();
+            
             });
         });
+ 
         
         function validarNombre() {
-            var url = '@Url.Content("~/")' + "Admin/TiqueteDescuento/ValidarNombre";
+            
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarNombre";
+            
             var id = '#id';
             var nombre = '#nombre';
             $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
@@ -97,34 +100,43 @@
                     if (value) {
                         var nombre = document.getElementById("nombre");
                         swal("Error", "Nombre ya Existe", "error");
+                    
                         nombre.value = "";
 
 
                         return;
 
                     }
-                    document.querySelector("form").submit();
+
+                    validarCodigo();
+                 
                 });
             })
         }
         function validarCodigo(){
-            var url = '@Url.Content("~/")' + "Admin/TiqueteDescuento/ValidarNombre";
+
+
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarCodigo";
             var id = '#id';
             var codigo = '#codigo';
-        $.getJSON(url, { id: $(id).val(), codigo: $(codigo).val() }, function (data) {
+            $.getJSON(url, { id: $(id).val(), codigo: $(codigo).val() }, function (data) {
                 $.each(data, function (key, value) {
                     if (value) {
                     var codigo = document.getElementById("codigo");
                         swal("Error", "Codigo ya Existe", "error");
-                        nombre.value = "";
+                        codigo.value = "";
+                       
+                       
 
 
                         return;
 
                     }
+
                     document.querySelector("form").submit();
                 });
             })
         }
     </script>
 
+        }

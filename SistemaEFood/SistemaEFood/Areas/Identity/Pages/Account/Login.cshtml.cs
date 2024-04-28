@@ -128,7 +128,7 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Usuario no esta registrado o se ha verificado pro email.");
                     return Page();
                 }
             }

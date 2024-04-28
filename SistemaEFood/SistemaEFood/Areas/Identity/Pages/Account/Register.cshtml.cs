@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SistemaEFood.Modelos;
@@ -114,12 +115,21 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
 
 
             public string Role { get; set; }
+            public IEnumerable<SelectListItem> ListaRol { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            Input = new InputModel()
+            {
+                ListaRol= _roleManager.Roles.Where(r => r.Name != DS.Role_Usuario).Select(n => n.Name).Select( L => new SelectListItem{
+
+                    Text= L,
+                    Value = L
+                })
+            };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -164,7 +174,14 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(DS.Role_Usuario));
                     }
 
-                    await _userManager.AddToRoleAsync(user,DS.Role_Admin);
+                    if (user.Role ==null )// es un cliente
+                    {
+                        await _userManager.AddToRoleAsync(user, DS.Role_Usuario);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                    }
 
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -185,8 +202,20 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (user.Role==null)
+                        {
+                            //Cliente se registra, entonces lo loggea de una
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            // El admin esta registrando a alguien
+                            //Se conserva su login como administrador
+                            //Lo envia al modulo de administracion de usuarios.
+                            return RedirectToAction("Index", "Usuario", new { Area = "Admin" });
+                        }
+                       
                     }
                 }
                 foreach (var error in result.Errors)

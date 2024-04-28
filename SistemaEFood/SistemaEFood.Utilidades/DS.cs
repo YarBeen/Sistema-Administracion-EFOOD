@@ -14,5 +14,15 @@ namespace SistemaEFood.Utilidades
 
         //public const string ImagenRuta = @"\imagenes\producto\";
 
+        public const string Role_Admin = "Admin";
+        public const string Role_Seguridad = "Seguridad";
+        public const string Role_Mantenimiento = "Mantenimiento";
+        public const string Role_Consulta = "Consulta";
+        public const string Role_Usuario = "Usuario";
+
+
+
+
+
     }
 }

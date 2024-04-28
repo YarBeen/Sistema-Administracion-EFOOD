@@ -45,7 +45,12 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Descuento</label>
-                <input type="number" asp-for="Descuento" class="form-control" placeholder="Descuento" min="1" max="100" title="Por favor ingresa un número entre 0 y 100" />
+                <div class="input-group">
+                    <input type="number" asp-for="Descuento" class="form-control" placeholder="Descuento" id="descuento" min="1" max="100" title="Por favor ingresa un número entre 0 y 100">
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
                 <span asp-validation-for="Descuento" class="text-danger"></span>
             </div>
         </div>
@@ -132,11 +137,17 @@
                         return;
 
                     }
-
+                    var descuento = document.getElementById("descuento").value;
+                    if (descuento > 100 || descuento < 1) {
+                        swal("Error", "Descuento debe ser un valor de 1 al 100", "error");
+                        descuento.value = 1;
+                        return;
+                    }
                     document.querySelector("form").submit();
                 });
             })
         }
+
     </script>
 
         }

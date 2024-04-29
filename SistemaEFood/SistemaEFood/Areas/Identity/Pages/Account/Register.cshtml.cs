@@ -95,6 +95,12 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required]
+            [StringLength(20, ErrorMessage = "El {0}  debe tener al menos {2} y máximo {1} caracteres.", MinimumLength = 6)]
+            
+            [Display(Name = "Usuario")]
+            public string Usuario { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -139,14 +145,19 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user =  new Usuario { UserName= Input.Email,
+                var user =  new Usuario { UserName= Input.Usuario,
+                   
                     Email= Input.Email,
                     PreguntaSeguridad=Input.PreguntaSeguridad,
                     RespuestaSeguridad= Input.RespuestaSeguridad,
                     Role = Input.Role,
+                    Estado= true
                 };
+               
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+
+
+                await _userStore.SetUserNameAsync(user, Input.Usuario, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

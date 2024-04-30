@@ -34,6 +34,35 @@ namespace SistemaEFood.Areas.Admin.Controllers
             }
             return Json(new { data = usuarioLista });
         }
+        [HttpPost]
+        public async Task<IActionResult> BloquearDesbloquear([FromBody] string id)
+        {
+            var usuario = await _unidadTrabajo.Usuario.ObtenerPrimero(u => u.Id == id);
+            if (usuario == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error de usuario"
+                });
+            }
+                if (usuario.LockoutEnd != null && usuario.LockoutEnd > DateTime.Now)
+                {
+
+                    //Si la fecha es mayor a hoy esta bloqueado
+                    usuario.LockoutEnd = DateTime.Now;
+
+                }
+                else {
+                    usuario.LockoutEnd = DateTime.Now.AddYears(1250);
+                }
+            await _unidadTrabajo.Guardar();
+            return Json(new
+            {
+                success = true,
+                message = " La operacion fue un exito"
+            });
+        }
         #endregion
 
     }

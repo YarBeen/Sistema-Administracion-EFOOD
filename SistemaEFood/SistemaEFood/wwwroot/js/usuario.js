@@ -30,25 +30,46 @@ function loadDataTable() {
         
             { "data": "role", "width": "30%" },
             {
-                "data": "estado",
+                "data": {id: "id", lockoutEnd: "lockoutEnd"
+                },
                 "render": function (data) {
-                    if (data == true) {
-                        return "Activo";
+                    let hoy = new Date().getTime();
+                    let bloqueo = new Date(data.lockoutEnd).getTime();
+                   
+
+                    if (bloqueo > hoy) {
+                        //el usuario esta bloqueo
+                        return `<div class="text-center">
+                           
+                            <a onclick=BloquearDesbloquear('${data.id}') class="btn btn-danger text-white" style="cursor:pointer">
+                            <i class="bi bi-unlock-fill"></i> Activar
+                        </a>
+                        </div >
+
+                           ` ;
                     }
                     else {
-                        return "Inactivo";
+                        return `<div class="text-center">
+                           
+                            <a onclick=BloquearDesbloquear('${data.id}') class="btn btn-success text-white" style="cursor:pointer">
+                            <i class="bi bi-lock-fill"></i> Desactivar
+                        </a>
+                        </div >
+
+                           `;
                     }
-                }, "width": "20%"
+                }
             }
+           
           /*  {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Usuario/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/Usuario/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer", width:150px>
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a onclick=Delete("/Admin/Usuario/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/Usuario/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer", width:150px>
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>
@@ -60,18 +81,21 @@ function loadDataTable() {
 }
 
 
-function Delete(url) {
-    swal({
-        title: "Esta seguro de Eliminar el usuario?",
+function BloquearDesbloquear(id) {
+   /* swal({
+        title: "Esta seguro de bloquear el usuario?",
         text: "Este registro no se podrá recuper",
         icon: "warning",
         buttons: true,
         dangerMode: true
     }).then((borrar) => {
-        if (borrar) {
+        if (borrar)
+        {*/
             $.ajax({
                 type: "POST",
-                url: url,
+                url: '/Admin/Usuario/BloquearDesbloquear',
+                data: JSON.stringify(id),
+                contentType: "application/json",
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
@@ -81,8 +105,8 @@ function Delete(url) {
                         toastr.error(data.message);
                     }
                 }
-            })
-        }
-    })
+            });
+        //}
+  
 
 }

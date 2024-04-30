@@ -229,6 +229,17 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
                        
                     }
                 }
+
+                ReturnUrl = returnUrl;
+                Input = new InputModel()
+                {
+                    ListaRol = _roleManager.Roles.Where(r => r.Name != DS.Role_Usuario).Select(n => n.Name).Select(L => new SelectListItem
+                    {
+
+                        Text = L,
+                        Value = L
+                    })
+                };
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
+using SistemaEFood.Utilidades;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = DS.Role_Admin)]
     public class UsuarioController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;

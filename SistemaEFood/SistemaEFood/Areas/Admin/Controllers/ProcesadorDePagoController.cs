@@ -15,9 +15,10 @@ namespace SistemaEFood.Areas.Admin.Controllers
         {
             _unidadTrabajo = unidadTrabajo;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View();
+            ProcesadorDePago procesadorDePago = await _unidadTrabajo.ProcesadorDePago.Obtener(id.GetValueOrDefault());
+            return View(procesadorDePago);
         }
 
 

@@ -6,6 +6,8 @@ $(document).ready(function () {
 
 
 function loadDataTable() {
+    var id = obtenerIdDesdeURL(); // Obtener la ID de la URL
+
     datatable = $('#tblDatos').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ Registros Por Pagina",
@@ -22,51 +24,36 @@ function loadDataTable() {
             }
         },
         "ajax": {
-            "url": "/Admin/ProcesadorDePago/ObtenerTodos"
+            "url": `/Admin/ProcesadorTarjeta/ObtenerTodos?id=${id}` 
         },
         "columns": [
-            { "data": "id", "width": "10%" },
-            { "data": "procesador", "width": "40%" },
-            { "data": "tipo", "width": "20%" },
-            {
-                "data": "estado",
-                "render": function (data) {
-                    if (data == true) {
-                        return "Activo";
-                    }
-                    else {
-                        return "Inactivo";
-                    }
-                }, "width": "20%"
-            },
-           
+            { "data": "id", "width": "20%"},
+            { "data": "tarjeta.nombre", "width": "40%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                        <a href="/Admin/ProcesadorTarjeta/index/${data}" class="btn btn-primary text-white" style="cursor:pointer">
-                                <i class="bi bi-credit-card-fill"></i>
-                            </a>
-                           <a href="/Admin/ProcesadorDePago/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
-                              <i class="bi bi-pencil-square"></i>  
-                           </a>
-                           <a onclick=Delete("/Admin/ProcesadorDePago/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/ProcesadorTarjeta/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
-                           </a> 
+                            </a>
                         </div>
                     `;
-                }, "width": "10%"
+                }, "width":"40%"
             }
         ]
-
-    });
+    })
 }
 
 
+
+function obtenerIdDesdeURL() {
+    var urlParams = window.location.pathname.split('/'); 
+    return urlParams[urlParams.length - 1]; 
+}
 function Delete(url) {
     swal({
-        title: "Esta seguro de Eliminar el Procesador De Pago?",
+        title: "Esta seguro de Eliminar el producto?",
         text: "Este registro no se podrá recuper",
         icon: "warning",
         buttons: true,
@@ -77,8 +64,6 @@ function Delete(url) {
                 type: "POST",
                 url: url,
                 success: function (data) {
-
-
                     if (data.success) {
                         toastr.success(data.message);
                         datatable.ajax.reload();

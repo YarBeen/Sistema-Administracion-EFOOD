@@ -21,7 +21,7 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<Producto> Productos { get; set; }
 
-
+        public DbSet<ProcesadorTarjeta> ProcesadorTarjeta { get; set; }
 
         public DbSet<TiqueteDeDescuento> TiqueteDeDescuento { get; set; }
 

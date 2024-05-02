@@ -1,0 +1,117 @@
+﻿@model SistemaEFood.Modelos.ViewModels.ProductoVM
+@using SistemaEFood.Utilidades
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear Nuevo Producto";
+}
+
+<form method="post" enctype="multipart/form-data">
+    @if (Model.Producto.Id != 0)
+    {
+        titulo = "Editar producto";
+        <input asp-for="Producto.Id" hidden/>
+        <input asp-for="Producto.ImagenUrl" hidden/>
+
+
+    }
+
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 border-bottom p-0">
+            <h2 class="text-primary">@titulo</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="container">
+
+                    @if(Model.Producto.Id != 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="id">Código de Producto</label>
+                                <input type="text" class="form-control" id="id" value="@Model.Producto.Id" readonly/>
+                            </div>
+                        </div>
+                    }
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre de Producto</label>
+                            <input asp-for="Producto.Nombre" class="form-control"/>
+                            <span asp-validation-for="Producto.Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Linea de Comida</label>
+                            <select asp-for="Producto.LineaComidaId" asp-items="@Model.LineaComidaLista" class="form-select">
+                                <option disabled selected> -- Seleccione una línea de comida --</option>
+                            </select>
+                            <span asp-validation-for="Producto.LineaComidaId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Contenido</label>
+                            <input asp-for="Producto.Contenido" class="form-control" />
+                            <span asp-validation-for="Producto.Contenido" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Imagen</label>
+                            <input type="file" accept="image/png, image/jpeg" name="files" id="imagenId" class="form-control" />
+                            <span asp-validation-for="Producto.Contenido" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <br />
+
+                    <div class="d-grid gap-2 d-md-block" >
+                        @if(Model.Producto.Id != 0)
+                        {
+                            <partial name="_BotonesActualizarYRegresar" model="Model.Producto.Id"/>
+                        }
+                        else
+                        {
+                            <button type="submit" onclick="return validarImagen()" class="btn btn-primary"><i class="bi bi-plus-square-fill"></i> Crear</button>
+                            <a asp-action="Index" class="btn btn-success"><i class="bi bi-arrow-return-left"></i> Regresar</a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                @if(Model.Producto.Id != 0)
+                {
+                    <img src="@DS.ImagenRuta@Model.Producto.ImagenUrl" width="100%" style="border-radius:5px; border:1px solid #bbb"/>
+                }
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function validarImagen() {
+            if (document.getElementById("imagenId").ariaValueMax == "") 
+            {
+                swal("Error", "Seleccione una Imgen!", "error")
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
+

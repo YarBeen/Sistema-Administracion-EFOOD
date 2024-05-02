@@ -22,51 +22,37 @@ function loadDataTable() {
             }
         },
         "ajax": {
-            "url": "/Admin/ProcesadorDePago/ObtenerTodos"
+            "url": "/Admin/Producto/ObtenerTodos"
         },
         "columns": [
-            { "data": "id", "width": "10%" },
-            { "data": "procesador", "width": "40%" },
-            { "data": "tipo", "width": "20%" },
-            {
-                "data": "estado",
-                "render": function (data) {
-                    if (data == true) {
-                        return "Activo";
-                    }
-                    else {
-                        return "Inactivo";
-                    }
-                }, "width": "10%"
-            },
-           
+            { "data": "id", "width": "20%"},
+            { "data": "nombre", "width": "40%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                        <a href="/Admin/ProcesadorTarjeta/index/${data}" class="btn btn-primary text-white" style="cursor:pointer">
-                                <i class="bi bi-credit-card-fill"></i>
+                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                                <i class="bi bi-pencil-square"></i>
                             </a>
-                           <a href="/Admin/ProcesadorDePago/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
-                              <i class="bi bi-pencil-square"></i>  
-                           </a>
-                           <a onclick=Delete("/Admin/ProcesadorDePago/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a href="/Admin/Producto/AgregarPrecio/${data}" class="btn btn-primary text-white" style="cursor:pointer">
+                                <i class="bi bi-plus"></i> Agregar Precios
+                            </a>
+                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
-                           </a> 
+                            </a>
                         </div>
                     `;
-                }, "width": "30%"
+                }, "width":"40%"
             }
         ]
-
-    });
+    })
 }
 
 
 function Delete(url) {
     swal({
-        title: "Esta seguro de Eliminar el Procesador De Pago?",
+        title: "Esta seguro de Eliminar el producto?",
         text: "Este registro no se podrá recuper",
         icon: "warning",
         buttons: true,
@@ -77,8 +63,6 @@ function Delete(url) {
                 type: "POST",
                 url: url,
                 success: function (data) {
-
-
                     if (data.success) {
                         toastr.success(data.message);
                         datatable.ajax.reload();

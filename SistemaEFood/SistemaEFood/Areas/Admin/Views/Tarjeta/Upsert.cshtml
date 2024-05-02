@@ -16,18 +16,37 @@
         {
             titulo = "Actualizar Tarjeta";
             <input type="hidden" asp-for="Id" id="id" />
-        }
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
-        </div>
-
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>Nombre</label>
-                <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre de la Tarjeta" id="nombre" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+            <div class="col-12 border-bottom p-0">
+                <h2 class="text-primary">@titulo</h2>
             </div>
-        </div>
+
+
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label for="id">Código:</label>
+                    <input type="text" class="form-control" id="id" value="@Model.Id" readonly />
+                    <label>Nombre</label>
+                    <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre de la Tarjeta" id="nombre" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-12 border-bottom p-0">
+                <h2 class="text-primary">@titulo</h2>
+            </div>
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label>Nombre</label>
+                    <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre de la Tarjeta" id="nombre" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+        }
+        
+
+        
         
         <br />
         <div>

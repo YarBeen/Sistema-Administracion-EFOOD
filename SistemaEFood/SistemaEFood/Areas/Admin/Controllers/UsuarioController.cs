@@ -8,7 +8,7 @@ using SistemaEFood.Utilidades;
 namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = DS.Role_Admin)]
+    [Authorize(Roles = DS.Role_Admin +"," +DS.Role_Seguridad)]
     public class UsuarioController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;

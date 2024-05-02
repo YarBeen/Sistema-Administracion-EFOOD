@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
@@ -8,6 +9,7 @@ using SistemaEFood.Utilidades;
 namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = DS.Role_Admin)]
     public class ProcesadorTarjetaController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;

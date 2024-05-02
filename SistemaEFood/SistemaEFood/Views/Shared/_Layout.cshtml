@@ -29,32 +29,44 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Seguridad)) { 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                 Seguridad
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Crear usuario</a></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categoria" asp-action="Index">Ver usuarios</a></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marca" asp-action="Index">Cambiar contraseña</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                Administración
-                            </a>
-                            <ul class="dropdown-menu">
                            
+                            <ul class="dropdown-menu">
+                                    <li>   <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Crear Usuario</a></li>
+                               
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Ver usuarios</a></li>
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Cambiar contraseña</a></li>
+                            </ul>
+                        </li>}
+                        @if(User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Mantenimiento)){                       
+                        <li class="nav-item dropdown">
+                           
+                              @if(User.IsInRole(DS.Role_Admin)){
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">     Administración </a >
+                              }
+                              @if(User.IsInRole(DS.Role_Mantenimiento)){
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">     Mantenimiento </a >
+                              }
+                            <ul class="dropdown-menu">
+                                    @if (User.IsInRole(DS.Role_Admin))
+                                    {
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Tarjetas de crédito o débito</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Procesadores de pago</a></li>
+                                    }
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="TiqueteDeDescuento" asp-action="Index">Tiquetes de descuento</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="LineaComida" asp-action="Index">Lineas de comidas</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Producto" asp-action="Index">Productos</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="TipoPrecio" asp-action="Index">Tipos de Precio</a></li>
                             </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        </li>}
+                        @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Consulta))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                 Consultas
                             </a>
                             <ul class="dropdown-menu">
@@ -63,16 +75,9 @@
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marca" asp-action="Index">Bitácora</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Errores</a></li>
                             </ul>
-                        </li>
+                        </li>}
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                Usuario
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Usuarios</a></li>
-                            
-                        </li>
+                        
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

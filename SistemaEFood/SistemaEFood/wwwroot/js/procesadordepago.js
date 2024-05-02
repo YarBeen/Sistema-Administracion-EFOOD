@@ -37,7 +37,7 @@ function loadDataTable() {
                     else {
                         return "Inactivo";
                     }
-                }, "width": "20%"
+                }, "width": "10%"
             },
            
             {
@@ -56,7 +56,7 @@ function loadDataTable() {
                            </a> 
                         </div>
                     `;
-                }, "width": "10%"
+                }, "width": "30%"
             }
         ]
 

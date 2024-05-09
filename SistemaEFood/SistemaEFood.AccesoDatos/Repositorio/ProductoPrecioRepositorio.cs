@@ -34,7 +34,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         {
             if (obj == "TipoPrecio")
             {
-                // Filtra las tarjetas que no están relacionadas con el idProcesador
+                
                 var tipoPrecios = _db.TiposPrecio
                                     .Where(t => !_db.ProductoPrecio
                                                     .Any(pt => pt.Idprecio == t.Id && pt.Idproducto == idProducto))

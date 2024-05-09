@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 function loadDataTable() {
     var id = obtenerIdDesdeURL(); // Obtener la ID de la URL
+    var padreId = id;
     datatable = $('#tblDatos').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ Registros Por Pagina",
@@ -27,14 +28,14 @@ function loadDataTable() {
         },
         "columns": [
             { "data": "id", "width": "20%"},
-            { "data": "tipo", "width": "20%" },
+            { "data": "tipoPrecio.nombre", "width": "20%" },
             { "data": "monto", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/ProductoPrecio/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/ProductoPrecio/Upsert/${padreId}?relacionId=${data}" class="btn btn-success text-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <a onclick=Delete("/Admin/ProductoPrecio/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">

@@ -6,6 +6,7 @@ $(document).ready(function () {
 
 
 function loadDataTable() {
+    var id = obtenerIdDesdeURL(); // Obtener la ID de la URL
     datatable = $('#tblDatos').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ Registros Por Pagina",
@@ -22,23 +23,21 @@ function loadDataTable() {
             }
         },
         "ajax": {
-            "url": "/Admin/Producto/ObtenerTodos"
+            "url": `/Admin/ProductoPrecio/ObtenerTodos?id=${id}` 
         },
         "columns": [
             { "data": "id", "width": "20%"},
-            { "data": "nombre", "width": "40%" },
+            { "data": "tipo", "width": "20%" },
+            { "data": "monto", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/ProductoPrecio/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary text-white" style="cursor:pointer">
-                                <i class="bi bi-plus"></i> Agregar Precios
-                            </a>
-                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/ProductoPrecio/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>
@@ -49,11 +48,15 @@ function loadDataTable() {
     })
 }
 
+function obtenerIdDesdeURL() {
+    var urlParams = window.location.pathname.split('/');
+    return urlParams[urlParams.length - 1];
+}
 
 function Delete(url) {
     swal({
-        title: "Esta seguro de Eliminar el producto?",
-        text: "Este registro no se podrá recuper",
+        title: "Esta seguro de Eliminar el precio?",
+        text: "Este registro no se podrá recuperar",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -74,5 +77,6 @@ function Delete(url) {
             })
         }
     })
+
 
 }

@@ -25,6 +25,8 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<TiqueteDeDescuento> TiqueteDeDescuento { get; set; }
 
+        public DbSet<ProductoPrecio> ProductoPrecio { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

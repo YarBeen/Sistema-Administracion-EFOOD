@@ -18,6 +18,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         IProductoRepositorio Producto { get; }
 
         IProcesadorTarjeta ProcesadorTarjeta { get; }
+
+        IProductoPrecioRepositorio ProductoPrecio { get; }
         Task Guardar();
     }
 }

@@ -24,6 +24,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public IProductoRepositorio Producto { get; private set; }
 
         public IProcesadorTarjeta ProcesadorTarjeta { get; private set; }
+
+        public IProductoPrecioRepositorio ProductoPrecio { get; private set; }
         public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
@@ -35,6 +37,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             TipoPrecio = new TipoPrecioRepositorio(_db);
             Producto = new ProductoRepositorio(_db);
             ProcesadorTarjeta = new ProcesadorTarjetaRepositorio(db);
+            ProductoPrecio = new ProductoPrecioRepositorio(db);
         }
         public void Dispose()
         {

@@ -1,4 +1,4 @@
-﻿using Humanizer;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
@@ -25,14 +25,24 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return View();
         }
 
+        
+        public async Task<IActionResult> Consultar()
+        {
+            ProductoVM productoVM = new ProductoVM()
+            {
+                Producto = new Producto(),
+                LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
+                ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos()
+            };
+            return View(productoVM);
+        }
 
         public async Task<IActionResult> Upsert(int? id)
         {
             ProductoVM productoVM = new ProductoVM()
             {
                 Producto = new Producto(),
-                LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
-                PadreLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("Producto")
+                LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida")
             };
 
             if(id == null)
@@ -109,7 +119,6 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 return View("Index");
             }
             productoVM.LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida");
-            productoVM.PadreLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("Producto");
             return View(productoVM);
         }
 
@@ -123,6 +132,26 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return Json(new { data = todos });
         }
 
+        
+        [HttpGet]
+        public async Task<IActionResult> ConsultarConFiltro(int? idLineaComida)
+        {
+            var productoVM = new ProductoVM();
+
+            productoVM.LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida");
+
+            if (idLineaComida.HasValue)
+            {
+                productoVM.ProductosLista = await _unidadTrabajo.Producto.ObtenerTodosPorLineaComida(idLineaComida.Value);
+            }
+            else
+            {
+                // Si no se proporina un ID de Linea de Comida, se obtienen todos los productos
+                productoVM.ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos();
+            }
+            var resultados = productoVM.ProductosLista;
+            return Json(new { data = resultados }); 
+        }
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

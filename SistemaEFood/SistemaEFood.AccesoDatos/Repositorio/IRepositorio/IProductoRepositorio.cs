@@ -14,5 +14,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 
         IEnumerable<SelectListItem> ObtenerTodosDropdownLista(string obj);
 
+
+        public Task<IEnumerable<Producto>> ObtenerTodosPorLineaComida(int idLineaComida);
+
     }
 }

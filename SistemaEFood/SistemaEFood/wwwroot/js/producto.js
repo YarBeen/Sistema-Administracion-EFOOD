@@ -36,7 +36,7 @@ function loadDataTable() {
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary text-white" style="cursor:pointer">
-                                <i class="bi bi-plus"></i> Agregar Precios
+                                <i class="bi bi-tags"></i> Precios
                             </a>
                             <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>

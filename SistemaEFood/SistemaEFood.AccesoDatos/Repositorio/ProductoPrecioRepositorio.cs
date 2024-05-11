@@ -34,7 +34,6 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         {
             if (obj == "TipoPrecio")
             {
-                
                 var tipoPrecios = _db.TiposPrecio
                                     .Where(t => !_db.ProductoPrecio
                                                     .Any(pt => pt.Idprecio == t.Id && pt.Idproducto == idProducto))

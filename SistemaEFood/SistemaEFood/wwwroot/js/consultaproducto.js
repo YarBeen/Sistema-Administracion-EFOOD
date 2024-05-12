@@ -28,8 +28,20 @@ function loadDataTable() {
             "url": `/Admin/Producto/ConsultarConFiltro`
         },
         "columns": [
-            { "data": "id", "width": "40%" },
-            { "data": "nombre", "width": "60%" }
+            { "data": "id", "width": "30%" },
+            { "data": "nombre", "width": "50%" },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                        <div class="text-center">
+                            <a href="/Admin/ProductoPrecio/Consultar/${data}" class="btn btn-primary text-white" style="cursor:pointer">
+                                <i class="bi bi-tags"></i> Precios
+                            </a>
+                        </div>
+                    `;
+                }, "width": "20%"
+            }
         ]
     })
 }

@@ -1,17 +1,12 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Consultar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
     <div class="col-lg-6">
         <h2 class="text-primary">Precios de Producto</h2>
-    </div>
-    <div class="col-lg-6">
-        <a class="btn btn-outline-primary" asp-action="Upsert" asp-route-id="@ViewData["Id"]">
-            <i class="bi bi-plus-square-fill"></i> Agregar Nuevo Precio
-        </a>
     </div>
 </div>
 
@@ -31,7 +26,7 @@
     </table>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-outline-primary" href="/Admin/Producto">
+            <a class="btn btn-outline-primary" href="/Admin/Producto/Consultar">
                 <i class="bi bi-arrow-return-left"></i> Regresar
             </a>
         </div>
@@ -39,6 +34,6 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/productoprecio.js"></script>
+    <script src="~/js/consultaproductoprecio.js"></script>
 }
 

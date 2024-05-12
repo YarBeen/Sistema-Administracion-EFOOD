@@ -27,6 +27,16 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             return View();
         }
+
+        public IActionResult Consultar(int? id)
+        {
+            if(id != null)
+            {
+                ViewData["Id"] = id;
+            }
+            return View();
+        }
+
         public async Task<IActionResult> Upsert(int? id, int? relacionId)
         {
             ProductoPrecioVM productoPrecioVM = new ProductoPrecioVM()

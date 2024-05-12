@@ -1,4 +1,6 @@
-﻿using SistemaEFood.AccesoDatos.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using System;
@@ -33,5 +35,24 @@ namespace SistemaEFood.AccesoDatos.Repositorio
                 _db.SaveChanges();
             }
         }
+
+        public async Task<IEnumerable<ProcesadorDePago>> ObtenerProcesadorTarjetas()
+        {
+            var productos = await _db.ProcesadorDePago
+             .Where(p => p.Estado == true && p.Tipo.ToLower() == "tarjeta de crédito o débito")
+             .ToListAsync();
+
+            return productos;
+        }
+        public async Task<IEnumerable<ProcesadorDePago>> ObtenerProcesadorCheques()
+        {
+
+            var productos = await _db.ProcesadorDePago
+             .Where(p => p.Estado == true && p.Tipo.ToLower() == "cheque electrónico")
+             .ToListAsync();
+            return productos;
+        }
+
+        
     }
 }

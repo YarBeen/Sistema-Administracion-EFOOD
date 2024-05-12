@@ -61,7 +61,7 @@ function loadDataTable() {
                 }
             }
            
-          /*  {
+            {
                 "data": "id",
                 "render": function (data) {
                     return `
@@ -69,13 +69,11 @@ function loadDataTable() {
                             <a href= "/Admin/Usuario/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer", width:150px>
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a onclick=Delete("/Admin/Usuario/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer", width:150px>
-                                <i class="bi bi-trash3-fill"></i>
-                            </a>
+                          
                         </div>
                     `;
                 }, "width":"20%"
-            }*/
+            }
         ]
     })
 }

@@ -123,7 +123,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
             await _unidadTrabajo.Guardar();
             return Json(new { success = true, message = "ProcesadorTarjeta borrado exitosamente" });
         }
-
+        
         #endregion
 
     }

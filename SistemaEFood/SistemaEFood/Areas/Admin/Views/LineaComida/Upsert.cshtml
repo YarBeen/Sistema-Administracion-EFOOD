@@ -70,16 +70,34 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            document.querySelector("form").addEventListener('submit', function (event) {
-
-                event.preventDefault();
-
-
-                validarNombre();
-            });
+        document.getElementById("nombre").addEventListener('change', function () {
+            validarNombre();
         });
+
+        document.querySelector("form").addEventListener('submit', function (event) {
+            event.preventDefault();
+            validarNombreAntesDeEnviar();
+        });
+
+        function validarNombreAntesDeEnviar() {
+            var url = '@Url.Content("~/")' + "Admin/LineaComida/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombreInput = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombreInput.value = "";
+                        return;
+                    } else {
+                        document.querySelector("form").submit();
+                    }
+                });
+            });
+        }
+
         function validarNombre() {
             var url = '@Url.Content("~/")' + "Admin/LineaComida/ValidarNombre";
             var id = '#id';
@@ -92,10 +110,7 @@
                         nombre.value = "";
 
 
-                        return;
-
                     }
-                    document.querySelector("form").submit();
                 });
             })
         }

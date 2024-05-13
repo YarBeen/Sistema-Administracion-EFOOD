@@ -76,6 +76,30 @@
             validarNombre();
         });
 
+        document.querySelector("form").addEventListener('submit', function (event) {
+            event.preventDefault();
+            validarNombreAntesDeEnviar();
+        });
+
+        function validarNombreAntesDeEnviar() {
+            var url = '@Url.Content("~/")' + "Admin/Tarjeta/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombreInput = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombreInput.value = "";
+                        return;
+                    } else {
+                        document.querySelector("form").submit();
+                    }
+                });
+            });
+        }
+
         function validarNombre() {
             var url = '@Url.Content("~/")' + "Admin/Tarjeta/ValidarNombre";
             var id = '#id';

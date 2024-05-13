@@ -93,8 +93,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         {
             bool valor = false;
 
-
-            Console.WriteLine(estado);
+         
 
             if (tipo == null || estado == false) { return Json(new { data = false }); }
             if (tipo.ToLower() == "tarjeta de crédito o débito")

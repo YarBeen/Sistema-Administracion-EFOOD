@@ -16,18 +16,20 @@
         {
             titulo = "Actualizar Procesador De Pago";
             <input type="hidden" asp-for="Id" id="id" />
-        }
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
-        </div>
-
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>Codigo</label>
-                <input type="text" asp-for="Id" class="form-control" placeholder="Codigo" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <div class="col-12 border-bottom p-0">
+                <h2 class="text-primary">@titulo</h2>
             </div>
-        </div>
+
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label>Codigo</label>
+                    <input type="text" class="form-control" id="id" value="@Model.Id" readonly />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+            </div>
+
+        }
+ 
 
 
         <div class="row mb-2 mt-2">
@@ -174,5 +176,6 @@
             });
         }
     </script>
+
 
 }

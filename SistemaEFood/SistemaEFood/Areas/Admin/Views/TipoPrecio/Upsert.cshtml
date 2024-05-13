@@ -6,7 +6,7 @@
 }
 
 
-<form method="post">
+<form method="post" id="formPrecio">
     <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
         <div class="row border-0">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -73,7 +73,7 @@
             validarNombre();
         });
 
-        document.querySelector("form").addEventListener('submit', function (event) {
+        document.getElementById("formPrecio").addEventListener('submit', function (event) {
             event.preventDefault();
             validarNombreAntesDeEnviar();
         });
@@ -91,7 +91,7 @@
                         nombreInput.value = "";
                         return;
                     } else {
-                        document.querySelector("form").submit();
+                        document.getElementById("formPrecio").submit();
                     }
                 });
             });

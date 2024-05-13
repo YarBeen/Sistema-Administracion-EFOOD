@@ -5,7 +5,7 @@
     var titulo = "Crear Nuevo Producto";
 }
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" id="formProducto" enctype="multipart/form-data">
     @if (Model.Producto.Id != 0)
     {
         titulo = "Editar producto";
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Nombre de Producto</label>
-                            <input asp-for="Producto.Nombre" class="form-control"/>
+                            <input asp-for="Producto.Nombre" class="form-control" id="nombre"/>
                             <span asp-validation-for="Producto.Nombre" class="text-danger"></span>
                         </div>
                     </div>
@@ -80,8 +80,7 @@
                         }
                         else
                         {
-                            <button type="submit" onclick="return validarImagen()" class="btn btn-primary"><i class="bi bi-plus-square-fill"></i> Crear</button>
-                            <a asp-action="Index" class="btn btn-success"><i class="bi bi-arrow-return-left"></i> Regresar</a>
+                            <partial name="_BotonesCrearYRegresar" model="Model.Producto.Id" />
                         }
                     </div>
 
@@ -102,15 +101,62 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-
+  
     <script>
+
+        document.getElementById("nombre").addEventListener('change', function () {
+            validarNombre();
+        });
+
+        document.getElementById("formProducto").addEventListener('submit', function (event) {
+            event.preventDefault();
+            validarNombreAntesDeEnviar();
+        });
+
+
+        function validarNombreAntesDeEnviar() {
+            var url = '@Url.Content("~/")' + "Admin/Producto/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombreInput = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombreInput.value = "";
+                        return;
+                    } 
+
+                    validarImagen();
+                });
+            });
+        }
+
+        function validarNombre() {
+            var url = '@Url.Content("~/")' + "Admin/Producto/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombre = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombre.value = "";
+                        return;
+                    }
+                });
+            })
+        }
+
+
         function validarImagen() {
             if (document.getElementById("imagenId").ariaValueMax == "") 
             {
-                swal("Error", "Seleccione una Imgen!", "error")
+                swal("Error", "Seleccione una Imagen!", "error")
                 return false;
             }
-            return true;
+            document.getElementById("formProducto").submit();
         }
     </script>
 }

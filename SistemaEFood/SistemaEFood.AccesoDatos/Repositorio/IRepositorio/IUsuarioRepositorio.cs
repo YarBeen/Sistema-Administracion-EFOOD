@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEFood.Modelos;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     {
 
         void Actualizar(Usuario usuario);
-        IActionResult ObtenerUsuarioPorID(string id);
+        Task<Usuario> ObtenerUsuarioPorID(string id);
+
+        IEnumerable<SelectListItem> ObtenerRoles();
     }
 }

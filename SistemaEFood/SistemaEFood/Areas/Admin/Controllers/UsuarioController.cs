@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
+using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
 
 namespace SistemaEFood.Areas.Admin.Controllers
@@ -26,18 +27,24 @@ namespace SistemaEFood.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Upsert(string? id)
         {
-            Usuario user = new Usuario();
+            UsuarioVM user = new UsuarioVM()
+            {
+                usuario= new Usuario(),
+                ListaRoles= _unidadTrabajo.Usuario.ObtenerRoles()
+            };
 
             if (id == null)
             {
+                //Ver esto conoce pura vida
                 return View(user);
             }
-            user = await _unidadTrabajo.Usuario.ObtenerUsuarioPorID(id);
+            var userForView = await _unidadTrabajo.Usuario.ObtenerUsuarioPorID(id);
 
-            if (user == null)
+            if (userForView == null)
             {
                 return NotFound();
             }
+            user.usuario = userForView;
             return View(user);
         }
 

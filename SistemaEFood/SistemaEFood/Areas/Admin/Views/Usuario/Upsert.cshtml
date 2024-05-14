@@ -1,4 +1,4 @@
-﻿@model SistemaEFood.Modelos.Usuario
+﻿@model SistemaEFood.Modelos.ViewModels.UsuarioVM
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,10 +12,10 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </div>
 
-        @if (Model.Id != "")
+        @if (Model.usuario.Id != "")
         {
             titulo = "Actualizar Usuario";
-            <input type="hidden" asp-for="Id" id="id" />
+            <input type="hidden" asp-for="usuario.Id" id="id" />
         }
         <div class="col-12 border-bottom p-0">
             <h2 class="text-primary">@titulo</h2>
@@ -24,25 +24,28 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Email</label>
-                <input type="text" asp-for="Email" class="form-control" placeholder="Email" id="Email"/>
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <input type="text" asp-for="usuario.Email" class="form-control" placeholder="Email" id="Email" />
+                <span asp-validation-for="usuario.Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>UserName</label>
+                <input type="text" asp-for="usuario.UserName" class="form-control" placeholder="Usuario" id="Username" />
+                <span asp-validation-for="usuario.UserName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Rol Actual = @Model.usuario.Role</label>
+                <select asp-for="usuario.Role" asp-items="@Model.ListaRoles" class="form-select">
+                    <option disabled selected> -- Seleccione un rol --</option>
+         
+                </select>
+                <span asp-validation-for="usuario.Role" class="text-danger"></span>
             </div>
         </div>
     @*     <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>UserName</label>
-                <input type="text" asp-for="UserName" class="form-control" placeholder="Usuario" id="username"/>
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>Disponibles</label>
-                <input type="text" asp-for="Disponibles" class="form-control" placeholder="Cantidad de disponibles" min="0" title="Por favor ingresa solo números" />
-                <span asp-validation-for="Disponibles" class="text-danger" data-val-msg="El valor tiene que ser un número"></span>
-            </div>
-        </div>
-        <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Descuento</label>
                 <div class="input-group">
@@ -58,7 +61,7 @@
 
 
         <br />
-        <div>
+       @*  <div>
             @if (Model.UserName != "")
             {
                 <partial name="_BotonesActualizarYRegresar" model="Model.Id" />
@@ -67,7 +70,7 @@
             {
                 <partial name="_BotonesCrearYRegresar" model="Model.Id" />
             }
-        </div>
+        </div> *@
 
 
 

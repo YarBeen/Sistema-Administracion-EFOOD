@@ -1,20 +1,20 @@
-﻿@model SistemaEFood.Modelos.TiqueteDeDescuento
+﻿@model SistemaEFood.Modelos.Usuario
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var titulo = "Crear Tiquete De Descuento";
+    var titulo = "Modificar Usuario";
 }
 
 
-<form method="post" id="formTiquete">
+<form method="post">
     <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
         <div class="row border-0">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </div>
 
-        @if (Model.Id != 0)
+        @if (Model.Id != "")
         {
-            titulo = "Actualizar Tiquete De Descuento";
+            titulo = "Actualizar Usuario";
             <input type="hidden" asp-for="Id" id="id" />
         }
         <div class="col-12 border-bottom p-0">
@@ -23,16 +23,16 @@
 
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
-                <label>Codigo</label>
-                <input type="text" asp-for="Codigo" class="form-control" placeholder="Codigo" id="codigo"/>
-                <span asp-validation-for="Codigo" class="text-danger"></span>
+                <label>Email</label>
+                <input type="text" asp-for="Email" class="form-control" placeholder="Email" id="Email"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <div class="row mb-2 mt-2">
+    @*     <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
-                <label>Nombre</label>
-                <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombre" id="nombre"/>
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <label>UserName</label>
+                <input type="text" asp-for="UserName" class="form-control" placeholder="Usuario" id="username"/>
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
         </div>
         <div class="row mb-2 mt-2">
@@ -53,13 +53,13 @@
                 </div>
                 <span asp-validation-for="Descuento" class="text-danger"></span>
             </div>
-        </div>
+        </div> *@
 
 
 
         <br />
         <div>
-            @if (Model.Id != 0)
+            @if (Model.UserName != "")
             {
                 <partial name="_BotonesActualizarYRegresar" model="Model.Id" />
             }
@@ -82,12 +82,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            
-            var formulario = document.getElementById("formTiquete");
 
-            formulario.addEventListener('submit', function (event) {
-                
-                
+            document.querySelector("form").addEventListener('submit', function (event) {
+
                 event.preventDefault();
 
 
@@ -146,9 +143,7 @@
                         descuento.value = 1;
                         return;
                     }
-                    alert("Skibidi toilet");
-                    return;
-                    //document.querySelector("form").submit();
+                    document.querySelector("form").submit();
                 });
             })
         }

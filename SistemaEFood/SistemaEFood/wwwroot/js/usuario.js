@@ -59,7 +59,7 @@ function loadDataTable() {
                            `;
                     }
                 }
-            }
+            },
            
             {
                 "data": "id",

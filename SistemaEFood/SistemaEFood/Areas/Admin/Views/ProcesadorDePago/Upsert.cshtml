@@ -16,18 +16,20 @@
         {
             titulo = "Actualizar Procesador De Pago";
             <input type="hidden" asp-for="Id" id="id" />
-        }
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
-        </div>
-
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>Codigo</label>
-                <input type="text" asp-for="Id" class="form-control" placeholder="Codigo" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <div class="col-12 border-bottom p-0">
+                <h2 class="text-primary">@titulo</h2>
             </div>
-        </div>
+
+            <div class="row mb-2 mt-2">
+                <div class="form-group col-md-6">
+                    <label>Codigo</label>
+                    <input type="text" class="form-control" id="id" value="@Model.Id" readonly />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+            </div>
+
+        }
+ 
 
 
         <div class="row mb-2 mt-2">
@@ -47,29 +49,35 @@
         <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Tipo</label>
-                <input type="text" asp-for="Tipo" class="form-control" placeholder="Nombre del Tipo" />
+                <select asp-for="Tipo" class="form-select" id="tipo" onchange="validarTipo()">
+                    <option value="Tarjeta de crédito o débito">Tarjeta de crédito o débito</option>
+                    <option value="Cheque Electrónico">Cheque Electrónico</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
-       <div class="row mb-2 mt-2">
+        </div>
+        <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
                 <label>Estado</label>
-                <select asp-for="Estado" class="form-select">
+                <select asp-for="Estado" class="form-select" id="estado" onchange="validarTipo()">
                     <option value=true>Activo</option>
                     <option value=false>Inactivo</option>
                 </select>
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
         </div>
-            <div class="row mb-2 mt-2">
-                <div class="form-group col-md-6">
-                    <label>Requiere Verificacion</label>
-                    <select asp-for="Verificacion" class="form-select">
-                        <option value=true>Activo</option>
-                        <option value=false>Inactivo</option>
-                    </select>
-                    <span asp-validation-for="Verificacion" class="text-danger"></span>
-                </div>
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label class="d-flex justify-content-between align-items-center">
+                    Requiere Verificación
+                    <div class="form-check form-switch">
+                        <input asp-for="Verificacion" class="form-check-input" type="checkbox">
+                    </div>
+                </label>
+                <span asp-validation-for="Verificacion" class="text-danger"></span>
             </div>
+        </div>
             <div class="row mb-2 mt-2">
                 <div class="form-group col-md-6">
                     <label>Metodo</label>
@@ -85,7 +93,15 @@
             }
             else
             {
-                <partial name="_BotonesCrearYRegresar" model="Model.Id" />
+
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn btn-primary" onclick="return ValidarEstado()">
+                        <i class="bi bi-plus-square-fill"></i> Crear
+                    </button>
+                    <a asp-action="Index" class="btn btn-success">
+                        <i class="bi bi-arrow-return-left"></i> Regresar
+                    </a>
+                </div>
             }
         </div>
 
@@ -97,39 +113,69 @@
 </form>
 
 
+
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
 
-            document.querySelector("form").addEventListener('submit', function (event) {
-
-                event.preventDefault();
-
-
-                validarNombre();
-            });
+        document.getElementById("procesador").addEventListener('change', function () {
+            validarNombre();
         });
+
         function validarNombre() {
-            var url = '@Url.Content("~/")' + "Admin/ProcesadorPago/ValidarNombre";
+            var url = '@Url.Content("~/")' + "Admin/ProcesadorDePago/ValidarNombre";
             var id = '#id';
-            var procesador = '#procesador';
-        $.getJSON(url, { id: $(id).val(), procesador: $(procesador).val() }, function (data) {
+            var nombre = '#procesador';
+
+            $.getJSON(url, { id: $(id).val(), procesador: $(procesador).val() }, function (data) {
                 $.each(data, function (key, value) {
                     if (value) {
-                    var procesador = document.getElementById("procesador");
+                        var nombre = document.getElementById("procesador");
                         swal("Error", "Procesador ya Existe", "error");
-                    procesador.value = "";
-
-
-                        return;
-
+                        nombre.value = "";
                     }
-                    document.querySelector("form").submit();
                 });
             })
+
+        }
+
+        function validarTipo() {
+            var url = '@Url.Content("~/")' + "Admin/ProcesadorDePago/ValidarTipo";
+            var id = '#id';
+            var tipo = '#tipo'; 
+
+            $.getJSON(url, { id: $(id).val(), tipo: $(tipo).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var tipo = document.getElementById("tipo");
+                        swal("Error", "Tipo efectivo ya existe", "error");
+                        tipo.value = "";
+                    }
+                });
+            })
+            ValidarEstado();
+        }
+        function ValidarEstado() {
+            var url = '@Url.Content("~/")' + "Admin/ProcesadorDePago/ValidarEstado";
+            var id = '#id';
+            var tipo = '#tipo';
+            var estado = '#estado';
+
+            $.getJSON(url, { id: $(id).val(), tipo: $(tipo).val(), estado: $(estado).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var tipo = document.getElementById("tipo");
+                        swal("Error", "Ya hay un procesador de pago activo con este tipo", "error");
+                        tipo.value = "";
+                        estado.value = "";
+              
+                    }
+                });
+            });
         }
     </script>
 
-        }
+
+}

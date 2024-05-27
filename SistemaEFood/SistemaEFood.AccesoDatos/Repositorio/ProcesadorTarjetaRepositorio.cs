@@ -32,7 +32,6 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         {
             if (obj == "Tarjeta")
             {
-                // Filtra las tarjetas que no están relacionadas con el idProcesador
                 var tarjetas = _db.Tarjetas
                                     .Where(t => !_db.ProcesadorTarjeta
                                                     .Any(pt => pt.TarjetaId == t.Id && pt.ProcesadorId == idProcesador))

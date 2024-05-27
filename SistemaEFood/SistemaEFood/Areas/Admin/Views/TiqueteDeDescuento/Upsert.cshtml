@@ -6,7 +6,9 @@
 }
 
 
-<form method="post" id="formTiquete">
+
+<form method="post" id="formTiqueteDescuento">
+
     <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
         <div class="row border-0">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -81,21 +83,41 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            var formulario = document.getElementById("formTiquete");
-
-            formulario.addEventListener('submit', function (event) {
-                
-                
-                event.preventDefault();
 
 
-                validarNombre();
-            
-            });
+        document.getElementById("nombre").addEventListener('change', function () {
+            validarNombre();
         });
- 
+
+        document.getElementById("codigo").addEventListener('change', function () {
+            validarCodigo();
+        });
+
+
+        document.getElementById("formTiqueteDescuento").addEventListener('submit', function (event) {
+            event.preventDefault();
+            validarNombreAntesDeEnviar();
+        });
+
+        function validarNombreAntesDeEnviar() {
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarNombre";
+            var id = '#id';
+            var nombre = '#nombre';
+
+            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var nombreInput = document.getElementById("nombre");
+                        swal("Error", "Nombre ya Existe", "error");
+                        nombreInput.value = "";
+                        return;
+                    } else {
+                        validarCodigoAntesDeEnviar();
+                    }
+                });
+            });
+        }
+
         
         function validarNombre() {
             
@@ -108,21 +130,37 @@
                     if (value) {
                         var nombre = document.getElementById("nombre");
                         swal("Error", "Nombre ya Existe", "error");
-                    
                         nombre.value = "";
-
-
                         return;
 
                     }
-
-                    validarCodigo();
                  
                 });
             })
         }
-        function validarCodigo(){
 
+
+        function validarCodigo() {
+
+            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarCodigo";
+
+            var id = '#id';
+            var codigo = '#codigo';
+            $.getJSON(url, { id: $(id).val(), codigo: $(codigo).val() }, function (data) {
+                $.each(data, function (key, value) {
+                    if (value) {
+                        var codigo = document.getElementById("codigo");
+                        swal("Error", "Codigo ya Existe", "error");
+                        codigo.value = "";
+                        return;
+
+                    }
+
+                });
+            })
+        }
+
+        function validarCodigoAntesDeEnviar(){
 
             var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarCodigo";
             var id = '#id';
@@ -134,9 +172,6 @@
                         swal("Error", "Codigo ya Existe", "error");
                         codigo.value = "";
                        
-                       
-
-
                         return;
 
                     }
@@ -146,13 +181,12 @@
                         descuento.value = 1;
                         return;
                     }
-                    alert("Skibidi toilet");
-                    return;
-                    //document.querySelector("form").submit();
+
+                    document.getElementById("formTiqueteDescuento").submit();
+
                 });
             })
         }
 
     </script>
-
-        }
+}

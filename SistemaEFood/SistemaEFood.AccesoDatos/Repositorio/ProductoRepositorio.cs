@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +56,16 @@ namespace SistemaEFood.AccesoDatos.Repositorio
                 });
             }
             return null;
+        }
+
+
+        public async Task<IEnumerable<Producto>> ObtenerTodosPorLineaComida(int idLineaComida)
+        {
+            var productos = await _db.Productos
+                .Include(p => p.LineaComida)
+                .Where(p => p.LineaComidaId == idLineaComida)
+                .ToListAsync();
+            return productos;
         }
     }
 }

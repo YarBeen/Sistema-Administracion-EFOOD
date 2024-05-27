@@ -1,15 +1,12 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Consultar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
     <div class="col-lg-6">
-        <h2 class="text-primary">Lista de Tarjetas</h2>
-    </div>
-    <div class="col-lg-6">
-        <a class="btn btn-outline-primary" asp-action="Upsert"> <i class="bi bi-plus-square-fill"></i> Agregar Nueva Tarjeta</a>
+        <h2 class="text-primary">Precios de Producto</h2>
     </div>
 </div>
 
@@ -21,14 +18,15 @@
         <thead class="table-dark">
             <tr>
                 <th>Código</th>
-                <th>Nombre</th>
+                <th>Tipo de precio</th>
+                <th>Monto</th>
                 <th></th>
             </tr>
         </thead>
     </table>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-outline-primary" href="/">
+            <a class="btn btn-outline-primary" href="/Admin/Producto/Consultar">
                 <i class="bi bi-arrow-return-left"></i> Regresar
             </a>
         </div>
@@ -36,6 +34,6 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/tarjeta.js"></script>
+    <script src="~/js/consultaproductoprecio.js"></script>
 }
 

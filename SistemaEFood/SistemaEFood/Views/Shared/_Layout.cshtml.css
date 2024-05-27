@@ -8,9 +8,17 @@ a.navbar-brand {
 }
 
 a {
-  color: #0077cc;
+	color: #0077cc;
+	font-weight: bold;
 }
-
+.sodo-font {
+	font-family: "SoDoSans-Bold";
+	font-size: 1rem;
+	font-weight: 700;
+	color: #000;
+	text-transform: uppercase;
+	text-decoration: none;
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

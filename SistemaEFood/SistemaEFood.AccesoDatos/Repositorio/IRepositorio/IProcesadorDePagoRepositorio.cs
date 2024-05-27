@@ -1,4 +1,5 @@
-﻿using SistemaEFood.Modelos;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SistemaEFood.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     {
         void Actualizar(ProcesadorDePago procesadordepago);
 
+        public Task<IEnumerable<ProcesadorDePago>>ObtenerProcesadorCheques();
+        public Task<IEnumerable<ProcesadorDePago>> ObtenerProcesadorTarjetas();
     }
 }

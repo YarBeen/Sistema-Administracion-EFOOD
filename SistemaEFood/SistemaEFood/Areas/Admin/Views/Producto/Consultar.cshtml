@@ -1,0 +1,71 @@
+﻿@model SistemaEFood.Modelos.ViewModels.ProductoVM
+@{
+    ViewData["Title"] = "Consultar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <h2 class="text-primary">Lista de Productos</h2>
+    </div>
+</div>
+
+<br />
+
+
+<form id="frmFiltrar" method="get" action="@Url.Action("Consulta", "Producto")">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <select asp-for="Producto.LineaComidaId" id="lineaComidaSelect" name="idLineaComida" asp-items="@Model.LineaComidaLista" class="form-select">
+                    <option disabled selected> -- Seleccione una línea de comida --</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary" onclick="refreshDataTable()">
+                <i class="bi bi-search"></i> Buscar Productos
+            </button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-secondary" onclick="clearDataTable()">
+                <i class="bi bi-arrow-counterclockwise"></i> Limpiar Filtro
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<br />
+
+<div class="p-4 border rounded bg-light">
+    <table id="tblDatos" class="table table-responsive table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        
+    </table>
+    <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-outline-primary" href="/">
+                <i class="bi bi-arrow-return-left"></i> Regresar
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/js/consultaproducto.js"></script>
+
+
+}
+

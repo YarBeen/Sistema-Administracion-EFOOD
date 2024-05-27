@@ -50,17 +50,17 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 if (procesadorDePago.Id == 0)
                 {
                     await _unidadTrabajo.ProcesadorDePago.Agregar(procesadorDePago);
-                    TempData[DS.Exitosa] = "Tarjeta creada exitosamente";
+                    TempData[DS.Exitosa] = "Procesador de pago creada exitosamente";
                 }
                 else
                 {
                     _unidadTrabajo.ProcesadorDePago.Actualizar(procesadorDePago);
-                    TempData[DS.Exitosa] = "Tarjeta actualizada exitosamente";
+                    TempData[DS.Exitosa] = "Procesador de pago actualizada exitosamente";
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar tarjeta";
+            TempData[DS.Error] = "Error al grabar procesador de pago";
             return View(procesadorDePago);
         }
 
@@ -88,19 +88,82 @@ namespace SistemaEFood.Areas.Admin.Controllers
             await _unidadTrabajo.Guardar();
             return Json(new { success = true, message = "Procesador De Pago borrada exitosamente" });
         }
+        [ActionName("ValidarEstado")]
+        public async Task<IActionResult> ValidarEstado(string tipo, bool estado, int id = 0)
+        {
+            bool valor = false;
 
+         
+
+            if (tipo == null || estado == false) { return Json(new { data = false }); }
+            if (tipo.ToLower() == "tarjeta de crédito o débito")
+            {
+                var lista = await _unidadTrabajo.ProcesadorDePago.ObtenerProcesadorTarjetas();
+                if (id == 0)
+                {
+                    valor = lista.Any(b => b.Estado == true);
+                }
+                else
+                {
+                    valor = lista.Any(b => b.Estado == true);
+                }
+                if (valor)
+                {
+                    return Json(new { data = true });
+                }
+            }
+            if (tipo.ToLower() == "cheque electrónico")
+            {
+                var lista = await _unidadTrabajo.ProcesadorDePago.ObtenerProcesadorCheques();
+                if (id == 0)
+                {
+                    valor = lista.Any(b => b.Estado == true);
+                }
+                else
+                {
+                    valor = lista.Any(b => b.Estado == true);
+                }
+                if (valor)
+                {
+                    return Json(new { data = true });
+                }
+            }
+            return Json(new { data = false });
+        }
+        [ActionName("ValidarTipo")]
+        public async Task<IActionResult> ValidarTipo(string tipo, int id = 0)
+        {
+            bool valor = false;
+            var lista = await _unidadTrabajo.ProcesadorDePago.ObtenerTodos();
+            if (tipo == null) { return Json(new { data = false }); }
+            if (tipo.ToLower().Trim() == "efectivo") { 
+            if (id == 0)
+            {
+                valor = lista.Any(b => b.Tipo.ToLower().Trim() == "efectivo");
+            }
+            else
+            {
+                valor = lista.Any(b => b.Tipo.ToLower().Trim() == "efectivo" && b.Id != id);
+            }
+            if (valor)
+            {
+                return Json(new { data = true });
+            }
+            }
+            return Json(new { data = false });
+        }
         [ActionName("ValidarNombre")]
-        public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
+        public async Task<IActionResult> ValidarNombre(string procesador, int id = 0)
         {
             bool valor = false;
             var lista = await _unidadTrabajo.ProcesadorDePago.ObtenerTodos();
             if (id == 0)
             {
-                valor = lista.Any(b => b.Procesador.ToLower().Trim() == nombre.ToLower().Trim());
+                valor = lista.Any(b => b.Procesador.ToLower().Trim() == procesador.ToLower().Trim());
             }
             else
             {
-                valor = lista.Any(b => b.Procesador.ToLower().Trim() == nombre.ToLower().Trim() && b.Id != id);
+                valor = lista.Any(b => b.Procesador.ToLower().Trim() == procesador.ToLower().Trim() && b.Id != id);
             }
             if (valor)
             {
@@ -109,7 +172,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return Json(new { data = false });
         }
 
-        #endregion
+    
+    #endregion
 
-    }
+}
 }

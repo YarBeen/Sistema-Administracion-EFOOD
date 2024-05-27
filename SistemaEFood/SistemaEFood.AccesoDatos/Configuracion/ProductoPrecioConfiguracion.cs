@@ -19,6 +19,13 @@ namespace SistemaEFood.AccesoDatos.Configuracion
             builder.Property(X => X.Monto);
             builder.Property(X => X.Idprecio).IsRequired();
             builder.Property(X => X.Idproducto).IsRequired();
+
+            builder.HasOne(x => x.TipoPrecio).WithMany()
+                .HasForeignKey(x => x.Idprecio).
+                OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.Producto).WithMany()
+                .HasForeignKey(x => x.Idproducto).
+                OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

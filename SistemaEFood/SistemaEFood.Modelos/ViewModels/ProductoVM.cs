@@ -13,6 +13,6 @@ namespace SistemaEFood.Modelos.ViewModels
 
         public IEnumerable<SelectListItem> LineaComidaLista {  get; set; } 
 
-        public IEnumerable<SelectListItem> PadreLista { get; set; }
+        public IEnumerable<Producto> ProductosLista { get; set; }
     }
 }

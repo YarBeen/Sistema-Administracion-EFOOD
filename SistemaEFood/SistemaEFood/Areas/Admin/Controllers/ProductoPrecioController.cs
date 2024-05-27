@@ -27,31 +27,48 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             return View();
         }
-        public async Task<IActionResult> Upsert(int? id)
+
+        public IActionResult Consultar(int? id)
+        {
+            if(id != null)
+            {
+                ViewData["Id"] = id;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> Upsert(int? id, int? relacionId)
         {
             ProductoPrecioVM productoPrecioVM = new ProductoPrecioVM()
             {
                 productoPrecio = new ProductoPrecio(),
                 ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id)
             };
-
-            if (id == null)
+            
+            if (relacionId == null)
             {
                 return View(productoPrecioVM);
             }
-            productoPrecioVM.productoPrecio.Producto = await _unidadTrabajo.Producto.Obtener(id.GetValueOrDefault());
-            if (productoPrecioVM.productoPrecio == null)
+            else
             {
-                return NotFound();
+                Console.WriteLine("Upsert 1-> Numeeeeero: " + id); // relacion
+                productoPrecioVM.productoPrecio.Producto = await _unidadTrabajo.Producto.Obtener(id.GetValueOrDefault());
+                if (productoPrecioVM.productoPrecio == null)
+                {
+                    return NotFound();
+                }
+                productoPrecioVM.productoPrecio.Idproducto = id.Value;
+                productoPrecioVM.productoPrecio.Id = relacionId.Value;
+                return View(productoPrecioVM);
             }
-            productoPrecioVM.productoPrecio.Idproducto = id.Value;
-            return View(productoPrecioVM);
+            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductoPrecioVM productoPrecioVM, int id)
         {
+            Console.WriteLine("Upsert 2-> Numeeeeero: " + id);
             if (ModelState.IsValid)
             {
                 if (productoPrecioVM.productoPrecio.Id == 0)
@@ -97,7 +114,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 int.TryParse(HttpContext.Request.Query["id"], out id);
             }
 
-            var todos = await _unidadTrabajo.ProductoPrecio.ObtenerTodos(incluirPropiedades: "Producto");
+            var todos = await _unidadTrabajo.ProductoPrecio.ObtenerTodos(incluirPropiedades: "TipoPrecio");
 
             var filtrados = todos.Where(t => t.Idproducto == id);
             return Json(new { data = filtrados });

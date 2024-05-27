@@ -1,4 +1,5 @@
-﻿using SistemaEFood.AccesoDatos.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using System;
@@ -26,13 +27,13 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public IProcesadorTarjeta ProcesadorTarjeta { get; private set; }
 
         public IProductoPrecioRepositorio ProductoPrecio { get; private set; }
-        public UnidadTrabajo(ApplicationDbContext db)
+        public UnidadTrabajo(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
             Tarjeta = new TarjetaRepositorio(_db);
             TiqueteDeDescuento = new TiqueteDeDescuentoRepositorio(_db);
             ProcesadorDePago = new ProcesadorDePagoRepositorio(_db);
-            Usuario = new UsuarioRepositorio(_db);
+            Usuario = new UsuarioRepositorio(_db,userManager);
             LineaComida = new LineaComidaRepositorio(_db);
             TipoPrecio = new TipoPrecioRepositorio(_db);
             Producto = new ProductoRepositorio(_db);

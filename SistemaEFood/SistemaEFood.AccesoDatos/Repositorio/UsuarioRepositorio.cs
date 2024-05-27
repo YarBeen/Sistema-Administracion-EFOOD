@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
@@ -16,10 +17,12 @@ namespace SistemaEFood.AccesoDatos.Repositorio
     public class UsuarioRepositorio : Repositorio<Usuario>, IUsuarioRepositorio
     {
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UsuarioRepositorio(ApplicationDbContext db) : base(db)
+        public UsuarioRepositorio(ApplicationDbContext db, UserManager<IdentityUser> userManager) : base(db)
         {
             _db = db;
+            _userManager = userManager;
         }
         public void Actualizar(Usuario usuario)
         {
@@ -29,10 +32,27 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             {
                 usuarioDB.Email = usuario.Email;
                 usuarioDB.UserName = usuario.UserName;
+                usuarioDB.PreguntaSeguridad= usuario.PreguntaSeguridad;
+                usuarioDB.RespuestaSeguridad = usuario.RespuestaSeguridad;
                 usuarioDB.Role = usuario.Role; 
                 //Lo de password creo xd
                 _db.SaveChanges();
+                _db.Database.ExecuteSqlRaw("UPDATE AspNetUserRoles SET RoleId = {0} WHERE UserId = {1}", usuario.Role, usuarioDB.Id);
             }
+        }
+
+        public async Task<bool> ActualizarPasswordAsync(string userId, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return false; // User not found
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return result.Succeeded;
         }
 
         public IEnumerable<SelectListItem> ObtenerRoles()

@@ -9,7 +9,8 @@ namespace SistemaEFood.Modelos.ViewModels
 {
     public class UsuarioVM
     {
-        public Usuario usuario { get; set; }
+        public string Prueba {  get; set; }
+        public Usuario UserModel { get; set; }
 
         public IEnumerable<SelectListItem> ListaRoles { get; set; }
 

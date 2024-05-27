@@ -1,156 +1,89 @@
 ﻿@model SistemaEFood.Modelos.ViewModels.UsuarioVM
-
 @{
+    ViewData["Title"] = "Modificar usuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var titulo = "Modificar Usuario";
+    var titulo = " Usuario";
 }
 
-
 <form method="post">
-    <div style="padding-left:15%; padding-right:15%; padding-bottom:inherit.4rem;">
-        <div class="row border-0">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        </div>
-
-        @if (Model.usuario.Id != "")
-        {
-            titulo = "Actualizar Usuario";
-            <input type="hidden" asp-for="usuario.Id" id="id" />
-        }
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
-        </div>
-
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>Email</label>
-                <input type="text" asp-for="usuario.Email" class="form-control" placeholder="Email" id="Email" />
-                <span asp-validation-for="usuario.Email" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row mb-2 mt-2">
-            <div class="form-group col-md-6">
-                <label>UserName</label>
-                <input type="text" asp-for="usuario.UserName" class="form-control" placeholder="Usuario" id="Username" />
-                <span asp-validation-for="usuario.UserName" class="text-danger"></span>
-            </div>
+    @if (Model.UserModel.Id != "")
+    {
+        titulo = "Editar Usuario";
+        <input asp-for="UserModel.Id" hidden/>
+    }
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2 class="text-info">@titulo</h2>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <label>Rol Actual = @Model.usuario.Role</label>
-                <select asp-for="usuario.Role" asp-items="@Model.ListaRoles" class="form-select">
-                    <option disabled selected> -- Seleccione un rol --</option>
-         
-                </select>
-                <span asp-validation-for="usuario.Role" class="text-danger"></span>
+                <label>Usuario</label>
+                <input asp-for="UserModel.UserName" class="form-control"/>
+                <span asp-validation-for="UserModel.UserName"></span>
             </div>
         </div>
-    @*     <div class="row mb-2 mt-2">
+        <div class="row mb-2 mt-2">
             <div class="form-group col-md-6">
-                <label>Descuento</label>
-                <div class="input-group">
-                    <input type="number" asp-for="Descuento" class="form-control" placeholder="Descuento" id="descuento" min="1" max="100" title="Por favor ingresa un número entre 0 y 100">
-                    <div class="input-group-append">
-                        <span class="input-group-text">%</span>
+                <label>Email</label>
+                <input type="text" asp-for="UserModel.Email" class="form-control" placeholder="Email" id="email" />
+                <span asp-validation-for="UserModel.Email" class="text-danger"></span>
+            </div>
+            </div>
+
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Pregunta de Seguridad</label>
+                <input type="text" asp-for="UserModel.PreguntaSeguridad" class="form-control" placeholder="PreguntaSeguridad" id="preguntaSeguridad" />
+                <span asp-validation-for="UserModel.PreguntaSeguridad" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2 mt-2">
+            <div class="form-group col-md-6">
+                <label>Respuesta de Seguridad</label>
+                <input type="text" asp-for="UserModel.RespuestaSeguridad" class="form-control" placeholder="RespuestaSeguridad" id="respuestaSeguridad" />
+                <span asp-validation-for="UserModel.RespuestaSeguridad" class="text-danger"></span>
+            </div>
+        </div>
+        <div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Rol Actual = @Model.UserModel.Role</label>
+                        <select asp-for="UserModel.Role" asp-items="@Model.ListaRoles" class="form-select">
+                            <option disabled selected> -- Seleccione un rol --</option>
+
+                        </select>
+                        <span asp-validation-for="UserModel.Role" class="text-danger"></span>
                     </div>
                 </div>
-                <span asp-validation-for="Descuento" class="text-danger"></span>
-            </div>
-        </div> *@
-
-
-
-        <br />
-       @*  <div>
-            @if (Model.UserName != "")
+            @if (Model.UserModel!=null)
             {
-                <partial name="_BotonesActualizarYRegresar" model="Model.Id" />
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn btn-primary" onfocus="false" asp-action="Upsert" asp-route-id="@Model.UserModel">
+                        <i class="bi bi-pencil-square"></i> Guardar Cambios <a> @Model.UserModel.UserName</a>
+                    </button>
+                    <a asp-action="Index" class="btn btn-success">
+                        <i class="bi bi-arrow-return-left"></i> Regresar
+                    </a>
+                </div>
+
             }
             else
             {
-                <partial name="_BotonesCrearYRegresar" model="Model.Id" />
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn btn-primary" onfocus="false">
+                        <i class="bi bi-plus-square-fill"></i> Crear
+                    </button>
+                    <a asp-action="Index" class="btn btn-success">
+                        <i class="bi bi-arrow-return-left"></i> Regresar
+                    </a>
+                </div>
+
             }
-        </div> *@
-
-
-
+        </div>
     </div>
-
 
 </form>
 
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            document.querySelector("form").addEventListener('submit', function (event) {
-
-                event.preventDefault();
-
-
-                validarNombre();
-            
-            });
-        });
- 
-        
-        function validarNombre() {
-            
-            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarNombre";
-            
-            var id = '#id';
-            var nombre = '#nombre';
-            $.getJSON(url, { id: $(id).val(), nombre: $(nombre).val() }, function (data) {
-                $.each(data, function (key, value) {
-                    if (value) {
-                        var nombre = document.getElementById("nombre");
-                        swal("Error", "Nombre ya Existe", "error");
-                    
-                        nombre.value = "";
-
-
-                        return;
-
-                    }
-
-                    validarCodigo();
-                 
-                });
-            })
-        }
-        function validarCodigo(){
-
-
-            var url = '@Url.Content("~/")' + "Admin/TiqueteDeDescuento/ValidarCodigo";
-            var id = '#id';
-            var codigo = '#codigo';
-            $.getJSON(url, { id: $(id).val(), codigo: $(codigo).val() }, function (data) {
-                $.each(data, function (key, value) {
-                    if (value) {
-                    var codigo = document.getElementById("codigo");
-                        swal("Error", "Codigo ya Existe", "error");
-                        codigo.value = "";
-                       
-                       
-
-
-                        return;
-
-                    }
-                    var descuento = document.getElementById("descuento").value;
-                    if (descuento > 100 || descuento < 1) {
-                        swal("Error", "Descuento debe ser un valor de 1 al 100", "error");
-                        descuento.value = 1;
-                        return;
-                    }
-                    document.querySelector("form").submit();
-                });
-            })
-        }
-
-    </script>
-
-        }

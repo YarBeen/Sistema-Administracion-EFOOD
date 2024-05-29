@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
+using SistemaEFood.Modelos;
+using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
 
 namespace SistemaEFood.Areas.Admin.Controllers
@@ -22,6 +24,72 @@ namespace SistemaEFood.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public async Task<IActionResult> Upsert(string? id)
+        {
+            UsuarioVM userVM = new UsuarioVM()
+            {
+                UserModel= new Usuario(),
+                ListaRoles= _unidadTrabajo.Usuario.ObtenerRoles()
+            };
+
+            if (id == null)
+            {
+                //Ver esto conoce pura vida
+                return View(userVM);
+            }
+            var userForView = await _unidadTrabajo.Usuario.ObtenerUsuarioPorID(id);
+
+            if (userForView == null)
+            {
+                return NotFound();
+            }
+            userVM.UserModel = userForView;
+            return View(userVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upsert(UsuarioVM usuarioVM)
+        {
+            Console.WriteLine("Addres of user is. " + usuarioVM.GetHashCode());
+            Console.WriteLine(usuarioVM.UserModel.Id);
+            Console.WriteLine(usuarioVM.UserModel.UserName);
+            Console.WriteLine(ModelState.IsValid);
+            Console.WriteLine(ModelState.Values);
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    foreach (var error in state.Errors)
+                    {
+                        Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine("Is valid");
+                if (usuarioVM.UserModel.Id == "")
+                {
+                    await _unidadTrabajo.Usuario.Agregar(usuarioVM.UserModel);
+                    TempData[DS.Exitosa] = "Usuario creado exitosamente";
+                }
+                else
+                {
+                    Console.WriteLine("Updating");
+                    _unidadTrabajo.Usuario.Actualizar(usuarioVM.UserModel);
+                    TempData[DS.Exitosa] = "Usuario";
+                }
+                await _unidadTrabajo.Guardar();
+                return RedirectToAction(nameof(Index));
+            }
+            TempData[DS.Error] = "Error al grabar usuario";
+            
+            return View(usuarioVM);
         }
         #region API
         [HttpGet]
@@ -59,6 +127,68 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 else {
                     usuario.LockoutEnd = DateTime.Now.AddYears(1250);
                 }
+            await _unidadTrabajo.Guardar();
+            return Json(new
+            {
+                success = true,
+                message = " La operacion fue un exito"
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReiniciarPassword([FromBody] string id)
+        {
+            var usuario = await _unidadTrabajo.Usuario.ObtenerPrimero(u => u.Id == id);
+            if (usuario == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error de usuario"
+                });
+            }
+            if (usuario.LockoutEnd != null && usuario.LockoutEnd > DateTime.Now)
+            {
+
+                //Si la fecha es mayor a hoy esta bloqueado
+                usuario.LockoutEnd = DateTime.Now;
+
+            }
+            else
+            {
+                usuario.LockoutEnd = DateTime.Now.AddYears(1250);
+            }
+            await _unidadTrabajo.Guardar();
+            return Json(new
+            {
+                success = true,
+                message = " La operacion fue un exito"
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarRole([FromBody] string id)
+        {
+            var usuario = await _unidadTrabajo.Usuario.ObtenerPrimero(u => u.Id == id);
+            if (usuario == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error de usuario"
+                });
+            }
+            if (usuario.LockoutEnd != null && usuario.LockoutEnd > DateTime.Now)
+            {
+
+                //Si la fecha es mayor a hoy esta bloqueado
+                usuario.LockoutEnd = DateTime.Now;
+
+            }
+            else
+            {
+                usuario.LockoutEnd = DateTime.Now.AddYears(1250);
+            }
             await _unidadTrabajo.Guardar();
             return Json(new
             {

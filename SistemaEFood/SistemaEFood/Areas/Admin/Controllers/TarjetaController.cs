@@ -79,6 +79,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
             var tarjetaDb = await _unidadTrabajo.Tarjeta.Obtener(id);
             if (tarjetaDb == null)
             {
+                var mensajeError = TempData[DS.Error] = "Error al borrar tarjeta";
+                await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 400);
                 return Json(new { success = false, message = "Error al borrar Tarjeta" });
             }
 

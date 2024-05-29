@@ -77,7 +77,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     ProductoPrecio existePrecio = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Idproducto == productoPrecioVM.productoPrecio.Idproducto && X.Idprecio == productoPrecioVM.productoPrecio.Idprecio);
                     if(existePrecio != null) 
                     {
-                        TempData[DS.Error] = "Este precio ya existe";
+                        TempData[DS.Error] = "precio ya existente";
+                        await _unidadTrabajo.BitacoraError.RegistrarError("Precio ya existente", 400);
                     }
                     else 
                     {
@@ -96,7 +97,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 string returnUrl = Url.Action("Index", "ProductoPrecio", new { id = productoPrecioVM.productoPrecio.Idproducto });
                 return Redirect(returnUrl);
             }
-            TempData[DS.Error] = "Error al grabar precio";
+            var mensajeError= TempData[DS.Error] = "Error al grabar precio";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 300);
             productoPrecioVM.ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id);
             return View(productoPrecioVM);
         }

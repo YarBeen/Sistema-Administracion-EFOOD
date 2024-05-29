@@ -27,6 +27,8 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<ProductoPrecio> ProductoPrecio { get; set; }
 
+        public DbSet<BitacoraError> BitacoraError { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

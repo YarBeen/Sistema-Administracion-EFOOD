@@ -26,6 +26,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public IProcesadorTarjeta ProcesadorTarjeta { get; private set; }
 
         public IProductoPrecioRepositorio ProductoPrecio { get; private set; }
+
+        public IBitacoraErrorRepositorio BitacoraError {  get; private set; }
         public UnidadTrabajo(ApplicationDbContext db)
         {
             _db = db;
@@ -38,6 +40,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             Producto = new ProductoRepositorio(_db);
             ProcesadorTarjeta = new ProcesadorTarjetaRepositorio(db);
             ProductoPrecio = new ProductoPrecioRepositorio(db);
+            BitacoraError = new BitacoraErrorRepositorio(db);
         }
         public void Dispose()
         {

@@ -48,7 +48,9 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 if (lineaComida.Id == 0)
                 {
                     await _unidadTrabajo.LineaComida.Agregar(lineaComida);
-                    TempData[DS.Exitosa] = "Linea de Comida creada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Linea de Comida creada exitosamente";
+                    await _unidadTrabajo.BitacoraError.RegistrarError(mensaje.ToString(), 400);
+                    
                 }
                 else
                 {
@@ -58,7 +60,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar linea de comida";
+            var mensajeError = TempData[DS.Error] = "Error al grabar linea de comida";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 400);
             return View(lineaComida);
         }
 

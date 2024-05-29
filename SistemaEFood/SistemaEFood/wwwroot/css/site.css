@@ -19,7 +19,21 @@ html {
     background-color: #006241;
 
 }
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
 
+    .sidebar a {
+        color: #fff
+    }
 .form-container {
     background-color: #fff;
     padding-top:30px;
@@ -27,6 +41,19 @@ html {
     
     
 
+}
+.navbar-button {
+    display: inline;
+}
+.Login-Partial {
+    position: fixed;
+   
+    right: 0;
+    margin-top:10;
+    
+    background-color: #fff;
+    color: white;
+    padding: 10px;
 }
 html {
   position: relative;

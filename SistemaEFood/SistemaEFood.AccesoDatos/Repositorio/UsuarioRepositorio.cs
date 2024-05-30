@@ -50,7 +50,11 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            IdentityResult result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            Console.WriteLine(result.ToString());
+            Console.WriteLine(result.Succeeded);
+            Console.WriteLine(result.Errors);
+
 
             return result.Succeeded;
         }

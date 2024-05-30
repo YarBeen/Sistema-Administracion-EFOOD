@@ -9,7 +9,7 @@
     @if (Model.UserModel.Id != "")
     {
         titulo = "Editar Usuario";
-        <input asp-for="UserModel.Id" hidden/>
+        <input asp-for="UserModel.Id" id="user-id" hidden/>
     }
     <div class="border p-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -86,4 +86,166 @@
     </div>
 
 </form>
+
+<style>
+    /* Style for the popup modal */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 300px; /* Max width */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        position: relative;
+    }
+
+    /* Close button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    /* Style for the form */
+    .form-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        #reset-password-modal{
+            display:none;
+        }
+</style>
+
+<button onclick="displayResetPasswordForm()">Reset Password</button>
+
+<div id="reset-password-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeResetPasswordForm()">&times;</span>
+        <div id="reset-password-form" class="form-container"></div>
+    </div>
+</div>
+
+@section Scripts{
+
+  
+  
+
+    <script>
+        function displayResetPasswordForm() {
+            const modal = document.getElementById('reset-password-modal');
+            const formContainer = document.getElementById('reset-password-form');
+
+            formContainer.innerHTML = `
+                <h2>Reset Password</h2>
+                <form id="password-reset-form">
+                    
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                    <label for="confirm-password">Confirm New Password:</label>
+                            <input type="password" id="confirm-password" name="confirm-password" required    pattern=".{6,}" oninput="this.setCustomValidity(this.value !== document.getElementById('new-password').value ? 'Passwords must match.' : '')" title="Passwords must match">
+                    <button type="submit">Reset Password</button>
+                </form>
+            `;
+
+            modal.style.display = 'flex';
+
+            const form = document.getElementById('password-reset-form');
+            form.onsubmit = function (event) {
+                event.preventDefault();
+                var userId = $('#user-id').val();
+
+                
+                var password = $('#new-password').val();
+                
+               
+               
+                cambiarContraseña(userId,password);
+                alert('Password reset request submitted');
+                closeResetPasswordForm();
+            };
+        }
+        function cambiarContraseña(id,passwordToSend) {
+
+          
+            
+           
+            
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Usuario/CambiarContrasenna',
+                 data :JSON.stringify({ UserID: id, Password: passwordToSend }),
+                contentType: "application/json",
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                       // datatable.ajax.reload();
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+            
+        }
+
+        function closeResetPasswordForm() {
+            const modal = document.getElementById('reset-password-modal');
+            modal.style.display = 'none';
+        }
+
+        // Close the modal if the user clicks outside of the modal content
+        window.onclick = function (event) {
+            const modal = document.getElementById('reset-password-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
+}
 

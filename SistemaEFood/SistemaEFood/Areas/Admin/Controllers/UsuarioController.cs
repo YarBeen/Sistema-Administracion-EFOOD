@@ -153,7 +153,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     message = "Error de usuario"
                 });
             }
-            var result = _unidadTrabajo.Usuario.ActualizarPasswordAsync(id,password);
+            var result = await _unidadTrabajo.Usuario.ActualizarPasswordAsync(id,password);
             
             return Json(new
             {

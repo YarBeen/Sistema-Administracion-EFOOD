@@ -43,19 +43,30 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
         public async Task<bool> ActualizarPasswordAsync(string userId, string newPassword)
         {
+            
+            
+           
             var user = await _userManager.FindByIdAsync(userId);
+           
+
+           
             if (user == null)
             {
+                
                 return false; // User not found
             }
-
+            Console.WriteLine(user.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            
             IdentityResult result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+           
             Console.WriteLine(result.ToString());
             Console.WriteLine(result.Succeeded);
+           
+            
             Console.WriteLine(result.Errors);
 
-
+            
             return result.Succeeded;
         }
 

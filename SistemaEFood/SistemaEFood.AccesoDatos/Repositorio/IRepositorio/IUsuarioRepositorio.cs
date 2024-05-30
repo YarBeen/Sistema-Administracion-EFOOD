@@ -16,6 +16,6 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         Task<Usuario> ObtenerUsuarioPorID(string id);
 
         IEnumerable<SelectListItem> ObtenerRoles();
-        Task<bool> ActualizarPasswordAsync(string userId, string newPassword);
+        Task<bool> ActualizarPasswordAsync(string userid, string newPassword);
     }
 }

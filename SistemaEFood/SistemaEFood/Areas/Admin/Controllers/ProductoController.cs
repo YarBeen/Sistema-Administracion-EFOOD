@@ -158,6 +158,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
             var productoDb = await _unidadTrabajo.Producto.Obtener(id);
             if (productoDb == null)
             {
+                var mensajeError = TempData[DS.Error] = "Error al borrar producto";
+                await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 400);
                 return Json(new { success = false, message = "Error al borrar producto" });
             }
 

@@ -58,7 +58,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar tipo de precio";
+            var mensaje = TempData[DS.Error] = "Error al grabar tipo de precio";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensaje.ToString(), 400);
             return View(tipoPrecio);
         }
 
@@ -79,6 +80,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
             var tipoPrecioDb = await _unidadTrabajo.TipoPrecio.Obtener(id);
             if (tipoPrecioDb == null)
             {
+                var mensaje = TempData[DS.Error] = "Error al grabar tipo de precio";
+                await _unidadTrabajo.BitacoraError.RegistrarError(mensaje.ToString(), 400);
                 return Json(new { success = false, message = "Error al borrar Tipo de Precio" });
             }
 

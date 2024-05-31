@@ -19,7 +19,14 @@ html {
     background-color: #006241;
 
 }
+/* Side Bar*/
+
+
+.nav-item {
+    position: relative;
+}
 .sidebar {
+    z-index: 200;
     height: 100%;
     width: 0;
     position: fixed;
@@ -29,18 +36,31 @@ html {
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+.side-bar-dropdown-items-list {
+    display: none;
+    flex-direction: column;
 }
 
+.side-bar-dropdown.show .side-bar-dropdown-items-list {
+    display: flex;
+}
     .sidebar a {
         color: #fff
     }
+    .sidebar a:hover {
+        color: #808080
+    }
+.dropdown-item-box {
+    background-color:#808080
+}
+/*Form */
 .form-container {
     background-color: #fff;
-    padding-top:30px;
-    padding-bottom:30px;
-    
-    
-
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .navbar-button {
     display: inline;
@@ -49,7 +69,7 @@ html {
     position: fixed;
    
     right: 0;
-    margin-top:10;
+    margin-top:10px;
     
     background-color: #fff;
     color: white;
@@ -75,7 +95,9 @@ body {
 .font-color-white {
     color: #fff;
 }
-
+.font-color-black {
+    color: #000;
+}
 .input-text {
     background-color: rgb(232, 232, 232);
     line-height: 24px;
@@ -123,3 +145,14 @@ body {
     text-transform: uppercase;
     text-decoration: none;
 }
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .navbar-nav .dropdown-menu > li {
+        display: block;
+    }

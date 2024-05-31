@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
+using SistemaEFood.Areas.Admin.Requests;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
@@ -136,8 +137,13 @@ namespace SistemaEFood.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReiniciarPassword([FromBody] string id)
+        public async Task<IActionResult> CambiarContrasenna([FromBody] ChangePasswordRequest request)
         {
+
+            var id = request.UserID;
+            var password = request.Password;
+            
+           
             var usuario = await _unidadTrabajo.Usuario.ObtenerPrimero(u => u.Id == id);
             if (usuario == null)
             {
@@ -147,23 +153,33 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     message = "Error de usuario"
                 });
             }
-            if (usuario.LockoutEnd != null && usuario.LockoutEnd > DateTime.Now)
-            {
-
-                //Si la fecha es mayor a hoy esta bloqueado
-                usuario.LockoutEnd = DateTime.Now;
-
-            }
-            else
-            {
-                usuario.LockoutEnd = DateTime.Now.AddYears(1250);
-            }
-            await _unidadTrabajo.Guardar();
+            var result = await _unidadTrabajo.Usuario.ActualizarPasswordAsync(id,password);
+            
             return Json(new
             {
                 success = true,
                 message = " La operacion fue un exito"
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
+        {
+            bool valor = false;
+            var lista = await _unidadTrabajo.TiqueteDeDescuento.ObtenerTodos();
+            if (id == 0)
+            {
+                valor = lista.Any(b => b.Nombre.ToLower().Trim() == nombre.ToLower().Trim());
+            }
+            else
+            {
+                valor = lista.Any(b => b.Nombre.ToLower().Trim() == nombre.ToLower().Trim() && b.Id != id);
+            }
+            if (valor)
+            {
+                return Json(new { data = true });
+            }
+            return Json(new { data = false });
         }
 
         [HttpPost]

@@ -11,7 +11,70 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
+.new-container {
+    margin:0 10px 10px 0;
+    width:100vw;
+}
+.table-container {
+    background-color: #006241;
 
+}
+/* Side Bar*/
+
+
+.nav-item {
+    position: relative;
+}
+.sidebar {
+    z-index: 200;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+.side-bar-dropdown-items-list {
+    display: none;
+    flex-direction: column;
+}
+
+.side-bar-dropdown.show .side-bar-dropdown-items-list {
+    display: flex;
+}
+    .sidebar a {
+        color: #fff
+    }
+    .sidebar a:hover {
+        color: #808080
+    }
+.dropdown-item-box {
+    background-color:#808080
+}
+/*Form */
+.form-container {
+    background-color: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.navbar-button {
+    display: inline;
+}
+.Login-Partial {
+    position: fixed;
+   
+    right: 0;
+    margin-top:10px;
+    
+    background-color: #fff;
+    color: white;
+    padding: 10px;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -20,3 +83,76 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.title-box {
+    background-color: #006241;
+    margin:20px 20px 20px 5px;
+}
+.table-upsert {
+    background-color: #fff;
+    padding: 5%;
+}
+.font-color-white {
+    color: #fff;
+}
+.font-color-black {
+    color: #000;
+}
+.input-text {
+    background-color: rgb(232, 232, 232);
+    line-height: 24px;
+    outline: none;
+    text-shadow: none;
+    border-color: none;
+    border:none;
+    border-radius:0px;
+}
+
+.imagen-box {
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    
+    
+    border-radius: 0px;
+ 
+}
+
+    .input-text:focus {
+        outline: 3px solid black;
+        box-shadow: none;
+        text-shadow: none;
+        border: none;
+    }
+
+.background-grey {
+    background-color: rgb(232, 232, 232);
+}
+.sodo-font {
+    font-family: "SoDo Sans SemiBold";
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.sodo-font-bold {
+    font-family: "SoDo Sans SemiBold";
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .navbar-nav .dropdown-menu > li {
+        display: block;
+    }

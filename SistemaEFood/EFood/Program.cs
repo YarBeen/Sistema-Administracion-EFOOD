@@ -2,6 +2,7 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.AccesoDatos.Repositorio;
 using Microsoft.EntityFrameworkCore;
 using SistemaEFood.AccesoDatos.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddDefaultIdentity<IdentityUser>(OptionsBuilderConfigurationExtensions => OptionsBuilderConfigurationExtensions.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 

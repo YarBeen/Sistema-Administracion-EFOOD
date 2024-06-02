@@ -62,6 +62,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProcesadorTarjetaVM procesadorTarjetaVM,int id)
         {
+            var usuarioNombre = User.Identity.Name;
 
             if (ModelState.IsValid)
             {
@@ -69,7 +70,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 {
                     procesadorTarjetaVM.ProcesadorTarjeta.ProcesadorId = id;
                     await _unidadTrabajo.ProcesadorTarjeta.Agregar(procesadorTarjetaVM.ProcesadorTarjeta);
-                    TempData[DS.Exitosa] = "Tarjeta asignada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + procesadorTarjetaVM.ProcesadorTarjeta + " asignada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 else
                 {
@@ -111,16 +113,17 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var procesadorTarjetaDb = await _unidadTrabajo.ProcesadorTarjeta.Obtener(id);
             if (procesadorTarjetaDb == null)
             {
+                await _unidadTrabajo.BitacoraError.RegistrarError("Error al borrar Procesador de Tarjeta " + procesadorTarjetaDb.ProcesadorDePago, 400);
                 return Json(new { success = false, message = "Error al borrar ProcesadorTarjeta" });
             }
-
-            
-
             _unidadTrabajo.ProcesadorTarjeta.Remover(procesadorTarjetaDb);
             await _unidadTrabajo.Guardar();
+            var mensaje = TempData[DS.Exitosa] = "Tarjeta " + procesadorTarjetaDb.ProcesadorDePago + " asignada exitosamente";
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
             return Json(new { success = true, message = "ProcesadorTarjeta borrado exitosamente" });
         }
         

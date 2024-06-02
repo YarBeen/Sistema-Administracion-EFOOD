@@ -29,6 +29,7 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<BitacoraError> BitacoraError { get; set; }
 
+        public DbSet<Bitacora> Bitacora { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

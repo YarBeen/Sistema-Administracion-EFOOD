@@ -53,6 +53,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(UsuarioVM usuarioVM)
         {
+            var usuarioNombre = User.Identity.Name;
             Console.WriteLine("Addres of user is. " + usuarioVM.GetHashCode());
             Console.WriteLine(usuarioVM.UserModel.Id);
             Console.WriteLine(usuarioVM.UserModel.UserName);
@@ -77,6 +78,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 if (usuarioVM.UserModel.Id == "")
                 {
                     await _unidadTrabajo.Usuario.Agregar(usuarioVM.UserModel);
+
                     TempData[DS.Exitosa] = "Usuario creado exitosamente";
                 }
                 else
@@ -89,6 +91,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             TempData[DS.Error] = "Error al grabar usuario";
+
             
             return View(usuarioVM);
         }

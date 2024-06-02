@@ -11,5 +11,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     {
         public Task RegistrarAccion(string nombreUsuario, string mensaje);
         public Task<IEnumerable<Bitacora>> ObtenerPorFecha(DateTime fecha);
+
+        public Task<IEnumerable<Bitacora>> ObtenerEntreFechas(DateTime fechaInicio, DateTime fechaFin);
+
     }
 }

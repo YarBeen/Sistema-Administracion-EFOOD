@@ -6,14 +6,12 @@ $(document).ready(function () {
         var fechaFin = $('#fechaFin').val();
 
         if (fechaInicio && fechaFin) {
-            // Reload DataTable with new dates
             loadDataTable(fechaInicio, fechaFin);
         } else {
             alert('Por favor, ingrese ambas fechas.');
         }
     });
 
-    // Load the DataTable without filters initially
     loadDataTable();
 });
 
@@ -63,7 +61,7 @@ function loadDataTable(fechaInicio = null, fechaFin = null) {
 function clearDataTable() {
     $('#fechaInicio').val('');
     $('#fechaFin').val('');
-    loadDataTable(); // Reload DataTable without filters
+    loadDataTable(); 
 };
 function Delete(url) {
     swal({

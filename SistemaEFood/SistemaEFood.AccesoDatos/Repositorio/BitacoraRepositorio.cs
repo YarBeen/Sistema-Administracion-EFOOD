@@ -35,7 +35,13 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         {
             return await _db.Bitacora.Where(x => x.Fecha.Date == fecha.Date).ToListAsync();
         }
-
+        public async Task<IEnumerable<Bitacora>> ObtenerEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var datos = await _db.Bitacora
+                                        .Where(be => be.Fecha >= fechaInicio && be.Fecha <= fechaFin)
+                                        .ToListAsync();
+            return datos;
+        }
 
     }
 }

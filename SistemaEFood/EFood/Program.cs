@@ -1,6 +1,18 @@
+using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
+using SistemaEFood.AccesoDatos.Repositorio;
+using Microsoft.EntityFrameworkCore;
+using SistemaEFood.AccesoDatos.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -58,7 +58,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar tarjeta";
+            var mensaje = TempData[DS.Error] = "Error al grabar tarjeta";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensaje.ToString(), 400);
             return View(tarjeta);
         }
 

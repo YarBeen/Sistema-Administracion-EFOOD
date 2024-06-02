@@ -5,11 +5,13 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEFood", "SistemaEFood\SistemaEFood.csproj", "{776ACF68-18DA-4E59-B709-9F39E68869AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEFood.AccesoDatos", "SistemaEFood.AccesoDatos\SistemaEFood.AccesoDatos.csproj", "{FA4D4B94-B738-4628-8A1C-3C30C9004772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEFood.AccesoDatos", "SistemaEFood.AccesoDatos\SistemaEFood.AccesoDatos.csproj", "{FA4D4B94-B738-4628-8A1C-3C30C9004772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEFood.Modelos", "SistemaEFood.Modelos\SistemaEFood.Modelos.csproj", "{32504291-09CB-4DAF-80A9-2F76CD03C0FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEFood.Modelos", "SistemaEFood.Modelos\SistemaEFood.Modelos.csproj", "{32504291-09CB-4DAF-80A9-2F76CD03C0FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEFood.Utilidades", "SistemaEFood.Utilidades\SistemaEFood.Utilidades.csproj", "{76612403-EBF2-4131-8363-EB0CB413B9F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEFood.Utilidades", "SistemaEFood.Utilidades\SistemaEFood.Utilidades.csproj", "{76612403-EBF2-4131-8363-EB0CB413B9F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFood", "EFood\EFood.csproj", "{0CACDB37-70EE-4DDA-9267-AF8BD1B7D524}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{76612403-EBF2-4131-8363-EB0CB413B9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76612403-EBF2-4131-8363-EB0CB413B9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76612403-EBF2-4131-8363-EB0CB413B9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CACDB37-70EE-4DDA-9267-AF8BD1B7D524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CACDB37-70EE-4DDA-9267-AF8BD1B7D524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CACDB37-70EE-4DDA-9267-AF8BD1B7D524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CACDB37-70EE-4DDA-9267-AF8BD1B7D524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

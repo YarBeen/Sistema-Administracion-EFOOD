@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.34825.169
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFoodVistaCliente", "EFoodVistaCliente\EFoodVistaCliente.csproj", "{263D78D5-CAF2-46FE-B64D-7A49FD8BC2EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFoodVistaCliente.Utilidades", "EFoodVistaCliente.Utilidades\EFoodVistaCliente.Utilidades.csproj", "{128165B0-C52D-433E-A7FE-D9C20C5D0BF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFoodVistaCliente.Utilidades", "EFoodVistaCliente.Utilidades\EFoodVistaCliente.Utilidades.csproj", "{128165B0-C52D-433E-A7FE-D9C20C5D0BF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFoodVistaCliente.Modelos", "EFoodVistaCliente.Modelos\EFoodVistaCliente.Modelos.csproj", "{826B023F-C771-4D48-B3C7-7B03AFE4F46F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{128165B0-C52D-433E-A7FE-D9C20C5D0BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{128165B0-C52D-433E-A7FE-D9C20C5D0BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{128165B0-C52D-433E-A7FE-D9C20C5D0BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{826B023F-C771-4D48-B3C7-7B03AFE4F46F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{826B023F-C771-4D48-B3C7-7B03AFE4F46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{826B023F-C771-4D48-B3C7-7B03AFE4F46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{826B023F-C771-4D48-B3C7-7B03AFE4F46F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

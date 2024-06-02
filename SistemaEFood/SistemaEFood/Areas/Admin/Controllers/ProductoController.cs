@@ -10,13 +10,16 @@ namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = DS.Role_Admin + "," + DS.Role_Mantenimiento)]
+    
     public class ProductoController : Controller
     {
+       
         private readonly IUnidadTrabajo _unidadTrabajo;
         private readonly IWebHostEnvironment _webHostEnviroment;
 
         public ProductoController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment)
         {
+            
             _unidadTrabajo = unidadTrabajo;
             _webHostEnviroment = webHostEnviroment;
         }
@@ -28,11 +31,13 @@ namespace SistemaEFood.Areas.Admin.Controllers
         
         public async Task<IActionResult> Consultar()
         {
+            var usuario = User.Identity.Name;
             ProductoVM productoVM = new ProductoVM()
             {
                 Producto = new Producto(),
                 LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
                 ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos()
+                
             };
             return View(productoVM);
         }
@@ -67,6 +72,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductoVM productoVM)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;
@@ -114,8 +120,9 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     _unidadTrabajo.Producto.Actualizar(productoVM.Producto);
 
                 }
-                TempData[DS.Exitosa] = "Transacción Exitosa!";
                 await _unidadTrabajo.Guardar();
+                var mensaje = TempData[DS.Exitosa] = "Producto actualizado exitosamente"; //Comentario previo: Transacción exitosa
+                await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 return View("Index");
             }
             productoVM.LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida");
@@ -155,6 +162,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var productoDb = await _unidadTrabajo.Producto.Obtener(id);
             if (productoDb == null)
             {
@@ -172,6 +180,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             _unidadTrabajo.Producto.Remover(productoDb);
             await _unidadTrabajo.Guardar();
+            var mensaje = TempData[DS.Exitosa] = "Producto actualizado exitosamente"; //Comentario previo: Transacción exitosa
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
             return Json(new { success = true, message = "Producto borrada exitosamente" });
         }
 

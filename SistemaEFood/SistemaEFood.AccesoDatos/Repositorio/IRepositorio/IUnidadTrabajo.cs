@@ -22,6 +22,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         IProductoPrecioRepositorio ProductoPrecio { get; }
 
         IBitacoraErrorRepositorio BitacoraError { get; }
+
+        IBitacoraRepositorio Bitacora { get; }
         Task Guardar();
     }
 }

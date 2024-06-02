@@ -43,22 +43,26 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Tarjeta tarjeta)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 if (tarjeta.Id == 0)
                 {
                     await _unidadTrabajo.Tarjeta.Agregar(tarjeta);
-                    TempData[DS.Exitosa] = "Tarjeta creada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Tarjeta creada exitosamente"; 
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se creó la tarjeta " + tarjeta.Nombre + " exitosamente");
                 }
                 else
                 {
                     _unidadTrabajo.Tarjeta.Actualizar(tarjeta);
-                    TempData[DS.Exitosa] = "Tarjeta actualizada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + tarjeta.Nombre + " actualizada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se actualizó la tarjeta " + tarjeta.Nombre + " exitosamente");
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar tarjeta";
+            var mensajeError = TempData[DS.Error] = "Error al grabar tarjeta";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 300);
             return View(tarjeta);
         }
 
@@ -76,6 +80,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var tarjetaDb = await _unidadTrabajo.Tarjeta.Obtener(id);
             if (tarjetaDb == null)
             {
@@ -86,6 +91,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             _unidadTrabajo.Tarjeta.Remover(tarjetaDb);
             await _unidadTrabajo.Guardar();
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "se borró la tarjeta" + tarjetaDb.Nombre + " exitosamente");
             return Json(new { success = true, message = "Tarjeta borrada exitosamente" });
         }
 

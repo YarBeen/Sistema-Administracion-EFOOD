@@ -5,6 +5,7 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
+using SistemaEFood.AccesoDatos.Migrations;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
@@ -25,6 +26,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return View();
         }
         #region API
+
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()
         {
@@ -43,6 +45,20 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return Json(new { data = registrosBitacoraError });
        
         }
+        [HttpGet]
+        public async Task<IActionResult> ConsultarConFiltro(DateTime fechainicial, DateTime fechafinal)
+
+        {
+            if(fechainicial != DateTime.MinValue && fechafinal != DateTime.MinValue) {
+                var registrosBitacoraError = await _unidadTrabajo.BitacoraError.ObtenerErroresEntreFechas(fechainicial, fechafinal);
+                return Json(new { data = registrosBitacoraError });
+
+            }
+
+            var Todos = await _unidadTrabajo.BitacoraError.ObtenerTodos();
+            return Json(new { data = Todos });
+        }
+
         #endregion
 
     }

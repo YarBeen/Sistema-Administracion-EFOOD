@@ -9,45 +9,45 @@
     @if (Model.Producto.Id != 0)
     {
         titulo = "Editar producto";
-        <input asp-for="Producto.Id" hidden/>
-        <input asp-for="Producto.ImagenUrl" hidden/>
+        <input asp-for="Producto.Id" hidden />
+        <input asp-for="Producto.ImagenUrl" hidden />
 
 
     }
-
-    <div class="border p-3">
+    <div class="container-fluid">
+    <div class=" table-container p-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
+        <div class="col-12 border-bottom p-0 title-box font-color-white">
+            <h2 class="soda-font-bold">@titulo</h2>
         </div>
 
-        <div class="row">
-            <div class="col-8">
+        <div class="row form-container">
+            <div class="col-7">
                 <div class="container">
 
-                    @if(Model.Producto.Id != 0)
+                    @if (Model.Producto.Id != 0)
                     {
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="id">Código de Producto</label>
-                                <input type="text" class="form-control" id="id" value="@Model.Producto.Id" readonly/>
+                                <input type="text" class="form-control input-text mb-1" id="id" value="@Model.Producto.Id" readonly />
                             </div>
                         </div>
                     }
 
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Nombre de Producto</label>
-                            <input asp-for="Producto.Nombre" class="form-control" id="nombre"/>
+                            <input asp-for="Producto.Nombre" class="form-control input-text mb-1" id="nombre" />
                             <span asp-validation-for="Producto.Nombre" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Linea de Comida</label>
-                            <select asp-for="Producto.LineaComidaId" asp-items="@Model.LineaComidaLista" class="form-select">
+                            <select asp-for="Producto.LineaComidaId" asp-items="@Model.LineaComidaLista" class="form-select input-text mb-1">
                                 <option disabled selected> -- Seleccione una línea de comida --</option>
                             </select>
                             <span asp-validation-for="Producto.LineaComidaId" class="text-danger"></span>
@@ -55,17 +55,17 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Contenido</label>
-                            <input asp-for="Producto.Contenido" class="form-control" />
+                            <input asp-for="Producto.Contenido" class="form-control input-text mb-1" />
                             <span asp-validation-for="Producto.Contenido" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Imagen</label>
-                            <input type="file" accept="image/png, image/jpeg" name="files" id="imagenId" class="form-control" />
+                            <input type="file" accept="image/png, image/jpeg" name="files" id="imagenId" class="form-control input-text mb-1" />
                             <span asp-validation-for="Producto.Contenido" class="text-danger"></span>
                         </div>
                     </div>
@@ -73,10 +73,10 @@
 
                     <br />
 
-                    <div class="d-grid gap-2 d-md-block" >
-                        @if(Model.Producto.Id != 0)
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (Model.Producto.Id != 0)
                         {
-                            <partial name="_BotonesActualizarYRegresar" model="Model.Producto.Id"/>
+                            <partial name="_BotonesActualizarYRegresar" model="Model.Producto.Id" />
                         }
                         else
                         {
@@ -87,21 +87,21 @@
                 </div>
             </div>
 
-            <div class="col-4">
-                @if(Model.Producto.Id != 0)
+            <div class="col-5">
+                @if (Model.Producto.Id != 0)
                 {
-                    <img src="@DS.ImagenRuta@Model.Producto.ImagenUrl" width="100%" style="border-radius:5px; border:1px solid #bbb"/>
+                    <img src="@DS.ImagenRuta@Model.Producto.ImagenUrl" width="100%"  />
                 }
             </div>
         </div>
     </div>
-
+    </div>
 </form>
 
 
-@section Scripts{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
-  
+
     <script>
 
         document.getElementById("nombre").addEventListener('change', function () {
@@ -126,7 +126,7 @@
                         swal("Error", "Nombre ya Existe", "error");
                         nombreInput.value = "";
                         return;
-                    } 
+                    }
 
                     validarImagen();
                 });
@@ -151,8 +151,7 @@
 
 
         function validarImagen() {
-            if (document.getElementById("imagenId").ariaValueMax == "") 
-            {
+            if (document.getElementById("imagenId").ariaValueMax == "") {
                 swal("Error", "Seleccione una Imagen!", "error")
                 return false;
             }
@@ -160,4 +159,3 @@
         }
     </script>
 }
-

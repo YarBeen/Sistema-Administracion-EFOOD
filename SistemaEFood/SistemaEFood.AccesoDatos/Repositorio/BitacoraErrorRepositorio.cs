@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
@@ -36,6 +37,12 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             return await _db.BitacoraError.Where(x => x.Fecha.Date == fecha.Date).ToListAsync();
         }
 
-
+        public async Task<IEnumerable<BitacoraError>> ObtenerErroresEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var errores = await _db.BitacoraError
+                                        .Where(be => be.Fecha >= fechaInicio && be.Fecha <= fechaFin)
+                                        .ToListAsync();
+            return errores;
+        }
     }
 }

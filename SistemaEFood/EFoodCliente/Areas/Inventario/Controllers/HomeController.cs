@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
+using SistemaEFood.Utilidades;
 using System.Diagnostics;
 
 namespace SistemaEFood.Areas.Inventario.Controllers
@@ -12,7 +13,7 @@ namespace SistemaEFood.Areas.Inventario.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUnidadTrabajo _unidadTrabajo;
         [BindProperty]
-        private CarroCompraVM carroCompraVM {  get; set; }
+        private CarroCompraVM carroCompraVM { get; set; }
         public HomeController(ILogger<HomeController> logger, IUnidadTrabajo unidadTrabajo)
         {
             _logger = logger;
@@ -21,6 +22,14 @@ namespace SistemaEFood.Areas.Inventario.Controllers
 
         public async Task<IActionResult> Index()
         {
+
+            if (!Request.Cookies.TryGetValue("UsuarioId", out string usuarioId))
+            {
+                usuarioId = Guid.NewGuid().ToString();
+
+                Response.Cookies.Append("UsuarioId", usuarioId);
+            }
+
             ProductoVM productoVM = new ProductoVM()
             {
                 Producto = new Producto(),
@@ -45,6 +54,37 @@ namespace SistemaEFood.Areas.Inventario.Controllers
 
             return View(carroCompraVM);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Detalle(CarroCompraVM carroCompraVM)
+        {
+
+
+            if (Request.Cookies.TryGetValue("UsuarioId", out string usuarioId))
+            {
+                carroCompraVM.CarroCompra.Cliente = usuarioId;
+
+                CarroCompra carroBD = await _unidadTrabajo.CarroCompra.ObtenerPrimero(c => c.Cliente == usuarioId &&
+                                                                                          c.ProductoId == carroCompraVM.CarroCompra.ProductoId);
+                if (carroBD == null)
+                {
+                    await _unidadTrabajo.CarroCompra.Agregar(carroCompraVM.CarroCompra);
+                }
+                else
+                {
+                    carroBD.Cantidad += carroCompraVM.CarroCompra.Cantidad;
+                    _unidadTrabajo.CarroCompra.Actualizar(carroBD);
+                }
+                await _unidadTrabajo.Guardar();
+                TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
+                TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
         public IActionResult Privacy()
         {

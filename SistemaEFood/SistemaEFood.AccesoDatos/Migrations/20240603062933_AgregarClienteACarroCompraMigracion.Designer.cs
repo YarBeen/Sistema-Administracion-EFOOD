@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEFood.AccesoDatos.Data;
 
@@ -11,9 +12,11 @@ using SistemaEFood.AccesoDatos.Data;
 namespace SistemaEFood.AccesoDatos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603062933_AgregarClienteACarroCompraMigracion")]
+    partial class AgregarClienteACarroCompraMigracion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,9 +300,6 @@ namespace SistemaEFood.AccesoDatos.Migrations
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
-
-                    b.Property<string>("Cliente")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");

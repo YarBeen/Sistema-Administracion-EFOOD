@@ -17,6 +17,8 @@ namespace SistemaEFood.Modelos
         [ForeignKey("ProductoId")]
         public Producto Producto { get; set; }
 
+        public string Cliente { get; set; }
+
         [Required]
         public int Cantidad { get; set; }
 

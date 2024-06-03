@@ -29,6 +29,13 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public IProductoPrecioRepositorio ProductoPrecio { get; private set; }
 
         public IBitacoraErrorRepositorio BitacoraError {  get; private set; }
+
+        public ICarroCompraRepositorio CarroCompra { get; }
+
+        public IOrdenRepositorio Orden { get; }
+
+        public IOrdenDetalleRepositorio OrdenDetalle { get; }
+
         public UnidadTrabajo(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
@@ -42,6 +49,9 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             ProcesadorTarjeta = new ProcesadorTarjetaRepositorio(db);
             ProductoPrecio = new ProductoPrecioRepositorio(db);
             BitacoraError = new BitacoraErrorRepositorio(db);
+            CarroCompra = new CarroCompraRepositorio(db);
+            Orden = new OrdenRepositorio(db);
+            OrdenDetalle = new OrdenDetalleRepositorio(_db);
         }
         public void Dispose()
         {

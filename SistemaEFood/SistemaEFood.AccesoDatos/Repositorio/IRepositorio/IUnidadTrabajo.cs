@@ -22,6 +22,12 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         IProductoPrecioRepositorio ProductoPrecio { get; }
 
         IBitacoraErrorRepositorio BitacoraError { get; }
+
+        ICarroCompraRepositorio CarroCompra {  get; }
+
+        IOrdenRepositorio Orden { get; }
+
+        IOrdenDetalleRepositorio OrdenDetalle { get; }
         Task Guardar();
     }
 }

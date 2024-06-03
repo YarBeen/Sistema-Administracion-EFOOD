@@ -1,4 +1,5 @@
-﻿@model SistemaEFood.Modelos.ViewModels.ProductoVM
+﻿<!--model SistemaEFood.Modelos.ViewModels.ProductoVM -->
+@model SistemaEFood.Modelos.Especificaciones.PagedList<SistemaEFood.Modelos.Producto>
 @using SistemaEFood.Utilidades;
 @{
     ViewData["Title"] = "Home Page";
@@ -18,18 +19,26 @@
 <section>
     <div class="container my-2">
         <div class="col-lg-6 col-md-6 col-sm-6 d-flex">
+            <!--
             <div class="form-group">
-                <select asp-for="Producto.LineaComidaId" id="lineaComidaSelect" name="idLineaComida" asp-items="@Model.LineaComidaLista" class="form-select">
+                <select asp-for="Producto.LineaComidaId" id="lineaComidaSelect" name="idLineaComida" asp-items="Model.LineaComidaLista" class="form-select">
                     <option disabled selected> -- Seleccione una línea de comida --</option>
                 </select>
                 <button type="button" class="btn btn-primary" onclick="refreshDataTable()">
                     <i class="bi bi-search"></i> Buscar Productos
                 </button>
             </div>
+            -->
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar ..." aria-label="Buscar" aria-describedby="button-addon2" />
+                <button class="btn btn-outline-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
         </div>
 
         <div class="row">
-            @foreach (var producto in Model.ProductosLista)
+            @foreach (var producto in Model)
             {
                 <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
                     <div class="card w-100 my-2">
@@ -48,6 +57,24 @@
 
             }
         </div>
+        <a asp-action="Index"
+            asp-route-pageNumber="@(1)" class="btn btn-outline-primary">
+            <i class="bi bi-skip-start-fill"></i>
+        </a>
+        <a asp-action="Index"
+           asp-route-pageNumber="@((int)ViewData["PageNumber"]-1)" class="btn btn-outline-primary @ViewData["Previo"]">
+            Anterior
+        </a>
+        <span>Pagina @ViewData["PageNumber"] de @ViewData["TotalPaginas"]</span>
+        <a asp-action="Index"
+            asp-route-pageNumber="@((int)ViewData["PageNumber"] + 1)" class="btn btn-outline-primary @ViewData["Siguiente"]"
+        >
+            Siguiente
+        </a>
+        <a asp-action="Index"
+           asp-route-pageNumber="@ViewData["TotalPaginas"]" class="btn btn-outline-primary">
+            <i class="bi bi-skip-end-fill"></i>
+        </a>
 
     </div>
 </section>

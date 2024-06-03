@@ -17,5 +17,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 
         public Task<IEnumerable<Producto>> ObtenerTodosPorLineaComida(int idLineaComida);
 
+        public Task<IEnumerable<(string TipoPrecioNombre, float Monto)>> ObtenerPreciosPorTamanno(int productoId);
+
     }
 }

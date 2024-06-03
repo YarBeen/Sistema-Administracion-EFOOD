@@ -51,7 +51,6 @@ namespace SistemaEFood.Areas.Admin.Controllers
             }
             else
             {
-                Console.WriteLine("Upsert 1-> Numeeeeero: " + id); // relacion
                 productoPrecioVM.productoPrecio.Producto = await _unidadTrabajo.Producto.Obtener(id.GetValueOrDefault());
                 if (productoPrecioVM.productoPrecio == null)
                 {
@@ -68,7 +67,6 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductoPrecioVM productoPrecioVM, int id)
         {
-            Console.WriteLine("Upsert 2-> Numeeeeero: " + id);
             if (ModelState.IsValid)
             {
                 if (productoPrecioVM.productoPrecio.Id == 0)

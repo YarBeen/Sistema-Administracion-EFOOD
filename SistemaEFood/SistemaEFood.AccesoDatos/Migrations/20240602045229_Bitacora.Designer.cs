@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEFood.AccesoDatos.Data;
 
@@ -11,9 +12,11 @@ using SistemaEFood.AccesoDatos.Data;
 namespace SistemaEFood.AccesoDatos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602045229_Bitacora")]
+    partial class Bitacora
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,27 +290,6 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.ToTable("BitacoraError");
                 });
 
-            modelBuilder.Entity("SistemaEFood.Modelos.CarroCompra", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("CarroCompra");
-                });
-
             modelBuilder.Entity("SistemaEFood.Modelos.LineaComida", b =>
                 {
                     b.Property<int>("Id")
@@ -324,76 +306,6 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LineasComida");
-                });
-
-            modelBuilder.Entity("SistemaEFood.Modelos.Orden", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApellidosCliente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CodigoTiqueteDeDescuento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Direccion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EstadoOrden")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaOrden")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NombresCliente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroEnvio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalOrden")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ordenes");
-                });
-
-            modelBuilder.Entity("SistemaEFood.Modelos.OrdenDetalle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrdenId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Precio")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrdenId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("OrdenDetalle");
                 });
 
             modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorDePago", b =>
@@ -654,36 +566,6 @@ namespace SistemaEFood.AccesoDatos.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SistemaEFood.Modelos.CarroCompra", b =>
-                {
-                    b.HasOne("SistemaEFood.Modelos.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("SistemaEFood.Modelos.OrdenDetalle", b =>
-                {
-                    b.HasOne("SistemaEFood.Modelos.Orden", "Orden")
-                        .WithMany()
-                        .HasForeignKey("OrdenId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("SistemaEFood.Modelos.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Orden");
-
-                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorTarjeta", b =>

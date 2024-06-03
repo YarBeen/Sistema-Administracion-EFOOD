@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
@@ -11,38 +10,38 @@ using System.Threading.Tasks;
 
 namespace SistemaEFood.AccesoDatos.Repositorio
 {
-    public class BitacoraErrorRepositorio : Repositorio<BitacoraError>, IBitacoraErrorRepositorio
+    public class BitacoraRepositorio : Repositorio<Bitacora>, IBitacoraRepositorio
     {
         private readonly ApplicationDbContext _db;
 
-        public BitacoraErrorRepositorio(ApplicationDbContext db) : base(db)
+        public BitacoraRepositorio(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
-        public async Task RegistrarError(string mensaje, int numeroError)
+        public async Task RegistrarAccion(string nombreUsuario, string mensaje)
         {
-            var error = new BitacoraError
+            var accion = new Bitacora
             {
                 Fecha = DateTime.Now,
                 Hora = DateTime.Now.ToString("HH:mm:ss"),
                 Mensaje = mensaje,
-                NumeroError = numeroError
+                nombreUsuario = nombreUsuario
             };
-            _db.BitacoraError.Add(error);
+            _db.Bitacora.Add(accion);
             await _db.SaveChangesAsync();
         }
        
-        public async Task<IEnumerable<BitacoraError>> ObtenerPorFecha(DateTime fecha)
+        public async Task<IEnumerable<Bitacora>> ObtenerPorFecha(DateTime fecha)
         {
-            return await _db.BitacoraError.Where(x => x.Fecha.Date == fecha.Date).ToListAsync();
+            return await _db.Bitacora.Where(x => x.Fecha.Date == fecha.Date).ToListAsync();
         }
-
-        public async Task<IEnumerable<BitacoraError>> ObtenerErroresEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        public async Task<IEnumerable<Bitacora>> ObtenerEntreFechas(DateTime fechaInicio, DateTime fechaFin)
         {
-            var errores = await _db.BitacoraError
+            var datos = await _db.Bitacora
                                         .Where(be => be.Fecha >= fechaInicio && be.Fecha <= fechaFin)
                                         .ToListAsync();
-            return errores;
+            return datos;
         }
+
     }
 }

@@ -67,6 +67,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductoPrecioVM productoPrecioVM, int id)
         {
+
             if (ModelState.IsValid)
             {
                 if (productoPrecioVM.productoPrecio.Id == 0)
@@ -76,11 +77,12 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     if(existePrecio != null) 
                     {
                         TempData[DS.Error] = "precio ya existente";
-                        await _unidadTrabajo.BitacoraError.RegistrarError("Precio ya existente", 400);
+                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intent[o ingresar un precio ya existente", 400);
                     }
                     else 
                     {
                         await _unidadTrabajo.ProductoPrecio.Agregar(productoPrecioVM.productoPrecio);
+
                         TempData[DS.Exitosa] = "Precio creado exitosamente";
                     }
                     

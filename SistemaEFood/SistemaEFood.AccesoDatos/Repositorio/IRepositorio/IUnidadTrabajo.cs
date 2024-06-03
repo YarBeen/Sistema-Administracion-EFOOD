@@ -28,6 +28,9 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         IOrdenRepositorio Orden { get; }
 
         IOrdenDetalleRepositorio OrdenDetalle { get; }
+
+        IBitacoraRepositorio Bitacora { get; }
+
         Task Guardar();
     }
 }

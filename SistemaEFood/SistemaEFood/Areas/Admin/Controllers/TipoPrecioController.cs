@@ -43,17 +43,20 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(TipoPrecio tipoPrecio)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 if (tipoPrecio.Id == 0)
                 {
                     await _unidadTrabajo.TipoPrecio.Agregar(tipoPrecio);
                     TempData[DS.Exitosa] = "Tipo de Precio creada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se creó el tipo de precio " + tipoPrecio.Nombre + " de forma exitosa");
                 }
                 else
                 {
                     _unidadTrabajo.TipoPrecio.Actualizar(tipoPrecio);
                     TempData[DS.Exitosa] = "Tipo de Precio actualizado exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se actualizó el tipo de precio " + tipoPrecio.Nombre + " de forma exitosa");
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
@@ -77,6 +80,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var tipoPrecioDb = await _unidadTrabajo.TipoPrecio.Obtener(id);
             if (tipoPrecioDb == null)
             {
@@ -87,6 +91,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             _unidadTrabajo.TipoPrecio.Remover(tipoPrecioDb);
             await _unidadTrabajo.Guardar();
+            await _unidadTrabajo.BitacoraError.RegistrarError("Se creó el tipo de precio " + tipoPrecioDb.Nombre + " de forma exitosa", 300);
             return Json(new { success = true, message = "Tipo de precio borrado exitosamente" });
         }
 

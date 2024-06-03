@@ -74,6 +74,7 @@
                                     {
                                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">     Mantenimiento </a>
                                     }
+
                                     <ul class="dropdown-menu">
                                         @if (User.IsInRole(DS.Role_Admin))
                                         {
@@ -84,7 +85,6 @@
                                         <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="LineaComida" asp-action="Index">Lineas de comidas</a></li>
                                         <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Producto" asp-action="Index">Productos</a></li>
                                         <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="TipoPrecio" asp-action="Index">Tipos de Precio</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Bitacora Error</a></li>
                                     </ul>
                                 </li>
                             }
@@ -97,8 +97,8 @@
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item-box"> <a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Pedidos</a></li>
                                         <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Producto" asp-action="Consultar">Productos</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Marca" asp-action="Index">Bitácora</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Errores</a></li>
+                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Bitacora" asp-action="Index">Bitácora</a></li>
+                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Bitacora Error</a></li>
                                     </ul>
                                 </li>
                             }

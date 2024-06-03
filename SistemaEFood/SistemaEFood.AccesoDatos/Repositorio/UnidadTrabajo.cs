@@ -36,6 +36,9 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
         public IOrdenDetalleRepositorio OrdenDetalle { get; }
 
+
+        public IBitacoraRepositorio Bitacora {  get; private set; }
+
         public UnidadTrabajo(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
@@ -52,6 +55,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             CarroCompra = new CarroCompraRepositorio(db);
             Orden = new OrdenRepositorio(db);
             OrdenDetalle = new OrdenDetalleRepositorio(_db);
+            Bitacora = new BitacoraRepositorio(db);
         }
         public void Dispose()
         {

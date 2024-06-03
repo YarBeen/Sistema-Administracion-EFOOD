@@ -1,18 +1,32 @@
 ﻿let datatable;
 
 $(document).ready(function () {
+    $('#btnBuscar').on('click', function () {
+        var fechaInicio = $('#fechaInicio').val();
+        var fechaFin = $('#fechaFin').val();
+
+        if (fechaInicio && fechaFin) {
+            loadDataTable(fechaInicio, fechaFin);
+        } else {
+            alert('Por favor, ingrese ambas fechas.');
+        }
+    });
+
     loadDataTable();
 });
 
+function loadDataTable(fechaInicio = null, fechaFin = null) {
+    if (datatable) {
+        datatable.destroy();
+    }
 
-function loadDataTable() {
     datatable = $('#tblDatos').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ Registros Por Pagina",
             "zeroRecords": "Ningun Registro",
-            "info": "Mostrar page _PAGE_ de _PAGES_",
+            "info": "Mostrar página _PAGE_ de _PAGES_",
             "infoEmpty": "no hay registros",
-            "infoFiltered": "(filtered from _MAX_ total registros)",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
             "search": "Buscar",
             "paginate": {
                 "first": "Primero",
@@ -22,30 +36,37 @@ function loadDataTable() {
             }
         },
         "ajax": {
-            "url": "/Admin/BitacoraError/ObtenerPorFecha"
+            "url": "/Admin/BitacoraError/ConsultarConFiltro",
+            "data": {
+                "fechainicial": fechaInicio,
+                "fechafinal": fechaFin
+            }
         },
         "columns": [
-            { "data": "id", "width": "20%"},
+            { "data": "id", "width": "20%" },
             {
                 "data": "fecha", "width": "40%",
                 "render": function (data) {
                     var fecha = new Date(data);
                     var opciones = { year: 'numeric', month: 'short', day: 'numeric' };
                     return fecha.toLocaleDateString('es-ES', opciones);
-                } 
+                }
             },
             { "data": "hora", "width": "20%" },
             { "data": "numeroError", "width": "20%" },
-            { "data": "mensaje", "width": "20%" },
+            { "data": "mensaje", "width": "20%" }
         ]
-    })
+    });
 }
-
-
+function clearDataTable() {
+    $('#fechaInicio').val('');
+    $('#fechaFin').val('');
+    loadDataTable(); 
+};
 function Delete(url) {
     swal({
-        title: "Esta seguro de Eliminar el producto?",
-        text: "Este registro no se podrá recuper",
+        title: "¿Está seguro de eliminar el registro?",
+        text: "Este registro no se podrá recuperar",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -58,13 +79,11 @@ function Delete(url) {
                     if (data.success) {
                         toastr.success(data.message);
                         datatable.ajax.reload();
-                    }
-                    else {
+                    } else {
                         toastr.error(data.message);
                     }
                 }
             })
         }
     })
-
 }

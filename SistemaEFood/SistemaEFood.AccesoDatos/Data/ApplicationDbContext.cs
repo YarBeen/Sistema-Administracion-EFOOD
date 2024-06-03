@@ -35,6 +35,9 @@ namespace SistemaEFood.AccesoDatos.Data
 
         public DbSet<OrdenDetalle> OrdenDetalle { get; set; }
 
+        public DbSet<Bitacora> Bitacora { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -5,13 +5,14 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h2 class="text-primary">Bitacora de error</h2>
+        <h2 class="text-primary">Bitacora</h2>
     </div>
 </div>
 
 <br />
 
 <div class="p-4 border rounded bg-light">
+
     <div class="row mb-3">
         <div class="col-lg-3">
             <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
@@ -25,7 +26,7 @@
             <button id="btnBuscar" class="btn btn-primary me-2">
                 <i class="bi bi-search"></i> Filtrar
             </button>
-            <button type="button" class="btn btn-secondary" onclick="clearDataTable()">
+            <button type="button" class="btn btn-secondary" id="btnLimpiarFiltro">
                 <i class="bi bi-arrow-counterclockwise"></i> Limpiar Filtro
             </button>
         </div>
@@ -37,14 +38,11 @@
                 <th>Id</th>
                 <th>Fecha</th>
                 <th>Hora</th>
-                <th>Numero de Error</th>
+                <th>Nombre de usuario</th>
                 <th>Mensaje</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-       
-        </tbody>
     </table>
     <div class="row">
         <div class="col-lg-6">
@@ -56,5 +54,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/bitacoraerror.js"></script>
+    <script src="~/js/bitacora.js"></script>
 }

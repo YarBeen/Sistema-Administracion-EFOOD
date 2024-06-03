@@ -5,18 +5,17 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
-using SistemaEFood.AccesoDatos.Migrations;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = DS.Role_Admin + "," + DS.Role_Mantenimiento)]
-    public class BitacoraErrorController : Controller
+    public class BitacoraController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
         private readonly IWebHostEnvironment _webHostEnviroment;
 
-        public BitacoraErrorController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment)
+        public BitacoraController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment)
         {
             _unidadTrabajo = unidadTrabajo;
             _webHostEnviroment = webHostEnviroment;
@@ -26,11 +25,10 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return View();
         }
         #region API
-
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()
         {
-            var todos = await _unidadTrabajo.BitacoraError.ObtenerTodos();
+            var todos = await _unidadTrabajo.Bitacora.ObtenerTodos();
             return Json(new { data = todos });
         }
         [HttpGet]
@@ -41,24 +39,24 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 var todos = await ObtenerTodos();
                 return todos;
             }
-            var registrosBitacoraError = await _unidadTrabajo.BitacoraError.ObtenerPorFecha(fecha);
-            return Json(new { data = registrosBitacoraError });
+            var registrosBitacora = await _unidadTrabajo.Bitacora.ObtenerPorFecha(fecha);
+            return Json(new { data = registrosBitacora });
        
         }
         [HttpGet]
         public async Task<IActionResult> ConsultarConFiltro(DateTime fechainicial, DateTime fechafinal)
 
         {
-            if(fechainicial != DateTime.MinValue && fechafinal != DateTime.MinValue) {
-                var registrosBitacoraError = await _unidadTrabajo.BitacoraError.ObtenerErroresEntreFechas(fechainicial, fechafinal);
-                return Json(new { data = registrosBitacoraError });
+            if (fechainicial != DateTime.MinValue && fechafinal != DateTime.MinValue)
+            {
+                var registrosBitacora = await _unidadTrabajo.Bitacora.ObtenerEntreFechas(fechainicial, fechafinal);
+                return Json(new { data = registrosBitacora });
 
             }
 
-            var Todos = await _unidadTrabajo.BitacoraError.ObtenerTodos();
+            var Todos = await _unidadTrabajo.Bitacora.ObtenerTodos();
             return Json(new { data = Todos });
         }
-
         #endregion
 
     }

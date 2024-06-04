@@ -17,7 +17,8 @@ namespace SistemaEFood.AccesoDatos.Configuracion
             builder.Property(X => X.Id).IsRequired();
             builder.Property(X => X.ProductoId).IsRequired();
             builder.Property(X => X.Cantidad).IsRequired();
-
+            builder.Property(X => X.Precio).IsRequired();
+            builder.Property(X => X.TipoDePrecio).IsRequired(); 
 
          
             builder.HasOne(x => x.Producto).WithMany()

@@ -1,0 +1,108 @@
+﻿@model SistemaEFood.Modelos.ViewModels.CarroCompraVM
+<form method="post">
+    <br />
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Detalles de la Orden
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-success">Detalles de Envío:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Nombre</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Orden.NombresCliente" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Apellido</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Orden.ApellidosCliente" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Teléfono</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Orden.Telefono" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Dirección</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Orden.Direccion" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Código de Descuento</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Orden.CodigoTiqueteDeDescuento" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-success">Productos:</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    @foreach (var item in Model.CarroCompraLista)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="my-0">@item.Producto.Nombre</h6>
+                                                <small class="text-muted">Cantidad: @item.Cantidad</small>
+                                            </div>
+                                            <span class="text-muted">₡@String.Format("{0:#,##0.00}", item.Precio * item.Cantidad)</span>
+                                        </li>
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <strong class="text-success">Total (CRC)</strong>
+                                        <strong class="text-success">₡@String.Format("{0:#,##0.00}", Model.Orden.TotalOrden)</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-md-8 pt-2">
+                            <p class="text-success">Fecha del pedido: @Model.Orden.FechaOrden.ToShortDateString()</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button type="submit" value="Realizar Pedido" class="btn btn-success form-control">Realizar Pedido</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 p-0">
+        <h3 class="text-success text-center"><i class="bi bi-cart-check-fill"></i></h3>
+    </div>
+    <div class="col-12 p-1">
+        <div class="text-center border-0">
+            <a asp-area="Inventario" asp-controller="Carro" asp-action="Index" class="btn btn-outline-success">Regresar al Carro</a>
+        </div>
+    </div>
+</form>

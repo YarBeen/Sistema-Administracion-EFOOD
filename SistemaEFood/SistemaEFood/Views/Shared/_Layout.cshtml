@@ -31,6 +31,14 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                             <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+                            @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Seguridad) || User.IsInRole(DS.Role_Consulta) || User.IsInRole(DS.Role_Mantenimiento) )
+                            {
+                                <li class="nav-item">
+                                    <a class=" nav-link sodo-font-bold" asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index">Home Admin</a>
+                                </li>
+
+
+                            }
                             <li class="nav-item">
                                 <a class=" nav-link sodo-font-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>

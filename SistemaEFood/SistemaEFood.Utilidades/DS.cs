@@ -8,6 +8,7 @@ namespace SistemaEFood.Utilidades
 {
     public static class DS
     {
+        public const string SesionCarroCompras = "Sesion Carro Compras";
 
         public const string Exitosa = "Exitosa";
         public const string Error = "Error";

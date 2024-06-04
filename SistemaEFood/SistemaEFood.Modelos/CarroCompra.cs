@@ -22,8 +22,13 @@ namespace SistemaEFood.Modelos
         [Required]
         public int Cantidad { get; set; }
 
-        [NotMapped]
-        public double Precio { get; set; } 
+        [Required]
+        public double Precio { get; set; }
+
+        [Required]
+        public string TipoDePrecio { get; set; }
+
+
 
     }
 }

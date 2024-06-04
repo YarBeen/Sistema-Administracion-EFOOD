@@ -15,5 +15,9 @@ namespace SistemaEFood.Modelos.ViewModels
 
         public List<(string TipoPrecioNombre, float Monto)> ListaPrecios { get; set; } 
 
+        public IEnumerable<CarroCompra> CarroCompraLista { get; set; }
+
+        public Orden Orden { get; set; }
+
     }
 }

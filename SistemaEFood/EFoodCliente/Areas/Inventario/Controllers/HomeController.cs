@@ -22,13 +22,18 @@ namespace SistemaEFood.Areas.Inventario.Controllers
 
         public async Task<IActionResult> Index()
         {
+            string usuarioId;
 
-            if (!Request.Cookies.TryGetValue("UsuarioId", out string usuarioId))
+            if (!Request.Cookies.TryGetValue("UsuarioId", out usuarioId))
             {
                 usuarioId = Guid.NewGuid().ToString();
 
                 Response.Cookies.Append("UsuarioId", usuarioId);
             }
+            var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
+            var numeroProductos = carroLista.Count();
+            HttpContext.Session.SetInt32(DS.SesionCarroCompras, numeroProductos);
+
 
             ProductoVM productoVM = new ProductoVM()
             {
@@ -36,8 +41,10 @@ namespace SistemaEFood.Areas.Inventario.Controllers
                 LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
                 ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos()
             };
+
             return View(productoVM);
         }
+
 
         public async Task<IActionResult> Detalle(int id)
         {
@@ -66,18 +73,18 @@ namespace SistemaEFood.Areas.Inventario.Controllers
 
                 CarroCompra carroBD = await _unidadTrabajo.CarroCompra.ObtenerPrimero(c => c.Cliente == usuarioId &&
                                                                                           c.ProductoId == carroCompraVM.CarroCompra.ProductoId);
-                if (carroBD == null)
-                {
-                    await _unidadTrabajo.CarroCompra.Agregar(carroCompraVM.CarroCompra);
-                }
-                else
-                {
-                    carroBD.Cantidad += carroCompraVM.CarroCompra.Cantidad;
-                    _unidadTrabajo.CarroCompra.Actualizar(carroBD);
-                }
+             
+                await _unidadTrabajo.CarroCompra.Agregar(carroCompraVM.CarroCompra);
+                
+              
                 await _unidadTrabajo.Guardar();
                 TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
-                TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
+
+                var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
+                var numeroProductos = carroLista.Count();
+                HttpContext.Session.SetInt32(DS.SesionCarroCompras, numeroProductos);
+
+                return RedirectToAction("Index");
 
             }
 

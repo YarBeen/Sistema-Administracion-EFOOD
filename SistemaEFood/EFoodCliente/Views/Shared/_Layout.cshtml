@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using SistemaEFood.Utilidades
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +30,23 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            @if (httpContextAccessor.HttpContext.Session.GetInt32(DS.SesionCarroCompras) != null)
+                            {
+                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Index" class="nav-link">
+                                    @{
+                                        var numeroProductos = httpContextAccessor.HttpContext.Session.GetInt32(DS.SesionCarroCompras);
+                                    }
+                                    <i class="bi bi-tiktok text-primary">&nbsp; (@numeroProductos) </i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-tiktok text-primary">&nbsp; (0) </i>
+                                </a>
+                            }
                         </li>
                     </ul>
                 </div>

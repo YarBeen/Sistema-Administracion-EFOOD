@@ -20,9 +20,21 @@ namespace SistemaEFood.Areas.Inventario.Controllers
             _unidadTrabajo = unidadTrabajo;
         }
 
-        public async Task<IActionResult> Index(int pageNumber = 1)
+        public async Task<IActionResult> Index(int pageNumber = 1, string busqueda="", string busquedaActual="", int? idLineaComida = null)
         {
-            if(pageNumber < 1) { pageNumber = 1; }
+
+            if (!String.IsNullOrEmpty(busqueda))
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                busqueda = busquedaActual;
+            }
+            ViewData["BusquedaActual"] = busqueda;
+            ViewData["LineaComidaActual"] = idLineaComida;
+
+            if (pageNumber < 1) { pageNumber = 1; }
             Parametros parametros = new Parametros()
             {
                 PageNumber = pageNumber,
@@ -30,6 +42,19 @@ namespace SistemaEFood.Areas.Inventario.Controllers
             };
 
             var resultado = _unidadTrabajo.Producto.ObtenerTodosPaginado(parametros);
+
+            if(!String.IsNullOrEmpty(busqueda))
+            {
+                resultado = _unidadTrabajo.Producto.ObtenerTodosPaginado(parametros, p => p.Contenido.Contains(busqueda));
+            }
+
+            if (idLineaComida.HasValue)
+            {
+                resultado = _unidadTrabajo.Producto.ObtenerTodosPaginado(parametros, 
+                    p => p.LineaComidaId == idLineaComida.Value && (string.IsNullOrEmpty(busqueda)
+                    || p.Contenido.Contains(busqueda)));
+            }
+            
             ViewData["TotalPaginas"] = resultado.MetaData.TotalPages;
             ViewData["TotalRegistros"] = resultado.MetaData.TotalCount;
             ViewData["PageSize"] = resultado.MetaData.PageSize;
@@ -41,6 +66,16 @@ namespace SistemaEFood.Areas.Inventario.Controllers
             if (resultado.MetaData.TotalPages <= pageNumber) { ViewData["Siguiente"] = "disabled"; }
 
 
+            var productoBusquedaVM = new ProductoBusquedaVM()
+            {
+                Productos = resultado,
+                LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
+                Busqueda = busqueda,
+                LineaComidaId = idLineaComida,
+                PageNumber = pageNumber,
+                TotalPages = resultado.MetaData.TotalPages,
+                PageSize = resultado.MetaData.PageSize
+            };
 
             ProductoVM productoVM = new ProductoVM()
             {
@@ -49,7 +84,7 @@ namespace SistemaEFood.Areas.Inventario.Controllers
                 ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos()
             };
             //return View(productoVM);
-            return View(resultado);
+            return View(productoBusquedaVM);
         }
 
         public async Task<IActionResult> Detalle(int id)

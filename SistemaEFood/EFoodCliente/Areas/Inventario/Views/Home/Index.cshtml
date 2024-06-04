@@ -1,4 +1,5 @@
-﻿@model SistemaEFood.Modelos.ViewModels.ProductoVM
+﻿<!--model SistemaEFood.Modelos.ViewModels.ProductoVM -->
+@model SistemaEFood.Modelos.ViewModels.ProductoBusquedaVM
 @using SistemaEFood.Utilidades;
 @{
     ViewData["Title"] = "Home Page";
@@ -17,19 +18,39 @@
 
 <section>
     <div class="container my-2">
-        <div class="col-lg-6 col-md-6 col-sm-6 d-flex">
-            <div class="form-group">
-                <select asp-for="Producto.LineaComidaId" id="lineaComidaSelect" name="idLineaComida" asp-items="@Model.LineaComidaLista" class="form-select">
-                    <option disabled selected> -- Seleccione una línea de comida --</option>
-                </select>
-                <button type="button" class="btn btn-primary" onclick="refreshDataTable()">
-                    <i class="bi bi-search"></i> Buscar Productos
-                </button>
+
+        <form asp-action="Index" method="get">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 d-flex">
+                    <div class="input-group mb-3">
+                        <select name="idLineaComida" class="form-select">
+                            <option value=""> -- Seleccione una línea de comida --</option>
+                            @foreach (var linea in Model.LineaComidaLista)
+                            {
+                                <option value="@linea.Value">@linea.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 d-flex">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscar ..." aria-label="Buscar" aria-describedby="button-addon2" 
+                        name="busqueda" value="@ViewData["BusquedaActual"]"
+                        />
+                        <button type="submit" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="submit" class="btn btn-outline-secondary" onclick="limpiarFiltros()">
+                            <i class="bi bi-arrow-counterclockwise"></i> Limpiar Filtro
+                        </button>
+                    </div>
+                </div>
+                
             </div>
-        </div>
+        </form>
 
         <div class="row">
-            @foreach (var producto in Model.ProductosLista)
+            @foreach (var producto in Model.Productos)
             {
                 <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
                     <div class="card w-100 my-2">
@@ -48,6 +69,29 @@
 
             }
         </div>
+        <a asp-action="Index" asp-route-pageNumber="1" class="btn btn-outline-primary" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            <i class="bi bi-skip-start-fill"></i>
+        </a>
+        <a asp-action="Index" asp-route-pageNumber="@((int)Model.PageNumber - 1)" class="btn btn-outline-primary @(Model.PageNumber > 1 ? "" : "disabled")" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            Anterior
+        </a>
+        <span>Página @Model.PageNumber de @Model.TotalPages</span>
+        <a asp-action="Index" asp-route-pageNumber="@((int)Model.PageNumber + 1)" class="btn btn-outline-primary @(Model.PageNumber < Model.TotalPages ? "" : "disabled")" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            Siguiente
+        </a>
+        <a asp-action="Index" asp-route-pageNumber="@Model.TotalPages" class="btn btn-outline-primary" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            <i class="bi bi-skip-end-fill"></i>
+        </a>
 
     </div>
 </section>
+
+
+@section Scripts {
+    <script>
+        function limpiarFiltros() {
+            document.querySelector('input[name="busqueda"]').value = '';
+            document.querySelector('select[name="idLineaComida"]').selectedIndex = 0;
+        }
+    </script>
+}

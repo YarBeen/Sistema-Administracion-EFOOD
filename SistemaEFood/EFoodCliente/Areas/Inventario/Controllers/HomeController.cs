@@ -135,12 +135,12 @@ namespace SistemaEFood.Areas.Inventario.Controllers
                 
               
                 await _unidadTrabajo.Guardar();
-                TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
+                
 
                 var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
                 var numeroProductos = carroLista.Count();
                 HttpContext.Session.SetInt32(DS.SesionCarroCompras, numeroProductos);
-
+                TempData[DS.Exitosa] = "Producto agregado al Carro de Compras";
                 return RedirectToAction("Index");
 
             }

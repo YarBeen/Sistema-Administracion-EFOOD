@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header bg-dark text-light ml-0 row ">
                         <div class="col-6">
-                            <i class="bi bi-cart-check-fill"></i> &nbsp;
+                            <i class="bi bi-cart2"></i> &nbsp;
                             Carro de Compras
                         </div>
                     </div>
@@ -19,7 +19,7 @@
                         {
                             <div class="row">
                                 <div class="d-none d-lg-block col-lg-1 text-center py-2">
-                                    <img src="@DS.ImagenRuta@item.Producto.ImagenUrl" class="rounded" width="100" />
+                                    <img src="@item.Producto.ImagenUrl" class="rounded" width="100" />
                                 </div>
                                 <div class="col-12 text-sm-center col-lg-4 text-lg-left">
                                     <h5><strong>@item.Producto.Nombre</strong></h5>
@@ -80,7 +80,7 @@
         </div>
     }
     <div class="col-12 p-0">
-        <h3 class="text-primary text-center"><i class="bi bi-cart-check-fill"></i></h3>
+        <h3 class="text-primary text-center"><i class="bi bi-cart2"></i></h3>
     </div>
     <div class="col-12 p-2">
         @if (Model.CarroCompraLista.Count() == 0)

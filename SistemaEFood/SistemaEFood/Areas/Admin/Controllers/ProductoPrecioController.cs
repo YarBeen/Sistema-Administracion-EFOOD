@@ -100,7 +100,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     if(existePrecio != null) 
                     {
                         TempData[DS.Error] = "precio ya existente";
-                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intent[o ingresar un precio ya existente", 400);
+                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intento ingresar un precio ya existente", 400);
                     }
                     else 
                     {

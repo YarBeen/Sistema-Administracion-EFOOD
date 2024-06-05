@@ -73,11 +73,12 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 if (productoPrecioVM.productoPrecio.Id == 0)
                 {
                     productoPrecioVM.productoPrecio.Idproducto = id;
-                    ProductoPrecio existePrecio = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Idproducto == productoPrecioVM.productoPrecio.Idproducto && X.Idprecio == productoPrecioVM.productoPrecio.Idprecio);
+                    ProductoPrecio existePrecio = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Idproducto == 
+                    productoPrecioVM.productoPrecio.Idproducto && X.Idprecio == productoPrecioVM.productoPrecio.Idprecio);
                     if(existePrecio != null) 
                     {
                         TempData[DS.Error] = "precio ya existente";
-                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intent[o ingresar un precio ya existente", 400);
+                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intento ingresar un precio ya existente", 400);
                     }
                     else 
                     {

@@ -57,7 +57,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 else
                 {
                     _unidadTrabajo.ProcesadorDePago.Actualizar(procesadorDePago);
-                    var mensaje = TempData[DS.Exitosa] = "Procesador de pago " + procesadorDePago.NombreOpcionDePago + " creada exitosamente con ID: " + procesadorDePago.Id.ToString();                        
+                    var mensaje = TempData[DS.Exitosa] = "Procesador de pago " + procesadorDePago.NombreOpcionDePago + " editado exitosamente con ID: " + procesadorDePago.Id.ToString();                        
                     await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 await _unidadTrabajo.Guardar();

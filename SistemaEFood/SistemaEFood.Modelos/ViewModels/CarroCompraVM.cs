@@ -17,6 +17,7 @@ namespace SistemaEFood.Modelos.ViewModels
 
         public IEnumerable<CarroCompra> CarroCompraLista { get; set; }
 
+        public IEnumerable<string> ListaPagosActivo { get; set; }
         public Orden Orden { get; set; }
 
     }

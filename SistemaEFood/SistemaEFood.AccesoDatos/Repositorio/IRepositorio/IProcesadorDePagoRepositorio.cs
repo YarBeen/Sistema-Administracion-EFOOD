@@ -14,5 +14,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
 
         public Task<IEnumerable<ProcesadorDePago>>ObtenerProcesadorCheques();
         public Task<IEnumerable<ProcesadorDePago>> ObtenerProcesadorTarjetas();
+        public Task<IEnumerable<string>> ObtenerTiposDePagoActivos();
+
     }
 }

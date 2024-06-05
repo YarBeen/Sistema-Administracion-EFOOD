@@ -38,13 +38,13 @@
                                     @{
                                         var numeroProductos = httpContextAccessor.HttpContext.Session.GetInt32(DS.SesionCarroCompras);
                                     }
-                                    <i class="bi bi-tiktok text-primary">&nbsp; (@numeroProductos) </i>
+                                    <i class="bi bi-cart2">&nbsp; (@numeroProductos) </i>
                                 </a>
                             }
                             else
                             {
                                 <a href="#" class="nav-link">
-                                    <i class="bi bi-tiktok text-primary">&nbsp; (0) </i>
+                                <i class="bi bi-cart2">&nbsp; (0) </i>
                                 </a>
                             }
                         </li>
@@ -55,6 +55,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_Notificaciones" />
             @RenderBody()
         </main>
     </div>

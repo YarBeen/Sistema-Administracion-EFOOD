@@ -91,7 +91,7 @@ namespace SistemaEFood.Areas.Inventario.Controllers
                     if (files.Count > 0) // Si se carga una nueva Imagen para el producto existente
                     {
                         string upload = webRootPath + DS.ImagenRuta;
-                        string fileName = Guid.NewGuid().ToString();
+                        string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ","_")}";
                         string extension = Path.GetExtension(files[0].FileName);
 
                         var anteriorFile = Path.Combine(upload, objProducto.ImagenUrl);

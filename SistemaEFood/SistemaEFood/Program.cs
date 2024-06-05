@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Utilidades;
+using System.Configuration;
+using SistemaEFood.Servicios.Configuraciones;
+using SistemaEFood.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +34,20 @@ builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
+
+//Config de azure
+// Bind Azure Blob Storage configuration from appsettings.json
+builder.Services.Configure<AzureBlobStorageConfiguration>(builder.Configuration.GetSection("AzureBlobStorage"));
+
+// Register the IStorageService with Azure Blob Storage configuration
+builder.Services.AddScoped<IStorageService, StorageService>
+(provider =>
+{
+    var azureBlobStorageConfiguration = provider.GetRequiredService<IOptions<AzureBlobStorageConfiguration>>().Value;
+    return new StorageService(azureBlobStorageConfiguration.ConnectionString);
+});
+
 var app = builder.Build(); 
 
 // Configure the HTTP request pipeline.

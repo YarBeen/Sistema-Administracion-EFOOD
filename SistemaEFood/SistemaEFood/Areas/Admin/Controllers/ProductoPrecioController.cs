@@ -98,7 +98,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 string returnUrl = Url.Action("Index", "ProductoPrecio", new { id = productoPrecioVM.productoPrecio.Idproducto });
                 return Redirect(returnUrl);
             }
-            var mensajeError= TempData[DS.Error] = "Error al grabar precio";
+            var mensajeError= "Error al grabar precio";
+            TempData[DS.Error] = mensajeError;
             await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 300);
             productoPrecioVM.ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id);
             return View(productoPrecioVM);

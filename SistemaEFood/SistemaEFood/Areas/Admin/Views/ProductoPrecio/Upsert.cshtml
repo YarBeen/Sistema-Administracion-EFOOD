@@ -31,18 +31,21 @@
                                 <input type="text" class="form-control" id="id" value="@Model.productoPrecio.Id" readonly/>
                             </div>
                         </div>
-                    }
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Tipo de precios</label>
-                            <select asp-for="productoPrecio.Idprecio" asp-items="@Model.ListaPrecios" class="form-select">
-                                <option disabled selected> -- Seleccione un precio --</option>
-                            </select>
-                            <span asp-validation-for="productoPrecio.Idprecio" class="text-danger"></span>
+                    } 
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Tipo de precios</label>
+                                <select asp-for="productoPrecio.Idprecio" asp-items="@Model.ListaPrecios" class="form-select">
+                                    <option disabled selected> -- Seleccione un precio --</option>
+                                </select>
+                                <span asp-validation-for="productoPrecio.Idprecio" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
+                        
+                    }
                     
-
                     <div class="row mb-2 mt-2">
                         <div class="form-group col-md-6">
                             <label>Monto</label>
@@ -50,7 +53,6 @@
                             <span asp-validation-for="productoPrecio.Monto" class="text-danger"></span>
                         </div>
                     </div>
-
                     <br />
 
                     <div class="d-grid gap-2 d-md-block" >

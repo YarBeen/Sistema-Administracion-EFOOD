@@ -5,6 +5,7 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
+using SistemaEFood.Servicios;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
@@ -16,12 +17,14 @@ namespace SistemaEFood.Areas.Admin.Controllers
        
         private readonly IUnidadTrabajo _unidadTrabajo;
         private readonly IWebHostEnvironment _webHostEnviroment;
+        private readonly IStorageService _storageService;
 
-        public ProductoController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment)
+        public ProductoController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment, IStorageService storageService)
         {
             
             _unidadTrabajo = unidadTrabajo;
             _webHostEnviroment = webHostEnviroment;
+            _storageService = storageService;
         }
         public IActionResult Index()
         {
@@ -77,18 +80,37 @@ namespace SistemaEFood.Areas.Admin.Controllers
             {
                 var files = HttpContext.Request.Form.Files;
                 string webRootPath = _webHostEnviroment.WebRootPath;
+                var filePath = "";
+                var containerName = "productos";
+                var folderName = "imagenes";
 
-                if(productoVM.Producto.Id == 0)
+                if (productoVM.Producto.Id == 0)
                 {
                     string upload = webRootPath + DS.ImagenRuta;
-                    string fileName = Guid.NewGuid().ToString();
-                    string extension = Path.GetExtension(files[0].FileName);
+                    string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ", "_")}";
 
-                    using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                    string extension = Path.GetExtension(files[0].FileName);
+                     
+                    fileName = Guid.NewGuid().ToString()+extension;
+                    Console.WriteLine(fileName);
+
+                    /* using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                     {
+                         files[0].CopyTo(fileStream);
+                     }*/
+                    using (var stream = files[0].OpenReadStream())
                     {
-                        files[0].CopyTo(fileStream);
+                        
+                        filePath = await _storageService.UploadImageAsync(stream, containerName, folderName, fileName);
                     }
-                    productoVM.Producto.ImagenUrl = fileName + extension;
+                    if (filePath=="")
+                    {
+                        var mensajeError = TempData[DS.Error] = "No se pudo guardar la imagen";
+                        await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensajeError.ToString());
+                        return View("Index");
+                    }
+
+                    productoVM.Producto.ImagenUrl = filePath;
                     await _unidadTrabajo.Producto.Agregar(productoVM.Producto);
                 }
                 else
@@ -96,7 +118,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     var objProducto = await _unidadTrabajo.Producto.ObtenerPrimero(p => p.Id == productoVM.Producto.Id, isTracking: false);
                     if (files.Count > 0) // Si se carga una nueva Imagen para el producto existente
                     {
-                        string upload = webRootPath + DS.ImagenRuta;
+                        /*string upload = webRootPath + DS.ImagenRuta;
                         string fileName = Guid.NewGuid().ToString();
                         string extension = Path.GetExtension(files[0].FileName);
 
@@ -104,13 +126,16 @@ namespace SistemaEFood.Areas.Admin.Controllers
                         if (System.IO.File.Exists(anteriorFile))
                         {
                             System.IO.File.Delete(anteriorFile);
-                        }
-                        using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                        }*/
+                        string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ", "_")}";
+                        string extension = Path.GetExtension(files[0].FileName);
+                        using (var stream = files[0].OpenReadStream())
                         {
-                            files[0].CopyTo(fileStream);
+                            
+                            filePath = await _storageService.UploadImageAsync(stream, containerName, folderName, fileName);
                         }
 
-                        productoVM.Producto.ImagenUrl = fileName + extension;
+                        productoVM.Producto.ImagenUrl = filePath;
                     }
                     else
                     {

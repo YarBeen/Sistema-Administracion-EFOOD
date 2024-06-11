@@ -92,12 +92,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     string extension = Path.GetExtension(files[0].FileName);
                      
                     fileName = Guid.NewGuid().ToString()+extension;
-                    Console.WriteLine(fileName);
 
-                    /* using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
-                     {
-                         files[0].CopyTo(fileStream);
-                     }*/
+                    
                     using (var stream = files[0].OpenReadStream())
                     {
                         
@@ -118,15 +114,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     var objProducto = await _unidadTrabajo.Producto.ObtenerPrimero(p => p.Id == productoVM.Producto.Id, isTracking: false);
                     if (files.Count > 0) // Si se carga una nueva Imagen para el producto existente
                     {
-                        /*string upload = webRootPath + DS.ImagenRuta;
-                        string fileName = Guid.NewGuid().ToString();
-                        string extension = Path.GetExtension(files[0].FileName);
-
-                        var anteriorFile = Path.Combine(upload, objProducto.ImagenUrl);
-                        if (System.IO.File.Exists(anteriorFile))
-                        {
-                            System.IO.File.Delete(anteriorFile);
-                        }*/
+                        
                         string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ", "_")}";
                         string extension = Path.GetExtension(files[0].FileName);
                         using (var stream = files[0].OpenReadStream())

@@ -2,14 +2,21 @@
 @using SistemaEFood.Utilidades
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var titulo = "Crear Nuevo Precio";
+    var titulo = "Crear Nuevo Precio" ;
 }
 
 <form method="post" enctype="multipart/form-data">
-    @if (Model.productoPrecio.Idproducto != 0)
+   
+    <input asp-for="ListaPrecios" hidden />
+    @if (Model.idRelacion != 0)
     {
-        titulo = "Editar precio";
-        <input asp-for="productoPrecio.Id" hidden/>
+        titulo = "Editar precio" ;
+      
+        <input asp-for="idRelacion" hidden/>
+        <input asp-for="tipoPrecioID" hidden />
+       
+       
+       
 
     }
 
@@ -22,42 +29,45 @@
         <div class="row">
             <div class="col-8">
                 <div class="container">
-
-                    @if(Model.productoPrecio.Idproducto != 0)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="id">ID Producto</label>
+                            <input type="text" class="form-control" id="id" value="@Model.idProducto" readonly />
+                            <input asp-for="@Model.idProducto" hidden />
+                        </div>
+                    </div>
+                    @if(Model.idRelacion!= 0)
+                    {
+                       
+                    } 
+                    else
                     {
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="id">Código de Precio</label>
-                                <input type="text" class="form-control" id="id" value="@Model.productoPrecio.Id" readonly/>
+                                <label>Tipo de precios</label>
+                                <select asp-for="tipoPrecioID" asp-items="@Model.ListaPrecios" class="form-select">
+                                    <option disabled selected> -- Seleccione un precio --</option>
+                                </select>
+                                <span asp-validation-for="tipoPrecioID" class="text-danger"></span>
                             </div>
                         </div>
+                        
                     }
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Tipo de precios</label>
-                            <select asp-for="productoPrecio.Idprecio" asp-items="@Model.ListaPrecios" class="form-select">
-                                <option disabled selected> -- Seleccione un precio --</option>
-                            </select>
-                            <span asp-validation-for="productoPrecio.Idprecio" class="text-danger"></span>
-                        </div>
-                    </div>
                     
-
                     <div class="row mb-2 mt-2">
                         <div class="form-group col-md-6">
                             <label>Monto</label>
-                            <input type="number" asp-for="productoPrecio.Monto" class="form-control" placeholder="Monto" id="monto" />
-                            <span asp-validation-for="productoPrecio.Monto" class="text-danger"></span>
+                            <input type="number" asp-for=" monto" class="form-control" placeholder="Monto" id="monto" />
+                            <span asp-validation-for="monto" class="text-danger"></span>
                         </div>
                     </div>
-
                     <br />
 
                     <div class="d-grid gap-2 d-md-block" >
-                        @if(Model.productoPrecio.Idproducto != 0)
+                        @if(Model.idRelacion != 0)
                         {
                             <div class="d-grid gap-2 d-md-block">
-                                <button type="submit" class="btn btn-primary" onfocus="false" asp-route-id="@Model">
+                                <button type="submit" class="btn btn-primary" onfocus="false" asp-route-id="@Model" asp-action="Upsert">
                                     <i class="bi bi-pencil-square"></i> Guardar Cambios
                                 </button>
                                 <a asp-action="Index" class="btn btn-success" id="regresarBtn">
@@ -67,7 +77,7 @@
                         }
                         else
                         {
-                            <button type="submit" onclick="return validarImagen()" class="btn btn-primary"><i class="bi bi-plus-square-fill"></i> Crear</button>
+                            <button type="submit"  class="btn btn-primary"><i class="bi bi-plus-square-fill"></i> Crear</button>
                             <a asp-action="Index" class="btn btn-success" id="regresarBtn"><i class="bi bi-arrow-return-left"></i> Regresar</a>
                         }
                     </div>

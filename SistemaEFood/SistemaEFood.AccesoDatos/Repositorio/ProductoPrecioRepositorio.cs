@@ -32,7 +32,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
         public IEnumerable<SelectListItem> ObtenerTipoPrecios(string obj, int? idProducto)
         {
-            if (obj == "TipoPrecio")
+            if (obj.Equals("TipoPrecio"))
             {
                 var tipoPrecios = _db.TiposPrecio
                                     .Where(t => !_db.ProductoPrecio

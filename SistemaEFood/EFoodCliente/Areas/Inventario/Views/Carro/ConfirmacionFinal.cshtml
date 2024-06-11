@@ -1,0 +1,59 @@
+﻿@model SistemaEFood.Modelos.ViewModels.CarroCompraVM
+
+@{
+    ViewData["Title"] = "Confirmación del Pedido";
+}
+
+<h2>Confirmación del Pedido</h2>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Confirmación del Pedido</h4>
+        </div>
+        <div class="card-body">
+            <h5>@Model.Orden.NombresCliente @Model.Orden.ApellidosCliente,</h5>
+            <p>A continuación el detalle de la información de envío y forma de pago</p>
+            <hr />
+
+            <div>
+                <h5>Información de Envío</h5>
+                <p><strong>Dirección:</strong> @Model.Orden.Direccion</p>
+                <p><strong>Teléfono:</strong> @Model.Orden.Telefono</p>
+            </div>
+            <hr />
+
+            <div>
+                <h5>Forma de Pago</h5>
+                <p><strong>Medio:</strong> @Model.OrdenDetalle.Medio</p>
+                <p><strong>Tipo:</strong> @Model.OrdenDetalle.Tipo</p>
+                <p><strong>Número:</strong> @Model.OrdenDetalle.OrdenId</p>
+                <p><strong>Cheque Número:</strong> @(Model.OrdenDetalle.ChequeNumero != 0 ? Model.OrdenDetalle.ChequeNumero.ToString() : "No aplica")</p>
+                <p><strong>Cuenta Cheque:</strong> @(Model.OrdenDetalle.ChequeCuenta != 0 ? Model.OrdenDetalle.ChequeCuenta.ToString() : "No aplica")</p>
+            </div>
+            <hr />
+
+            <div>
+                <h5>Total: ₡@Model.Orden.TotalOrden.ToString("F2")</h5>
+                <h5>Descuento: ₡@(Model.Orden.TotalOrden * Model.Orden.Descuento / 100).ToString("F2")</h5>
+                <h5>Total a Pagar: ₡@(Model.Orden.TotalOrden - (Model.Orden.TotalOrden * Model.Orden.Descuento / 100)).ToString("F2")</h5>
+            </div>
+            <hr />
+
+            @using (Html.BeginForm("GuardarPedido", "Carro", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.OrdenDetalle.OrdenId)
+                @Html.HiddenFor(model => model.OrdenDetalle.Medio)
+                @Html.HiddenFor(model => model.OrdenDetalle.Tipo)
+                @Html.HiddenFor(model => model.OrdenDetalle.ChequeNumero)
+                @Html.HiddenFor(model => model.OrdenDetalle.ChequeCuenta)
+                @Html.HiddenFor(model => model.OrdenDetalle.Estado)
+                @Html.HiddenFor(model => model.OrdenDetalle.Monto)
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Guardar Pedido</button>
+                    <button type="button" class="btn btn-danger">Cancelar Pedido</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

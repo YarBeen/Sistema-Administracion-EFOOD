@@ -12,6 +12,8 @@ namespace SistemaEFood.Modelos
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public string Cliente {  get; set; }
 
         public DateTime FechaOrden { get; set; }
 
@@ -33,5 +35,8 @@ namespace SistemaEFood.Modelos
 
         public string CodigoTiqueteDeDescuento { get; set; }
 
+        [NotMapped]
+        public int Descuento { get; set; }
+    
     }
 }

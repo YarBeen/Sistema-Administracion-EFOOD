@@ -3,6 +3,8 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFoodCliente.Areas.Inventario.Controllers
 {
@@ -23,7 +25,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             string usuarioId = Request.Cookies["UsuarioId"];
 
             carroCompraVM = new CarroCompraVM();
-            carroCompraVM.Orden = new SistemaEFood.Modelos.Orden();
+            carroCompraVM.Orden = new Orden();
             carroCompraVM.CarroCompraLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(u => u.Cliente == usuarioId, incluirPropiedades: "Producto");
 
             carroCompraVM.Orden.TotalOrden = 0;
@@ -116,18 +118,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             await _unidadTrabajo.Orden.Agregar(carroCompraVM.Orden);
             await _unidadTrabajo.Guardar();
 
-            foreach (var Lista in carroCompraVM.CarroCompraLista)
-            {
-                OrdenDetalle ordenDetalle = new OrdenDetalle()
-                {
-                    ProductoId = Lista.ProductoId,
-                    OrdenId = carroCompraVM.Orden.Id,
-                    Precio = Lista.Precio,
-                    Cantidad = Lista.Cantidad,
-                };
-                await _unidadTrabajo.OrdenDetalle.Agregar(ordenDetalle);
-                await _unidadTrabajo.Guardar();
-            }
+            
 
             return RedirectToAction("SeleccionarMetodo");
         }
@@ -159,8 +150,55 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             return View(carroCompraVM);
         }
 
+        public async Task<IActionResult> ConfirmacionFinal(string MetodoDePago)
+        {
+            string usuarioId = Request.Cookies["UsuarioId"];
+            var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
+            var orden = ordenes.OrderByDescending(u => u.Id).FirstOrDefault();
+            CarroCompraVM carroCompraVM = new CarroCompraVM()
+            {
+                Orden = orden,
+                CarroCompraLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(u => u.Cliente == usuarioId, incluirPropiedades: "Producto")
+            };
+
+            var tiquete = await _unidadTrabajo.TiqueteDeDescuento.ObtenerPrimero(t => t.Codigo == carroCompraVM.Orden.CodigoTiqueteDeDescuento);
+
+            if (tiquete != null)
+            {
+                carroCompraVM.Orden.Descuento = tiquete.Descuento;
+            }
+            else
+            {
+                carroCompraVM.Orden.Descuento = 0;
+            }
+
+
+            carroCompraVM.OrdenDetalle = new OrdenDetalle()
+            {
+                Orden = orden,
+                OrdenId = carroCompraVM.Orden.Id,
+                Tipo = MetodoDePago,
+                Monto = orden.TotalOrden-(carroCompraVM.Orden.Descuento * orden.TotalOrden / 100)   
+            };
+  
+            return View(carroCompraVM);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> SeleccionarMetodoPost(string action, CarroCompraVM carroCompraVM)
+        public async Task<IActionResult> GuardarPedido(CarroCompraVM carroCompraVM)
+        {
+            carroCompraVM.OrdenDetalle.Estado = "En Curso";
+            carroCompraVM.OrdenDetalle.FechaOrden = DateTime.Now;
+
+            _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);
+            await _unidadTrabajo.Guardar();
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SeleccionarMetodoPost(string action, CarroCompraVM carroCompraVM, string metodoPago)
         {
             if (action == "anterior")
             {
@@ -168,10 +206,14 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             }
             else if (action == "siguiente")
             {
-                //Aqui en teoria hay que hacer un if de si apreta siguiente y la opcion seleccionada es Efectivo,Tarjeta o Cheque
+                // Aquí rediriges a ConfirmacionFinal con el método de pago seleccionado
+                return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = metodoPago });
             }
 
             return View(carroCompraVM);
         }
+
+
+
     }
 }

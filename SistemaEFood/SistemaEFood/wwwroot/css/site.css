@@ -8,6 +8,14 @@ html {
   }
 }
 
+.hello-text {
+   
+    margin-bottom:10px;
+    text-decoration:none;
+}
+.hello-text:hover {
+   color:#000;
+}
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -45,7 +53,12 @@ html {
 .sidebar-container {
     display:none;
 }
- 
+nav {
+    display: flex;
+    border-bottom: solid #e5e5e5 3px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .sidebar
 {
     z-index: 200;
@@ -63,11 +76,12 @@ html {
     flex-direction: column;*/
 }
 .sideBar-button {
-    padding:0;
+    
+    margin:0;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     border: none;
-    font-size: 40px;
+    
     background-color: transparent;
     text-decoration: none;
 }
@@ -75,33 +89,88 @@ html {
 
 .container-fluid {
 padding:5px;
-padding-top:0;
-margin:0;
+
 
 
 }
 .sideBar-button i {
-    text
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+   
+    font-size: 2rem;
 }
 /*Form */
 .form-container {
     background-color: #fff;
+    
     padding-top: 30px;
     padding-bottom: 30px;
 }
 .navbar-button {
-    display: inline;
+    margin:0.2rem;
+    display: flex;
+    height:50%;
+      
+}
+.navbar-button i {
+   margin:0;
+ 
+   padding:0;
+   
+}
+    .navbar-button:hover {
+        background-color: #F3F3F3;
+        border-radius: 50%;
+    }
+.navbar-brand {
+    color: #000;
+    margin-left: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.nav-left-items {
+    display:flex;
+    flex-direction:row;
+    align-items:flex-start;
+}
+.nav-right-items {
+    display: flex;
+    margin-left:auto;
+}
+.navbar-brand-container {
+    height:50%;
+    display: flex;
+    align-items:center;
+}
+.navbar-brand:hover {
+    color: #000;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+
+.logout-text {
+margin-left:auto;
 }
 .Login-Partial {
-    position: fixed;
-   
-    right: 0;
-    margin-top:10px;
+    display: flex;
     
+    left: 0;
+    justify-content: right;
+    margin-left: auto;
     background-color: #fff;
     color: white;
-    padding: 10px;
 }
+    .Login-Partial ul {
+        
+       
+       
+       margin:0;
+       padding:0;
+       display:flex;
+       flex-wrap:wrap;
+       align-content:center;
+    }
 html {
   position: relative;
   min-height: 100%;
@@ -198,8 +267,11 @@ body {
 .navbar-nav {
     padding:0;
     margin:0;
-}
 
+}
+.sidebar-nav {
+width:100%;
+}
 .navbar-toggler {
     display:none;
     background-color:aliceblue;

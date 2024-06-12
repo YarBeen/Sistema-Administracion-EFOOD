@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
@@ -24,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SistemaEFood.AccesoDatos\SistemaEFood.AccesoDatos.csproj" />
     <ProjectReference Include="..\SistemaEFood.Modelos\SistemaEFood.Modelos.csproj" />
+    <ProjectReference Include="..\SistemaEFood.Servicios\SistemaEFood.Servicios.csproj" />
     <ProjectReference Include="..\SistemaEFood.Utilidades\SistemaEFood.Utilidades.csproj" />
   </ItemGroup>
 

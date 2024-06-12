@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="img\producto\396d3f23-61e5-45f7-ba61-810d04febdea.jpg" />
+    <None Remove="img\producto\5b843537-f44d-4373-b6ae-f5d31425a1cb.jpg" />
+    <None Remove="img\producto\606ef9a7-ae7b-47e1-8b6e-e86f044a2b74.jpg" />
+    <None Remove="img\producto\64a81950-89d7-4b39-a2ab-58e0abd0502b.jpg" />
+    <None Remove="img\producto\78e511db-42bf-4ac5-b43b-206da6b4b377.jpg" />
+    <None Remove="img\producto\a5b597ef-daa2-4b43-aaf7-54566f2a4696.jpg" />
+    <None Remove="img\producto\ea1fceda-ff78-4d34-9b9e-c292e5a033fc.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="img\producto\396d3f23-61e5-45f7-ba61-810d04febdea.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\5b843537-f44d-4373-b6ae-f5d31425a1cb.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\606ef9a7-ae7b-47e1-8b6e-e86f044a2b74.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\64a81950-89d7-4b39-a2ab-58e0abd0502b.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\78e511db-42bf-4ac5-b43b-206da6b4b377.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\a5b597ef-daa2-4b43-aaf7-54566f2a4696.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="img\producto\ea1fceda-ff78-4d34-9b9e-c292e5a033fc.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

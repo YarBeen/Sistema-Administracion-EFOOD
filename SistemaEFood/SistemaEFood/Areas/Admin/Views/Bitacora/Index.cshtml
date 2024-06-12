@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <h2 class="text-primary">Bitacora</h2>
+    </div>
+</div>
+
+<br />
+
+<div class="p-4 border rounded bg-light">
+
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+            <input type="date" id="fechaInicio" class="form-control" />
+        </div>
+        <div class="col-lg-3">
+            <label for="fechaFin" class="form-label">Fecha de Fin</label>
+            <input type="date" id="fechaFin" class="form-control" />
+        </div>
+        <div class="col-lg-6 d-flex align-items-end">
+            <button id="btnBuscar" class="btn btn-primary me-2">
+                <i class="bi bi-search"></i> Filtrar
+            </button>
+            <button type="button" class="btn btn-secondary" id="btnLimpiarFiltro">
+                <i class="bi bi-arrow-counterclockwise"></i> Limpiar Filtro
+            </button>
+        </div>
+    </div>
+
+    <table id="tblDatos" class="table table-responsive table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Nombre de usuario</th>
+                <th>Mensaje</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+    <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-outline-primary" href="/">
+                <i class="bi bi-arrow-return-left"></i> Regresar
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/bitacora.js"></script>
+}

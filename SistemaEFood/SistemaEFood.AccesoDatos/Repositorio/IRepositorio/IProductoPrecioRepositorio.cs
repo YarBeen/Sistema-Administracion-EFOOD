@@ -13,5 +13,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         void Actualizar (ProductoPrecio productoPrecio);
 
         IEnumerable<SelectListItem> ObtenerTipoPrecios(string objeto, int? idProducto);
+
+      
     }
 }

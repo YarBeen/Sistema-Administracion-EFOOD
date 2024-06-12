@@ -44,22 +44,26 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(TiqueteDeDescuento tiqueteDeDescuento)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 if (tiqueteDeDescuento.Id == 0)
                 {
                     await _unidadTrabajo.TiqueteDeDescuento.Agregar(tiqueteDeDescuento);
                     TempData[DS.Exitosa] = "Tiquete de descuento creada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se creó el tiquete de descuento " + tiqueteDeDescuento.Nombre + " de forma exitosa");
                 }
                 else
                 {
                     _unidadTrabajo.TiqueteDeDescuento.Actualizar(tiqueteDeDescuento);
                     TempData[DS.Exitosa] = "Tiquete de descuento actualizada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se actualizó el tiquete de descuento " + tiqueteDeDescuento.Nombre + " de forma exitosa");
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
             TempData[DS.Error] = "Error al grabar Tiquete de descuento";
+            await _unidadTrabajo.BitacoraError.RegistrarError("Error al grabar un tiquete de descuento", 300);
             return View(tiqueteDeDescuento);
         }
 
@@ -77,14 +81,17 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var tiqueteDeDescuentoDb = await _unidadTrabajo.TiqueteDeDescuento.Obtener(id);
             if (tiqueteDeDescuentoDb == null)
             {
+                await _unidadTrabajo.BitacoraError.RegistrarError("Error al borrar el tiquete de descuento " + tiqueteDeDescuentoDb.Nombre, 300);
                 return Json(new { success = false, message = "Error al borrar Tiquete de descuento Db" });
             }
 
             _unidadTrabajo.TiqueteDeDescuento.Remover(tiqueteDeDescuentoDb);
             await _unidadTrabajo.Guardar();
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, "Se borró el tiquete de descuento " + tiqueteDeDescuentoDb.Nombre + " de forma exitosa");
             return Json(new { success = true, message = "Tiquete de descuento borrada exitosamente" });
         }
 

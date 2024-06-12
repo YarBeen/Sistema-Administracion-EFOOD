@@ -37,28 +37,37 @@ namespace SistemaEFood.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Upsert(int? id, int? relacionId)
+        public async Task<IActionResult> Upsert(int productoID, int? relacionId)
         {
+           
+
             ProductoPrecioVM productoPrecioVM = new ProductoPrecioVM()
             {
-                productoPrecio = new ProductoPrecio(),
-                ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id)
-            };
-            
+                idProducto= productoID,
+                
+                ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", productoID)
+            }; 
+           
+
             if (relacionId == null)
             {
                 return View(productoPrecioVM);
             }
             else
             {
-                Console.WriteLine("Upsert 1-> Numeeeeero: " + id); // relacion
-                productoPrecioVM.productoPrecio.Producto = await _unidadTrabajo.Producto.Obtener(id.GetValueOrDefault());
-                if (productoPrecioVM.productoPrecio == null)
+            
+                productoPrecioVM.idRelacion = relacionId.Value;
+                var productoPrecioOBJ = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Id == productoPrecioVM.idRelacion);
+                if (productoPrecioOBJ == null)
                 {
-                    return NotFound();
+                    return NotFound();  
                 }
-                productoPrecioVM.productoPrecio.Idproducto = id.Value;
-                productoPrecioVM.productoPrecio.Id = relacionId.Value;
+
+
+              //  productoPrecioVM.tipoPrecioNombre = productoPrecioVM.ListaPrecios.Where(x => x.Value.Equals(productoPrecioOBJ.Idprecio.ToString())).Select(x=>x.Text).FirstOrDefault();
+                productoPrecioVM.tipoPrecioID = productoPrecioOBJ.Idprecio;
+
+
                 return View(productoPrecioVM);
             }
             
@@ -66,40 +75,71 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(ProductoPrecioVM productoPrecioVM, int id)
+        public async Task<IActionResult> Upsert(ProductoPrecioVM productoPrecioVM)
         {
-            Console.WriteLine("Upsert 2-> Numeeeeero: " + id);
+            
+           
+            if (!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values
+                               .SelectMany(v => v.Errors)
+                               .Select(e => e.ErrorMessage)
+                               .ToList();
+
+                foreach (var error in allErrors)
+                {
+                    Console.WriteLine(error);
+                }
+            }
             if (ModelState.IsValid)
             {
-                if (productoPrecioVM.productoPrecio.Id == 0)
+                if (productoPrecioVM.idRelacion == 0)
                 {
-                    productoPrecioVM.productoPrecio.Idproducto = id;
-                    ProductoPrecio existePrecio = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Idproducto == productoPrecioVM.productoPrecio.Idproducto && X.Idprecio == productoPrecioVM.productoPrecio.Idprecio);
+                    //productoPrecioVM.productoPrecio.Idproducto = id;
+                    ProductoPrecio existePrecio = await _unidadTrabajo.ProductoPrecio.ObtenerPrimero(X => X.Idproducto == productoPrecioVM.idProducto && X.Idprecio == productoPrecioVM.tipoPrecioID);
                     if(existePrecio != null) 
                     {
                         TempData[DS.Error] = "precio ya existente";
-                        await _unidadTrabajo.BitacoraError.RegistrarError("Precio ya existente", 400);
+                        await _unidadTrabajo.BitacoraError.RegistrarError("Se intento ingresar un precio ya existente", 400);
                     }
                     else 
                     {
-                        await _unidadTrabajo.ProductoPrecio.Agregar(productoPrecioVM.productoPrecio);
+                        var productoPrecio = new ProductoPrecio();
+                        productoPrecio.Idproducto = productoPrecioVM.idProducto;   
+                        productoPrecio.Idprecio=productoPrecioVM.tipoPrecioID;
+                        productoPrecio.Monto = productoPrecioVM.monto;
+
+                        productoPrecio.TipoPrecio = await _unidadTrabajo.TipoPrecio.ObtenerPrimero(X => X.Id == productoPrecioVM.tipoPrecioID);
+                        productoPrecio.Producto = await _unidadTrabajo.Producto.ObtenerPrimero(X => X.Id == productoPrecioVM.idProducto);
+                        
+                        await _unidadTrabajo.ProductoPrecio.Agregar(productoPrecio);
+
                         TempData[DS.Exitosa] = "Precio creado exitosamente";
                     }
                     
                 }
                 else
                 {
-                    productoPrecioVM.productoPrecio.Idproducto = id;
-                    _unidadTrabajo.ProductoPrecio.Actualizar(productoPrecioVM.productoPrecio);
+                    var productoPrecio = new ProductoPrecio();
+                    productoPrecio.Idproducto = productoPrecioVM.idProducto;
+                    productoPrecio.Idprecio = productoPrecioVM.tipoPrecioID;
+                    productoPrecio.Monto = productoPrecioVM.monto;
+                    productoPrecio.Id = productoPrecioVM.idRelacion;
+
+                    productoPrecio.TipoPrecio = await _unidadTrabajo.TipoPrecio.ObtenerPrimero(X => X.Id == productoPrecioVM.tipoPrecioID);
+                    productoPrecio.Producto = await _unidadTrabajo.Producto.ObtenerPrimero(X => X.Id == productoPrecioVM.idProducto);
+                    
+                    _unidadTrabajo.ProductoPrecio.Actualizar(productoPrecio);
                     TempData[DS.Exitosa] = "Precio actualizado exitosamente";
                 }
                 await _unidadTrabajo.Guardar();
-                string returnUrl = Url.Action("Index", "ProductoPrecio", new { id = productoPrecioVM.productoPrecio.Idproducto });
+                string returnUrl = Url.Action("Index", "ProductoPrecio", new { id = productoPrecioVM.idProducto });
                 return Redirect(returnUrl);
             }
-            var mensajeError= TempData[DS.Error] = "Error al grabar precio";
+            var mensajeError= "Error al grabar precio";
+            TempData[DS.Error] = mensajeError;
             await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 300);
-            productoPrecioVM.ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id);
+            //productoPrecioVM.ListaPrecios = _unidadTrabajo.ProductoPrecio.ObtenerTipoPrecios("TipoPrecio", id);
             return View(productoPrecioVM);
         }
 

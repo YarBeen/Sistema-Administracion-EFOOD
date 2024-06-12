@@ -1,0 +1,98 @@
+﻿<!--model SistemaEFood.Modelos.ViewModels.ProductoVM -->
+@model SistemaEFood.Modelos.ViewModels.ProductoBusquedaVM
+@using SistemaEFood.Utilidades;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<header class="header">
+    <div class="container pt-sm-5">
+        <div class="heading-primary">
+            Las Mejores Comidas <br />
+            Para Todo El Día
+        </div>
+    </div>
+
+</header>
+
+
+
+<section>
+    <div class="container my-2">
+
+        <form asp-action="Index" method="get">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 d-flex">
+                    <div class="input-group mb-3">
+                        <select name="idLineaComida" class="form-select">
+                            <option value=""> -- Seleccione una línea de comida --</option>
+                            @foreach (var linea in Model.LineaComidaLista)
+                            {
+                                <option value="@linea.Value">@linea.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 d-flex">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscar ..." aria-label="Buscar" aria-describedby="button-addon2" 
+                        name="busqueda" value="@ViewData["BusquedaActual"]"
+                        />
+                        <button type="submit" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="submit" class="btn btn-outline-secondary" onclick="limpiarFiltros()">
+                            <i class="bi bi-arrow-counterclockwise"></i> Limpiar Filtro
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+
+        <div class="row">
+            @foreach (var producto in Model.Productos)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+                    <div class="card w-100 my-2">
+                        <img src="@producto.ImagenUrl" class="card-img-top" style="aspect-ratio: 1 /1" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@producto.Nombre</h5>
+                            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto bg-white">
+                                <a asp-action="Detalle" asp-route-id="@producto.Id" class="btn btn-outline-primary">
+                                    <i class="bi bi-tags-fill"></i> Detalles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+        </div>
+        <a asp-action="Index" asp-route-pageNumber="1" class="btn btn-outline-primary" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            <i class="bi bi-skip-start-fill"></i>
+        </a>
+        <a asp-action="Index" asp-route-pageNumber="@((int)Model.PageNumber - 1)" class="btn btn-outline-primary @(Model.PageNumber > 1 ? "" : "disabled")" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            Anterior
+        </a>
+        <span>Página @Model.PageNumber de @Model.TotalPages</span>
+        <a asp-action="Index" asp-route-pageNumber="@((int)Model.PageNumber + 1)" class="btn btn-outline-primary @(Model.PageNumber < Model.TotalPages ? "" : "disabled")" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            Siguiente
+        </a>
+        <a asp-action="Index" asp-route-pageNumber="@Model.TotalPages" class="btn btn-outline-primary" asp-route-busqueda="@Model.Busqueda" asp-route-idLineaComida="@Model.LineaComidaId">
+            <i class="bi bi-skip-end-fill"></i>
+        </a>
+
+    </div>
+</section>
+
+
+@section Scripts {
+    <script>
+        function limpiarFiltros() {
+            document.querySelector('input[name="busqueda"]').value = '';
+            document.querySelector('select[name="idLineaComida"]').selectedIndex = 0;
+        }
+    </script>
+}

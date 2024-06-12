@@ -67,5 +67,24 @@ namespace SistemaEFood.AccesoDatos.Repositorio
                 .ToListAsync();
             return productos;
         }
+
+
+        public async Task<IEnumerable<(string TipoPrecioNombre, float Monto)>> ObtenerPreciosPorTamanno (int productoId)
+        {
+            var resultados = await _db.ProductoPrecio
+                .Where(pp => pp.Idproducto == productoId)
+                .Select(pp => new
+                {
+                    TipoPrecioNombre = pp.TipoPrecio.Nombre,
+                    pp.Monto
+                })
+                .ToListAsync();
+
+            return resultados.Select(r => (r.TipoPrecioNombre, r.Monto));
+        }
+
     }
+
+
+
 }

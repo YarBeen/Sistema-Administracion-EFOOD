@@ -13,5 +13,8 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         public Task RegistrarError(string mensaje, int numeroError);
         public Task<IEnumerable<BitacoraError>> ObtenerPorFecha(DateTime fecha);
 
+        public Task<IEnumerable<BitacoraError>> ObtenerErroresEntreFechas(DateTime fechaInicio, DateTime fechaFin);
+
+
     }
 }

@@ -5,20 +5,26 @@ using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
+using SistemaEFood.Servicios;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = DS.Role_Admin + "," + DS.Role_Mantenimiento)]
+    
     public class ProductoController : Controller
     {
+       
         private readonly IUnidadTrabajo _unidadTrabajo;
         private readonly IWebHostEnvironment _webHostEnviroment;
+        private readonly IStorageService _storageService;
 
-        public ProductoController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment)
+        public ProductoController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment webHostEnviroment, IStorageService storageService)
         {
+            
             _unidadTrabajo = unidadTrabajo;
             _webHostEnviroment = webHostEnviroment;
+            _storageService = storageService;
         }
         public IActionResult Index()
         {
@@ -28,11 +34,13 @@ namespace SistemaEFood.Areas.Admin.Controllers
         
         public async Task<IActionResult> Consultar()
         {
+            var usuario = User.Identity.Name;
             ProductoVM productoVM = new ProductoVM()
             {
                 Producto = new Producto(),
                 LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida"),
                 ProductosLista = await _unidadTrabajo.Producto.ObtenerTodos()
+                
             };
             return View(productoVM);
         }
@@ -67,22 +75,38 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductoVM productoVM)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;
                 string webRootPath = _webHostEnviroment.WebRootPath;
+                var filePath = "";
+                var containerName = "productos";
+                var folderName = "imagenes";
 
-                if(productoVM.Producto.Id == 0)
+                if (productoVM.Producto.Id == 0)
                 {
                     string upload = webRootPath + DS.ImagenRuta;
-                    string fileName = Guid.NewGuid().ToString();
-                    string extension = Path.GetExtension(files[0].FileName);
+                    string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ", "_")}";
 
-                    using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                    string extension = Path.GetExtension(files[0].FileName);
+                     
+                    fileName = Guid.NewGuid().ToString()+extension;
+
+                    
+                    using (var stream = files[0].OpenReadStream())
                     {
-                        files[0].CopyTo(fileStream);
+                        
+                        filePath = await _storageService.UploadImageAsync(stream, containerName, folderName, fileName);
                     }
-                    productoVM.Producto.ImagenUrl = fileName + extension;
+                    if (filePath=="")
+                    {
+                        var mensajeError = TempData[DS.Error] = "No se pudo guardar la imagen";
+                        await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensajeError.ToString());
+                        return View("Index");
+                    }
+
+                    productoVM.Producto.ImagenUrl = filePath;
                     await _unidadTrabajo.Producto.Agregar(productoVM.Producto);
                 }
                 else
@@ -90,21 +114,16 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     var objProducto = await _unidadTrabajo.Producto.ObtenerPrimero(p => p.Id == productoVM.Producto.Id, isTracking: false);
                     if (files.Count > 0) // Si se carga una nueva Imagen para el producto existente
                     {
-                        string upload = webRootPath + DS.ImagenRuta;
-                        string fileName = Guid.NewGuid().ToString();
+                        
+                        string fileName = $"{productoVM.Producto.LineaComidaId}_+{productoVM.Producto.Nombre.Replace(" ", "_")}";
                         string extension = Path.GetExtension(files[0].FileName);
-
-                        var anteriorFile = Path.Combine(upload, objProducto.ImagenUrl);
-                        if (System.IO.File.Exists(anteriorFile))
+                        using (var stream = files[0].OpenReadStream())
                         {
-                            System.IO.File.Delete(anteriorFile);
-                        }
-                        using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
-                        {
-                            files[0].CopyTo(fileStream);
+                            
+                            filePath = await _storageService.UploadImageAsync(stream, containerName, folderName, fileName);
                         }
 
-                        productoVM.Producto.ImagenUrl = fileName + extension;
+                        productoVM.Producto.ImagenUrl = filePath;
                     }
                     else
                     {
@@ -114,8 +133,9 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     _unidadTrabajo.Producto.Actualizar(productoVM.Producto);
 
                 }
-                TempData[DS.Exitosa] = "Transacción Exitosa!";
                 await _unidadTrabajo.Guardar();
+                var mensaje = TempData[DS.Exitosa] = "Producto actualizado exitosamente"; //Comentario previo: Transacción exitosa
+                await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 return View("Index");
             }
             productoVM.LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida");
@@ -155,6 +175,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var productoDb = await _unidadTrabajo.Producto.Obtener(id);
             if (productoDb == null)
             {
@@ -172,6 +193,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             _unidadTrabajo.Producto.Remover(productoDb);
             await _unidadTrabajo.Guardar();
+            var mensaje = TempData[DS.Exitosa] = "Producto actualizado exitosamente"; //Comentario previo: Transacción exitosa
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
             return Json(new { success = true, message = "Producto borrada exitosamente" });
         }
 

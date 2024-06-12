@@ -45,22 +45,26 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProcesadorDePago procesadorDePago)
         {
+            var usuarioNombre = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 if (procesadorDePago.Id == 0)
                 {
                     await _unidadTrabajo.ProcesadorDePago.Agregar(procesadorDePago);
-                    TempData[DS.Exitosa] = "Procesador de pago creada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Procesador de pago " + procesadorDePago.NombreOpcionDePago +  " creada exitosamente";
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 else
                 {
                     _unidadTrabajo.ProcesadorDePago.Actualizar(procesadorDePago);
-                    TempData[DS.Exitosa] = "Procesador de pago actualizada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Procesador de pago " + procesadorDePago.NombreOpcionDePago + " editado exitosamente con ID: " + procesadorDePago.Id.ToString();                        
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar procesador de pago";
+            var mensajeError = TempData[DS.Error] = "Error al grabar procesador de pago";
+            await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 500);
             return View(procesadorDePago);
         }
 
@@ -78,14 +82,18 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var usuarioNombre = User.Identity.Name;
             var procesadorDePagoDb = await _unidadTrabajo.ProcesadorDePago.Obtener(id);
             if (procesadorDePagoDb == null)
             {
+                var mensajeError = TempData[DS.Error] = "Error al borrar procesador de pago Db";
+                await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 500);
                 return Json(new { success = false, message = "Error al borrar procesador de pago Db" });
             }
-
             _unidadTrabajo.ProcesadorDePago.Remover(procesadorDePagoDb);
             await _unidadTrabajo.Guardar();
+            var mensaje = TempData[DS.Exitosa] = "Procesador de pago" + procesadorDePagoDb.NombreOpcionDePago + "borrado exitosamente";
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
             return Json(new { success = true, message = "Procesador De Pago borrada exitosamente" });
         }
         [ActionName("ValidarEstado")]

@@ -53,6 +53,15 @@ namespace SistemaEFood.AccesoDatos.Repositorio
             return productos;
         }
 
-        
+        public async Task<IEnumerable<string>> ObtenerTiposDePagoActivos()
+        {
+            var tipos = await _db.ProcesadorDePago
+                .Where(p => p.Estado == true)
+                .Select(p => p.Tipo)
+                .ToListAsync();
+            return tipos;
+        }
+
+
     }
 }

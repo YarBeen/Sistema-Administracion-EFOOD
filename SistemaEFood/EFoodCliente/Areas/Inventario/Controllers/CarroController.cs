@@ -139,7 +139,10 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             if (tiquete != null)
             {
-                carroCompraVM.Orden.Descuento = tiquete.Descuento;
+                if (tiquete.Disponibles > 0)
+                {
+                    carroCompraVM.Orden.Descuento = tiquete.Descuento;
+                }
             }
             else
             {
@@ -153,7 +156,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         
 
        
-        public async Task<IActionResult> ConfirmacionFinal(string MetodoDePago,string Tipo)
+        public async Task<IActionResult> ConfirmacionFinal(string MetodoDePago,string Tipo,int NumeroCheque, int Cuenta)
         {
             string usuarioId = Request.Cookies["UsuarioId"];
             var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
@@ -168,7 +171,10 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             if (tiquete != null)
             {
-                carroCompraVM.Orden.Descuento = tiquete.Descuento;
+                if (tiquete.Disponibles > 0)
+                {
+                    carroCompraVM.Orden.Descuento = tiquete.Descuento;
+                }
             }
             else
             {
@@ -183,7 +189,10 @@ namespace EFoodCliente.Areas.Inventario.Controllers
                 OrdenId = carroCompraVM.Orden.Id,
                 Tipo = MetodoDePago,
                 Medio = Tipo,
-                Monto = orden.TotalOrden-(carroCompraVM.Orden.Descuento * orden.TotalOrden / 100)   
+                Monto = orden.TotalOrden-(carroCompraVM.Orden.Descuento * orden.TotalOrden / 100),
+                ChequeCuenta = Cuenta,
+                ChequeNumero = NumeroCheque,
+
             };
 
             return View(carroCompraVM);
@@ -192,6 +201,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarPedido(CarroCompraVM carroCompraVM)
         {
+
             carroCompraVM.OrdenDetalle.Estado = "En Curso";
             carroCompraVM.OrdenDetalle.FechaOrden = DateTime.Now;
 
@@ -200,6 +210,21 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             string usuarioId = Request.Cookies["UsuarioId"];
             var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
+            var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
+            var orden = ordenes.OrderByDescending(u => u.Id).FirstOrDefault();
+            var tiquete = await _unidadTrabajo.TiqueteDeDescuento.ObtenerPrimero(t => t.Codigo == orden.CodigoTiqueteDeDescuento);
+            if (tiquete != null)
+            {
+                if (tiquete.Disponibles > 0)
+                {
+                    tiquete.Disponibles -= 1;
+                    await _unidadTrabajo.Guardar();
+
+                }
+            }
+
+
+
             foreach (var item in carroLista)
             {
                 _unidadTrabajo.CarroCompra.Remover(item);
@@ -216,10 +241,23 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         {
             carroCompraVM.OrdenDetalle.Estado = "Cancelado";
             carroCompraVM.OrdenDetalle.FechaOrden = DateTime.Now;
+            string usuarioId = Request.Cookies["UsuarioId"];
+            var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
+            var orden = ordenes.OrderByDescending(u => u.Id).FirstOrDefault();
+            var tiquete = await _unidadTrabajo.TiqueteDeDescuento.ObtenerPrimero(t => t.Codigo == orden.CodigoTiqueteDeDescuento);
+            if (tiquete != null)
+            {
+                if (tiquete.Disponibles >= 0)
+                {
+                    tiquete.Disponibles -= 1;
+                    await _unidadTrabajo.Guardar();
+
+                }
+            }
+
 
             _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);
             await _unidadTrabajo.Guardar();
-            string usuarioId = Request.Cookies["UsuarioId"];
             var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
             foreach (var item in carroLista)
             {
@@ -233,7 +271,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         [HttpGet]
         public IActionResult InformacionDeTarjeta(CarroCompraVM carroCompraVM)
         {
-            carroCompraVM.TarjetaLista = _unidadTrabajo.ProcesadorTarjeta.ObtenerTodosDropdownLista("Tarjeta", -1);
+            carroCompraVM.TarjetaLista = _unidadTrabajo.ProcesadorDePago.ObtenerTodosDropdownLista();
 ;
             return View(carroCompraVM);
         }
@@ -258,9 +296,13 @@ namespace EFoodCliente.Areas.Inventario.Controllers
                 {
                     return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = metodoPago, Tipo = "Efectivo" });
                 }
-                else 
-                {
+                if (metodoPago == "Tarjeta de crédito o débito") {
                     return RedirectToAction("InformacionDeTarjeta", carroCompraVM);
+
+                }
+                else
+                {
+                    return RedirectToAction("ChequesElectronicos",carroCompraVM);
                 }
 
             }
@@ -273,6 +315,29 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         {
             return RedirectToAction("SeleccionarMetodo"); 
         }
+
+
+        [HttpGet]
+        public IActionResult ChequesElectronicos(CarroCompraVM carroCompraVM)
+        {
+            return View(carroCompraVM);
+        }
+
+        [HttpPost]
+        public IActionResult ProcesarChequeElectronico(string action, CarroCompraVM carroCompraVM)
+        {
+            if (action == "anterior")
+            {
+                return RedirectToAction("SeleccionarMetodo");
+            }
+            else if (action == "siguiente")
+            {
+                return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = "Cheque Electrónico", Tipo = "Cheque Electrónico" ,NumeroCheque = carroCompraVM.NumeroCheque, Cuenta = carroCompraVM.Cuenta });
+            }
+
+            return View("ChequesElectronicos", carroCompraVM);
+        }
+
 
     }
 }

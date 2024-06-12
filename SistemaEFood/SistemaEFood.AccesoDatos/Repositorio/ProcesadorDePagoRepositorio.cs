@@ -61,6 +61,33 @@ namespace SistemaEFood.AccesoDatos.Repositorio
                 .ToListAsync();
             return tipos;
         }
+        public IEnumerable<SelectListItem> ObtenerTodosDropdownLista()
+        {
+            
+                var procesadoresTarjetaCreditoDebito = _db.ProcesadorDePago
+                                                          .Where(p => (p.Tipo == "tarjeta de crédito o débito") && p.Estado)
+                                                          .Select(p => p.Id)
+                                                          .ToList();
+
+                var tarjetasRelacionadas = _db.ProcesadorTarjeta
+                                               .Where(pt => procesadoresTarjetaCreditoDebito.Contains(pt.ProcesadorId))
+                                               .Select(pt => pt.TarjetaId)
+                                               .Distinct()
+                                               .ToList();
+
+                var tarjetasInfo = _db.Tarjetas
+                                      .Where(t => tarjetasRelacionadas.Contains(t.Id))
+                                      .Select(t => new SelectListItem
+                                      {
+                                          Text = t.Nombre,
+                                          Value = t.Id.ToString()
+                                      })
+                                      .ToList();
+
+                return tarjetasInfo;
+            
+            
+        }
 
 
     }

@@ -27,5 +27,8 @@ namespace SistemaEFood.Modelos.ViewModels
 
         public string TipoTarjeta { get; set; }
 
+        public string NumeroCheque { get; set; }
+        public string Cuenta { get; set; }
+
     }
 }

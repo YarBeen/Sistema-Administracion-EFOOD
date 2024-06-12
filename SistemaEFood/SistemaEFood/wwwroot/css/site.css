@@ -7,7 +7,11 @@ html {
     font-size: 16px;
   }
 }
-
+@media (min-width: 5px) {
+    .d-sm-inline-flex {
+        display: inline-flex !important;
+    }
+}
 .hello-text {
    
     margin-bottom:10px;
@@ -35,6 +39,7 @@ html {
 }
 
 .sidebar-container {
+    transition: all 0.5s;
     position: relative;
     height: 100%;
 }
@@ -48,6 +53,8 @@ html {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
     z-index: 50;
+    
+ 
 }
 
 .sidebar-container {
@@ -59,20 +66,46 @@ nav {
     margin-top: auto;
     margin-bottom: auto;
 }
-.sidebar
-{
+#sidebar {
+    transition: width 0.8s ease ;
+}
+
+#sidebar-overlay {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+    #sidebar-overlay.visible {
+    opacity:1;
+    visibility:visible;
+    
+    }
+#sidebar.open {
+ width:250px;
+}
+#sideBar-openButton {
+    z-index: 250;
+    transition: color 0.8s ease;
+}
+
+#sideBar-openButton.active {
+    color:#fff;
+  
+}
+.sidebar {
     z-index: 200;
     height: 100%;
-    width:250px;
+    width: 0px;
     position: fixed;
-    height:100%;
+    height: 100%;
     top: 0;
     left: 0;
     background-color: #111;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: width 2s ease;
     padding-top: 0px;
- /*   display: flex;
+    /*   display: flex;
     flex-direction: column;*/
 }
 .sideBar-button {

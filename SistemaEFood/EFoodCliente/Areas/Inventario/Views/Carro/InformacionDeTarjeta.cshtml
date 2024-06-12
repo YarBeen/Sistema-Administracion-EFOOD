@@ -1,0 +1,84 @@
+﻿@model SistemaEFood.Modelos.ViewModels.CarroCompraVM
+
+@{
+    ViewData["Title"] = "Información de Tarjeta";
+}
+
+<h2>Tarjeta de Crédito o Débito</h2>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h4>Tarjeta de Crédito o Débito</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("ProcesarPagoConTarjeta", "Carro", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label for="tipoTarjeta">Tipo Tarjeta:</label>
+                    <select id="tipoTarjeta" name="TipoTarjeta" class="form-control">
+                        <option value="" selected disabled>Seleccionar tarjeta</option> <!-- Mensaje por defecto -->
+                        @foreach (var tarjeta in Model.TarjetaLista)
+                        {
+                            <option value="@tarjeta.Text">@tarjeta.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="numeroTarjeta">Número:</label>
+                    <input type="text" id="numeroTarjeta" name="NumeroTarjeta" class="form-control" required /> <!-- Campo requerido -->
+                </div>
+                <div class="form-group">
+                    <label for="fechaExpiracion">Fecha Expiración:</label>
+                    <div class="row">
+                        <div class="col">
+                            <select id="mesExpiracion" name="MesExpiracion" class="form-control" required>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@i">@i.ToString("D2")</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select id="anoExpiracion" name="AnoExpiracion" class="form-control" required>
+                                @for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + 10; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" name="CVV" class="form-control" required /> <!-- Campo requerido -->
+                </div>
+                <div class="text-center mt-2">
+                    <div class="btn-group">
+                        @using (Html.BeginForm("VolverAMetodoPago", "Carro", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-secondary">Anterior</button>
+                        }
+                        @using (Html.BeginForm("ProcesarPagoConTarjeta", "Carro", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-primary" id="submitButton">Siguiente</button>
+                        }
+                    </div>
+                    <div id="errorTarjeta" class="text-danger mt-2" style="display: none;">Por favor, selecciona una tarjeta.</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Importar jQuery -->
+<script>
+    // Verificar si se ha seleccionado una tarjeta antes de enviar el formulario al presionar el botón "Siguiente"
+    $(document).ready(function () {
+        $('#submitButton').click(function (event) {
+            if ($('#tipoTarjeta').val() === null) {
+                event.preventDefault(); // Evitar que se envíe el formulario
+                $('#errorTarjeta').show(); // Mostrar mensaje de error
+            }
+        });
+    });
+</script>

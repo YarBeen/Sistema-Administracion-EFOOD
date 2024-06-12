@@ -50,6 +50,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
         {
             var carroCompras = await _unidadTrabajo.CarroCompra.ObtenerPrimero(c => c.Id == carroId);
             string usuarioId = Request.Cookies["UsuarioId"];
+           
 
             if (carroCompras.Cantidad == 1)
             {
@@ -149,8 +150,10 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             return View(carroCompraVM);
         }
+        
 
-        public async Task<IActionResult> ConfirmacionFinal(string MetodoDePago)
+       
+        public async Task<IActionResult> ConfirmacionFinal(string MetodoDePago,string Tipo)
         {
             string usuarioId = Request.Cookies["UsuarioId"];
             var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
@@ -175,12 +178,14 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             carroCompraVM.OrdenDetalle = new OrdenDetalle()
             {
+                
                 Orden = orden,
                 OrdenId = carroCompraVM.Orden.Id,
                 Tipo = MetodoDePago,
+                Medio = Tipo,
                 Monto = orden.TotalOrden-(carroCompraVM.Orden.Descuento * orden.TotalOrden / 100)   
             };
-  
+
             return View(carroCompraVM);
         }
 
@@ -193,9 +198,52 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);
             await _unidadTrabajo.Guardar();
 
-            return RedirectToAction("Index");
+            string usuarioId = Request.Cookies["UsuarioId"];
+            var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
+            foreach (var item in carroLista)
+            {
+                _unidadTrabajo.CarroCompra.Remover(item);
+                await _unidadTrabajo.Guardar();
+            }
+
+
+
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CancelarPedido(CarroCompraVM carroCompraVM)
+        {
+            carroCompraVM.OrdenDetalle.Estado = "Cancelado";
+            carroCompraVM.OrdenDetalle.FechaOrden = DateTime.Now;
+
+            _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);
+            await _unidadTrabajo.Guardar();
+            string usuarioId = Request.Cookies["UsuarioId"];
+            var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
+            foreach (var item in carroLista)
+            {
+                _unidadTrabajo.CarroCompra.Remover(item);
+                await _unidadTrabajo.Guardar();
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [HttpGet]
+        public IActionResult InformacionDeTarjeta(CarroCompraVM carroCompraVM)
+        {
+            carroCompraVM.TarjetaLista = _unidadTrabajo.ProcesadorTarjeta.ObtenerTodosDropdownLista("Tarjeta", -1);
+;
+            return View(carroCompraVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProcesarPagoConTarjeta(string tipoTarjeta, string numeroTarjeta, int mesExpiracion, int anoExpiracion, string cvv, CarroCompraVM carroCompraVM)
+        {
+            
+            return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = tipoTarjeta, Tipo = "Tarjeta de Crédito o Débito" });
+        }
 
         [HttpPost]
         public async Task<IActionResult> SeleccionarMetodoPost(string action, CarroCompraVM carroCompraVM, string metodoPago)
@@ -206,14 +254,25 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             }
             else if (action == "siguiente")
             {
-                // Aquí rediriges a ConfirmacionFinal con el método de pago seleccionado
-                return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = metodoPago });
+                if (metodoPago == "Efectivo")
+                {
+                    return RedirectToAction("ConfirmacionFinal", new { MetodoDePago = metodoPago, Tipo = "Efectivo" });
+                }
+                else 
+                {
+                    return RedirectToAction("InformacionDeTarjeta", carroCompraVM);
+                }
+
             }
 
             return View(carroCompraVM);
         }
 
-
+        [HttpPost]
+        public IActionResult VolverAMetodoPago(CarroCompraVM carroCompraVM)
+        {
+            return RedirectToAction("SeleccionarMetodo"); 
+        }
 
     }
 }

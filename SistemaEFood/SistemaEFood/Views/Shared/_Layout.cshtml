@@ -24,11 +24,11 @@
         <nav class="">
             <div class="nav-left-items">
                 <div class="navbar-button">
-                    <button class="sideBar-button" onclick="openSidebar()"><i class="bi bi-list"></i></button>
+                    <button id="sideBar-openButton" class="sideBar-button" onclick="checkSideBar()"><i class="bi bi-list"></i></button>
 
                 </div>
                 <div class="sidebar-container" id="sidebarContainer">
-                    <div class="sidebar">
+                    <div class="sidebar" id="sidebar">
 
                         <div class="container-fluid">
 
@@ -38,7 +38,7 @@
                             </button></br>
                             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between sidebar-nav">
                                 <ul class="navbar-nav flex-grow-1">
-                                    <button href="javascript:void(0)" class="sideBar-button font-color-white" onclick="closeSidebar()"><i class="bi bi-list"></i></button>
+                                    
                                     <li class="nav-item">
                                         <a class=" nav-link sodo-font-bold font-color-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+                    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
                 </div>
 
                 <div class="navbar-brand-container">   <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaEFood</a></div>

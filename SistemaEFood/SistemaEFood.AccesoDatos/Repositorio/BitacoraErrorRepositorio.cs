@@ -39,8 +39,9 @@ namespace SistemaEFood.AccesoDatos.Repositorio
 
         public async Task<IEnumerable<BitacoraError>> ObtenerErroresEntreFechas(DateTime fechaInicio, DateTime fechaFin)
         {
+            var fechaFinInclusive = fechaFin.AddDays(1).AddTicks(-1);
             var errores = await _db.BitacoraError
-                                        .Where(be => be.Fecha >= fechaInicio && be.Fecha <= fechaFin)
+                                        .Where(be => be.Fecha >= fechaInicio && be.Fecha <= fechaFinInclusive)
                                         .ToListAsync();
             return errores;
         }

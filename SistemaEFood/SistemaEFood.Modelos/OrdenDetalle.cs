@@ -19,14 +19,22 @@ namespace SistemaEFood.Modelos
         [ForeignKey("OrdenId")]
         public Orden Orden { get; set; }
 
+        public string Medio { get; set; }
+
+        public string Tipo { get; set; }
+
+        public int ChequeNumero { get; set; }
+
+        public int ChequeCuenta{ get; set; }
+
         [Required]
-        public int ProductoId { get; set; }
+        public string Estado { get; set; }
 
-        [ForeignKey("ProductoId")]
-        public Producto Producto { get; set; }
 
-        public int Cantidad { get; set; }
+        [Required]
+        public double Monto { get; set; }
 
-        public double Precio { get; set; }
+        public DateTime FechaOrden { get; set; }
     }
+
 }

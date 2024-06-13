@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEFood.AccesoDatos.Data;
 
@@ -11,9 +12,11 @@ using SistemaEFood.AccesoDatos.Data;
 namespace SistemaEFood.AccesoDatos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240605041141_clienteOrdenMigration")]
+    partial class clienteOrdenMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,10 +350,6 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.Property<string>("ApellidosCliente")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CodigoTiqueteDeDescuento")
                         .HasColumnType("nvarchar(max)");
 
@@ -376,6 +375,10 @@ namespace SistemaEFood.AccesoDatos.Migrations
                     b.Property<double>("TotalOrden")
                         .HasColumnType("float");
 
+                    b.Property<string>("cliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Ordenes");
@@ -389,34 +392,23 @@ namespace SistemaEFood.AccesoDatos.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ChequeCuenta")
+                    b.Property<int>("Cantidad")
                         .HasColumnType("int");
-
-                    b.Property<int>("ChequeNumero")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaOrden")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Medio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Monto")
-                        .HasColumnType("float");
 
                     b.Property<int>("OrdenId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Precio")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrdenId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("OrdenDetalle");
                 });
@@ -700,7 +692,15 @@ namespace SistemaEFood.AccesoDatos.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("SistemaEFood.Modelos.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Orden");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("SistemaEFood.Modelos.ProcesadorTarjeta", b =>

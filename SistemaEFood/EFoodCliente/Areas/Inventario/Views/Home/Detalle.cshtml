@@ -117,6 +117,12 @@
 
         document.getElementById("cantidadId").addEventListener("input", actualizarTotal);
 
+        document.querySelectorAll('.form-check input[name="precioSeleccionado"]').forEach(function (input) {
+            input.addEventListener('change', actualizarTotal);
+        });
+
+        document.getElementById("btnAgregar").disabled = true;
+
         $("#btnAgregar").click(function () {
             let stock = document.getElementById("stockId")?.value;
             let cantidad = document.getElementById("cantidadId").value;
@@ -126,6 +132,5 @@
             }
         });
 
-        
     </script>
 }

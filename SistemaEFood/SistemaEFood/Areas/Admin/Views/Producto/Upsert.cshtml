@@ -5,7 +5,7 @@
     var titulo = "Crear Nuevo Producto";
 }
 
-<form method="post" id="formProducto" enctype="multipart/form-data">
+<form method="post" id="formProducto"  enctype="multipart/form-data">
     @if (Model.Producto.Id != 0)
     {
         titulo = "Editar producto";
@@ -14,22 +14,26 @@
 
 
     }
-    <div class="container-fluid">
-    <div class=" table-container p-3">
+    <div class="">
+        <div class=" form-container ">
+  
+  
+ 
+   
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-12 border-bottom p-0 title-box font-color-white">
+        <div class="col-12 border-bottom p-0 form-title font-color-white">
             <h2 class="soda-font-bold">@titulo</h2>
         </div>
 
-        <div class="row form-container">
+        <div class="row ">
             <div class="col-7">
-                <div class="container">
+                <div class="container form-inputs-container">
 
                     @if (Model.Producto.Id != 0)
                     {
-                        <div class="row">
+                        <div class="row ">
                             <div class="col-md-12">
-                                <label for="id">Código de Producto</label>
+                                <label for="id" class="form-label">Código de Producto</label>
                                 <input type="text" class="form-control input-text mb-1" id="id" value="@Model.Producto.Id" readonly />
                             </div>
                         </div>
@@ -38,7 +42,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <label>Nombre de Producto</label>
+                            <label >Nombre de Producto</label>
                             <input asp-for="Producto.Nombre" class="form-control input-text mb-1" id="nombre" />
                             <span asp-validation-for="Producto.Nombre" class="text-danger"></span>
                         </div>
@@ -90,7 +94,10 @@
             <div class="col-5">
                 @if (Model.Producto.Id != 0)
                 {
-                    <img src="@Model.Producto.ImagenUrl" width="100%"  />
+                    <div class="img-container-container">
+                    <div class="img-container">
+                                <img src="@Model.Producto.ImagenUrl" />
+                            </div></div>
                 }
             </div>
         </div>

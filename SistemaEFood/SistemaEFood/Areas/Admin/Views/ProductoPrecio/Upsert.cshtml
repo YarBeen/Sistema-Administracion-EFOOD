@@ -6,7 +6,7 @@
 }
 
 <form method="post" enctype="multipart/form-data">
-   
+   <div class="form-container">
     <input asp-for="ListaPrecios" hidden />
     @if (Model.idRelacion != 0)
     {
@@ -20,17 +20,19 @@
 
     }
 
-    <div class="border p-3">
+    <div class="border ">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-12 border-bottom p-0">
-            <h2 class="text-primary">@titulo</h2>
+            <div class="col-12 border-bottom p-0 form-title font-color-white">
+                <div class="center-form">
+                <h2 class="soda-font-bold">@titulo</h2></div>
         </div>
 
+            <div class="center-form">
         <div class="row">
             <div class="col-8">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <label for="id">ID Producto</label>
                             <input type="text" class="form-control" id="id" value="@Model.idProducto" readonly />
                             <input asp-for="@Model.idProducto" hidden />
@@ -43,7 +45,7 @@
                     else
                     {
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <label>Tipo de precios</label>
                                 <select asp-for="tipoPrecioID" asp-items="@Model.ListaPrecios" class="form-select">
                                     <option disabled selected> -- Seleccione un precio --</option>
@@ -55,7 +57,7 @@
                     }
                     
                     <div class="row mb-2 mt-2">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             <label>Monto</label>
                             <input type="number" asp-for=" monto" class="form-control" placeholder="Monto" id="monto" />
                             <span asp-validation-for="monto" class="text-danger"></span>
@@ -67,26 +69,27 @@
                         @if(Model.idRelacion != 0)
                         {
                             <div class="d-grid gap-2 d-md-block">
-                                <button type="submit" class="btn btn-primary" onfocus="false" asp-route-id="@Model" asp-action="Upsert">
+                                        <button type="submit" class="btn stbgreen-btn" onfocus="false" asp-route-id="@Model" asp-action="Upsert">
                                     <i class="bi bi-pencil-square"></i> Guardar Cambios
                                 </button>
-                                <a asp-action="Index" class="btn btn-success" id="regresarBtn">
+                                        <a asp-action="Index" class="btn stbgreen-btn" id="regresarBtn">
                                     <i class="bi bi-arrow-return-left"></i> Regresar
                                 </a>
                             </div>
                         }
                         else
                         {
-                            <button type="submit"  class="btn btn-primary"><i class="bi bi-plus-square-fill"></i> Crear</button>
-                            <a asp-action="Index" class="btn btn-success" id="regresarBtn"><i class="bi bi-arrow-return-left"></i> Regresar</a>
+                                    <button type="submit" class="btn stbgreen-btn"><i class="bi bi-plus-square-fill"></i> Crear</button>
+                                    <a asp-action="Index" class="btn stbgreen-btn" id="regresarBtn"><i class="bi bi-arrow-return-left"></i> Regresar</a>
                         }
                     </div>
 
                 </div>
             </div>
         </div>
+            </div>
+        </div>
     </div>
-
 </form>
 
 

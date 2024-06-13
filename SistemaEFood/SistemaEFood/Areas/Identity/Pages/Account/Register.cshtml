@@ -8,9 +8,13 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 login-form">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <div class=" login-form-title ">
+                
+                    <h2 class="soda-font-bold">Crear cuenta</h2>
+                
+            </div>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -48,17 +52,17 @@
             </div>
             @if (User.IsInRole(DS.Role_Admin))
             {
-                
+                <label asp-for="Input.Role">Rol</label>
                 <div class="form-floating mb-3">
 
-                    <label asp-for="Input.Role">Rol</label>
+                  
                     <select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.ListaRol">
                         <option value="">--Seleccione el rol--</option>
                     </select>
                 </div>
             }
 
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg stbgreen-btn">Register</button>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

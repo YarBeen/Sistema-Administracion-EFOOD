@@ -219,11 +219,8 @@ namespace EFoodCliente.Areas.Inventario.Controllers
                 {
                     tiquete.Disponibles -= 1;
                     await _unidadTrabajo.Guardar();
-
                 }
             }
-
-
 
             foreach (var item in carroLista)
             {
@@ -231,9 +228,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
                 await _unidadTrabajo.Guardar();
             }
 
-
-
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return Json(new { success = true, ordenId = carroCompraVM.OrdenDetalle.OrdenId });
         }
 
         [HttpPost]
@@ -258,14 +253,8 @@ namespace EFoodCliente.Areas.Inventario.Controllers
 
             _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);
             await _unidadTrabajo.Guardar();
-            var carroLista = await _unidadTrabajo.CarroCompra.ObtenerTodos(c => c.Cliente == usuarioId);
-            foreach (var item in carroLista)
-            {
-                _unidadTrabajo.CarroCompra.Remover(item);
-                await _unidadTrabajo.Guardar();
-            }
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return Json(new { success = true});
         }
 
         [HttpGet]

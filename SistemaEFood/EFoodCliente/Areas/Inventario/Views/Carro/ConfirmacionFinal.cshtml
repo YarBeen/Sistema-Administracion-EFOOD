@@ -34,8 +34,8 @@
 
             <div>
                 <h5>Total: ₡@Model.Orden.TotalOrden.ToString("F2")</h5>
-                <h5>Descuento: ₡@(Model.Orden.TotalOrden * Model.Orden.Descuento / 100).ToString("F2")</h5>
-                <h5>Total a Pagar: ₡@(Model.Orden.TotalOrden - (Model.Orden.TotalOrden * Model.Orden.Descuento / 100)).ToString("F2")</h5>
+                <h5>Descuento: ₡@((Model.Orden.TotalOrden * Model.Orden.Descuento / 100).ToString("F2"))</h5>
+                <h5>Total a Pagar: ₡@((Model.Orden.TotalOrden - (Model.Orden.TotalOrden * Model.Orden.Descuento / 100)).ToString("F2"))</h5>
             </div>
             <hr />
 
@@ -51,7 +51,21 @@
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-success">Guardar Pedido</button>
-                    <button type="button" class="btn btn-danger">Cancelar Pedido</button>
+                </div>
+            }
+
+            @using (Html.BeginForm("CancelarPedido", "Carro", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.OrdenDetalle.OrdenId)
+                @Html.HiddenFor(model => model.OrdenDetalle.Medio)
+                @Html.HiddenFor(model => model.OrdenDetalle.Tipo)
+                @Html.HiddenFor(model => model.OrdenDetalle.ChequeNumero)
+                @Html.HiddenFor(model => model.OrdenDetalle.ChequeCuenta)
+                @Html.HiddenFor(model => model.OrdenDetalle.Estado)
+                @Html.HiddenFor(model => model.OrdenDetalle.Monto)
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger">Cancelar Pedido</button>
                 </div>
             }
         </div>

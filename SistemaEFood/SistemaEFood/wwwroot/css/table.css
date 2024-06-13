@@ -34,6 +34,26 @@
 .text-color-stbgreen {
 	color: #006241;
 }
+
+.stbgreen-btn {
+	background-color: #006241;
+	color: #fff;
+}
+
+	.stbgreen-btn:hover {
+		background-color: #006241;
+		color: #fff;
+		border-color: #006241;
+		transition: transform 0.3s ease;
+		transform: scale(1.2);
+	}
+
+	.stbgreen-btn:focus {
+		background-color: #006241;
+		color: #fff;
+		border-color: #006241;
+		box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #006241 !important;
+	}
 .background-color-stbgreen {
 	background-color: #006241;
 }
@@ -54,7 +74,7 @@ background-color:#fff;
 	background-color: #000;
 }
 .btn-outline-white {
-border-color:#fff;
+border-color:#fff !important;
 }
 
 .btn-outline-black {
@@ -100,3 +120,35 @@ color:#000;
 }
 .image td {
 }
+.btn-return {
+	margin:5px;
+}
+
+.paginate_button {
+	background:none !important;
+background-color:transparent;
+}
+	.paginate_button:hover {
+		background-color: #3d3434 !important;
+		border-color: #006241 !important;
+	}
+
+	.paginate_button:active {
+		background-color: #3d3434 !important;
+		box-shadow: none;
+		border-color: #006241 !important;
+		
+	}
+	.paginate_button.current:hover {
+		background-color: #3d3434 !important;
+		border-color: #006241 !important;
+		color: #fff;
+	}
+
+	.paginate_button.current:active {
+		background-color: #3d3434 !important;
+		box-shadow: none;
+		border-color: #006241 !important;
+		color:#fff;
+	}
+

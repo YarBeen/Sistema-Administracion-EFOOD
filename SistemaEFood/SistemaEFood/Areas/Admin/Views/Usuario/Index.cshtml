@@ -3,21 +3,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-lg-6">
-        <h2 class="sodo-font-bold">Lista de Usuarios</h2>
-    </div>
-    <div class="col-lg-6">
-        <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Register"> <i class="bg-info bi-plus-square-fill"></i> Agregar Nuevo usuario</a>
-    </div>
-</div>
+
 
 
 <br />
 
-<div class="p-4 border rounded bg-light">
-    <table id="tblDatos" class="table table-responsive table-hover">
-        <thead class="table-dark">
+<div class="table-container">
+    <div class="row table-header">
+        <div class="col-lg-6">
+            <h2 class="text-color-white">Lista de Usuarios</h2>
+        </div>
+        <div class="col-lg-6">
+            <a class="btn btn-outline-white stbgreen-btn" asp-area="Identity" asp-page="/Account/Register"> <i class="bg-info bi-plus-square-fill"></i> Agregar Nuevo usuario</a>
+        </div>
+    </div>
+    <table id="tblDatos" class="table table-responsive table-hover tableEFOOD">
+        <thead class="">
             <tr>
                 <th>Email</th>
                 <th>Usuario</th>
@@ -27,6 +28,13 @@
             </tr>
         </thead>
     </table>
+    <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-return stbgreen-btn" href="/">
+                <i class="bi bi-arrow-return-left"></i> Regresar
+            </a>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

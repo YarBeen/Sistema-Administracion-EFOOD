@@ -41,7 +41,7 @@ function loadDataTable() {
                         //el usuario esta bloqueo
                         return `<div class="text-center">
                            
-                            <a onclick=BloquearDesbloquear('${data.id}') class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=BloquearDesbloquear('${data.id}') class="btn btn-danger text-color-white background-color-red btn-outline-red" style="cursor:pointer">
                             <i class="bi bi-unlock-fill"></i> Activar
                         </a>
                         </div >
@@ -66,7 +66,7 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Usuario/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer", width:150px>
+                            <a href= "/Admin/Usuario/Upsert/${data}" class="btn btn-success stbgreen-btn btn-outline-white" style="cursor:pointer", width:150px>
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                           

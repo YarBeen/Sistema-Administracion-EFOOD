@@ -42,10 +42,10 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success text-color-white background-color-stbgreen btn-outline-white" style="cursor:pointer">
+                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success stbgreen-btn btn-outline-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary text-color-white background-color-stbgreen btn-outline-white" style="cursor:pointer">
+                            <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary stbgreen-btn btn-outline-white" style="cursor:pointer">
                                 <i class="bi bi-tags"></i> Precios
                             </a>
                             <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-color-white background-color-red btn-outline-red" style="cursor:pointer">

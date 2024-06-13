@@ -70,7 +70,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 {
                     procesadorTarjetaVM.ProcesadorTarjeta.ProcesadorId = id;
                     await _unidadTrabajo.ProcesadorTarjeta.Agregar(procesadorTarjetaVM.ProcesadorTarjeta);
-                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + procesadorTarjetaVM.ProcesadorTarjeta + " asignada exitosamente";
+                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + procesadorTarjetaVM.ProcesadorTarjeta.Tarjeta.Nombre + " asignada exitosamente";
                     await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 else

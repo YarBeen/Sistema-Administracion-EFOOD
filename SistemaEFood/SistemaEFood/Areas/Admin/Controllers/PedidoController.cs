@@ -6,6 +6,7 @@ using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
 using SistemaEFood.Servicios;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
@@ -103,6 +104,42 @@ namespace SistemaEFood.Areas.Admin.Controllers
             var pedidos = await _unidadTrabajo.OrdenDetalle.ObtenerPedidosPorEstado(estado);
             return Json(new { data = pedidos });
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarPedidos(List<int> ids)
+        {
+            var usuarioNombre = User.Identity.Name;
+            try
+            {
+                if (ids == null || ids.Count == 0)
+                {
+                    return Json(new { success = false, message = "La lista de IDs está vacía." });
+                }
+                var numPedidos = "";
+                foreach (var id in ids)
+                {
+                    var pedido = await _unidadTrabajo.OrdenDetalle.ObtenerPrimero(p => p.Id == id);
+                    if (pedido != null)
+                    {
+                        _unidadTrabajo.OrdenDetalle.Remover(pedido);
+                        numPedidos += pedido.Id + ", ";
+                    }
+                }
+                var mensaje = "Se eliminó los pedidos: " + numPedidos;
+                await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
+
+                await _unidadTrabajo.Guardar();
+                return Json(new { success = true});
+            }
+            catch (Exception ex)
+            {
+                var mensajeError = "Error al intentar borrar pedidos";
+                await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 400);
+                return Json(new { success = false});
+            }
+        }
+
 
         #endregion
 

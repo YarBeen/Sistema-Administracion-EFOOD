@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/upsert.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SistemaEFood.styles.css" asp-append-version="true" />
     <script src="~/js/sidebar.js"></script>
     <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
@@ -100,10 +101,10 @@
                                                 Consultas
                                             </button>
                                             <ul class="collapse" id="consultasItemList">
-                                                <li class="dropdown-item-box"> <a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Pedidos</a></li>
+                                                <li class="dropdown-item-box"> <a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Pedido" asp-action="Consultar">Pedidos</a></li>
                                                 <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Producto" asp-action="Consultar">Productos</a></li>
-                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Marca" asp-action="Index">Bitácora</a></li>
-                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Errores</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Bitacora" asp-action="Index">Bitácora</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Errores</a></li>
                                             </ul>
                                         </li>
                                     }
@@ -128,7 +129,7 @@
                     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
                 </div>
 
-                <div class="navbar-brand-container">   <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaEFood</a></div>
+                <div class="navbar-brand-container ">   <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaEFood</a></div>
 
             </div>
 
@@ -139,16 +140,16 @@
                     @if (!SignInManager.IsSignedIn(User))
                     {
                         <li class="">
-                            <a class=" text-dark Login-Partial-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                <a class=" text-color-white Login-Partial-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         </li>
                         <li class="">
-                                <a class=" text-dark Login-Partial-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                <a class=" text-color-white Login-Partial-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
                         </li>
                     }
                     else
                     {
                         <li class="">
-                            <a class=" text-dark hello-text" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                                <a class=" text-color-white hello-text" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
                         </li>
                     }
 

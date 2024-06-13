@@ -4,17 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var titulo = " Usuario";
 }
-
+<div class="form-container">
 <form method="post">
     @if (Model.UserModel.Id != "")
     {
         titulo = "Editar Usuario";
         <input asp-for="UserModel.Id" id="user-id" hidden/>
     }
-    <div class="border p-3">
+       
+
+    <div class="">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <h2 class="text-info">@titulo</h2>
+            <div class="row form-title font-color-white">
+                <div class="center-form">
+                <h2 class="soda-font-bold">@titulo</h2>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -61,10 +65,10 @@
             @if (Model.UserModel!=null)
             {
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" class="btn btn-primary" onfocus="false" asp-action="Upsert" asp-route-id="@Model.UserModel">
-                        <i class="bi bi-pencil-square"></i> Guardar Cambios <a> @Model.UserModel.UserName</a>
+                        <button type="submit" class="btn stbgreen-btn" onfocus="false" asp-action="Upsert" asp-route-id="@Model.UserModel">
+                        <i class="bi bi-pencil-square"></i> Guardar Cambios  @Model.UserModel.UserName
                     </button>
-                    <a asp-action="Index" class="btn btn-success">
+                        <a asp-action="Index" class="btn stbgreen-btn">
                         <i class="bi bi-arrow-return-left"></i> Regresar
                     </a>
                 </div>
@@ -73,10 +77,10 @@
             else
             {
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" class="btn btn-primary" onfocus="false">
+                        <button type="submit" class="btn stbgreen-btn" onfocus="false">
                         <i class="bi bi-plus-square-fill"></i> Crear
                     </button>
-                    <a asp-action="Index" class="btn btn-success">
+                        <a asp-action="Index" class="btn stbgreen-btn">
                         <i class="bi bi-arrow-return-left"></i> Regresar
                     </a>
                 </div>
@@ -86,7 +90,7 @@
     </div>
 
 </form>
-
+</div>
 <style>
     /* Style for the popup modal */
     .modal {
@@ -162,7 +166,7 @@
         }
 </style>
 
-<button onclick="displayResetPasswordForm()">Reset Password</button>
+<button onclick="displayResetPasswordForm()" class="stbgreen-btn reset-password-button">Reset Password</button>
 
 <div id="reset-password-modal" class="modal">
     <div class="modal-content">

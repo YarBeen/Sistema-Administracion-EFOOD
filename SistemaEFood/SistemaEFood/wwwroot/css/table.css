@@ -80,7 +80,10 @@ border-color:#fff !important;
 .btn-outline-black {
 	border-color: #000;
 }
-
+.bg-info {
+	--bs-bg-opacity: 1;
+	background-color: none !important;
+}
 .btn-outline-red {
 	border-color: #9c1313;
 }
@@ -152,3 +155,28 @@ background-color:transparent;
 		color:#fff;
 	}
 
+
+
+.form-control {
+	margin-left:5px;
+	background-color: rgb(232, 232, 232);
+	line-height: 24px;
+	outline: none;
+	text-shadow: none;
+	border-color: none;
+	
+	
+}
+.form-label {
+	margin-left: 5px;
+}
+.filter-row {
+	margin-top:5px;
+}
+
+.form-control:focus {
+	outline: 3px solid black;
+	box-shadow: none;
+	text-shadow: none;
+	
+}

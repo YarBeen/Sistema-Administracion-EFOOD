@@ -5,7 +5,7 @@ html {
     background-color: #fff;
 }
 body {
-    background-color: #000;
+    background-color: #fff;
 }
 .new-container2 {
     width: 100vw;
@@ -71,8 +71,10 @@ body {
 .sidebar-container {
     display:none;
 }
+
+/*background-color: #006241;*/
 nav {
-    background-color:#fff;
+    background-color: #000;
     display: flex;
     border-bottom: solid #e5e5e5 3px;
     margin-top: auto;
@@ -97,6 +99,7 @@ nav {
  width:250px;
 }
 #sideBar-openButton {
+    color: #fff;
     z-index: 250;
     transition: color 0.8s ease;
 }
@@ -177,7 +180,7 @@ padding:5px;
         border-radius: 50%;
     }
 .navbar-brand {
-    color: #000;
+    color: #fff;
     margin-left: 20px;
     margin-top: auto;
     margin-bottom: auto;
@@ -210,11 +213,11 @@ margin-left:auto;
     }
 .Login-Partial {
     display: flex;
-    
     left: 0;
     justify-content: right;
     margin-left: auto;
-    background-color: #fff;
+    background-color: #000;
+    /*background-color: #006241;*/
     color: white;
 }
     .Login-Partial ul {
@@ -257,26 +260,9 @@ body {
     text-shadow: none;
     border-color: none;
     border:none;
-    border-radius:0px;
+
 }
 
-.imagen-box {
-    outline: none;
-    box-shadow: none;
-    text-shadow: none;
-    border: none;
-    
-    
-    border-radius: 0px;
- 
-}
-
-    .input-text:focus {
-        outline: 3px solid black;
-        box-shadow: none;
-        text-shadow: none;
-        border: none;
-    }
 
 .background-grey {
     background-color: rgb(232, 232, 232);
@@ -300,6 +286,7 @@ body {
 
 .sidebar button {
     background-color: transparent;
+    color:#fff;
     border:none;
 }
 
@@ -330,6 +317,7 @@ width:100%;
 }
 .navbar-toggler {
     display:none;
+    
     background-color:aliceblue;
 }
 

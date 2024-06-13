@@ -10,6 +10,7 @@
     <title>@ViewData["Title"] - SistemaEFood</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SistemaEFood.styles.css" asp-append-version="true" />
     <script src="~/js/sidebar.js"></script>
     <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
@@ -138,10 +139,10 @@
                     @if (!SignInManager.IsSignedIn(User))
                     {
                         <li class="">
-                            <a class=" text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            <a class=" text-dark Login-Partial-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         </li>
                         <li class="">
-                            <a class=" text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                <a class=" text-dark Login-Partial-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
                         </li>
                     }
                     else
@@ -161,14 +162,14 @@
 
 
     </header>
-    <div class=" new-container">
-        <main role="main" class="pb-3">
+    <div class=" new-container2">
+        <main role="main" class="pb-3 main-background">
             <partial name="_Notificaciones" />
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted main-background">
         <div class="container">
             &copy; 2024 - SistemaEFood - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

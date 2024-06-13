@@ -1,0 +1,93 @@
+﻿body {
+}
+
+.table-container {
+	margin-left:1.2%;
+	margin-right:1.2%;
+	
+	background-color: #fff;
+	backdrop-filter: blur(7px);
+	box-shadow: 0 .4rem .8rem #0005;
+	border-radius: .4rem;
+	overflow: hidden;
+}
+.tableEFOOD {
+	margin-left:0;
+	margin-right:0;
+}
+	.tableEFOOD thead {
+		border: 6px solid #fff;
+		border-radius: .6rem;
+	}
+
+.table-dark {
+	border-radius: .6rem;
+}
+.table-header {
+	background-color: #fff;
+	padding: .8rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.text-color-white {
+color:#fff;
+}
+.text-color-black {
+	color: #000;
+}
+.background-color-white {
+background-color:#fff;
+}
+
+.background-color-black {
+	background-color: #000;
+}
+.btn-outline-white {
+border-color:#fff;
+}
+
+.btn-outline-black {
+	border-color: #000;
+}
+
+.btn-outline-red {
+	border-color: #9c1313;
+}
+
+.text-color-red {
+	color: #9c1313;
+}
+.dataTables_wrapper {
+	border-radius: .4rem;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	max-height: calc(89% - 1.6rem);
+	background-color: #fff;
+	margin-top: .8rem;
+	margin-bottom: .8rem;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	padding: 5px;
+	border-radius: .6rem;
+	overflow: auto;
+	overflow: overlay;
+}
+.text-primary {
+color:#000;
+}
+.image img {
+	width: 100%;
+	height: 100%;
+	margin-right: .5rem;
+	border-radius: 50%;
+	
+}
+
+.image {
+	width: 4rem;
+	height: 4rem;
+}
+.image td {
+}

@@ -1,7 +1,18 @@
 html {
   font-size: 14px;
 }
-
+.main-background {
+    background-color: #006241;
+}
+body {
+    background-color: #000;
+}
+.new-container2 {
+    width: 100vw;
+    height: 100vw;
+    margin: 0;
+    background-color: #006241;
+}
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -61,6 +72,7 @@ html {
     display:none;
 }
 nav {
+    background-color:#fff;
     display: flex;
     border-bottom: solid #e5e5e5 3px;
     margin-top: auto;
@@ -92,6 +104,14 @@ nav {
 #sideBar-openButton.active {
     color:#fff;
   
+}
+.Login-Partial-text {
+    margin: 5px;
+    text-decoration: none;
+    font-family: "SoDo Sans SemiBold";
+}
+.Login-Partial li {
+    list-style:none;
 }
 .sidebar {
     z-index: 200;
@@ -185,6 +205,9 @@ padding:5px;
 .logout-text {
 margin-left:auto;
 }
+    .logout-text:hover {
+        color: #fff;
+    }
 .Login-Partial {
     display: flex;
     

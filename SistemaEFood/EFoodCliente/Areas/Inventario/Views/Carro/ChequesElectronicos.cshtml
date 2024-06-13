@@ -22,20 +22,24 @@
                     <label for="cuentaCheque"><i class="fas fa-university"></i> Cuenta:</label>
                     <input type="number" id="cuentaCheque" name="CuentaCheque" class="form-control" pattern="\d*" required />
                 </div>
-                <div class="mt-4">
-                    <div class="row">
-                        <div class="col text-left">
-                            @using (Html.BeginForm("VolverAMetodoPago", "Carro", FormMethod.Post, new { @class = "form-inline" }))
-                            {
-                                <button type="submit" name="action" value="anterior" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> anterior</button>
-                            }
-                        </div>
+                
+                       
                         <div class="col text-right">
                             <button type="submit" id="btnSiguiente" name="action" value="siguiente" class="btn btn-primary btn-sm" disabled><i class="fas fa-arrow-right"></i> siguiente</button>
                         </div>
-                    </div>
-                </div>
+
             }
+                        <div class="col text-left">
+                            @using (Html.BeginForm("VolverAMetodoPago", "Carro", FormMethod.Post, new { @class = "form-inline" }))
+                            {
+
+                                <button type="submit" name="action" value="anterior" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> anterior</button>
+
+                            }
+                        </div>
+
+                 
+            
         </div>
     </div>
 </div>

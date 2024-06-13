@@ -36,10 +36,10 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/ProductoPrecio/Upsert/${padreId}?relacionId=${data}&productoID=${padreId}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/ProductoPrecio/Upsert/${padreId}?relacionId=${data}&productoID=${padreId}" class="btn btn-success stbgreen-btn btn-outline-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a onclick=Delete("/Admin/ProductoPrecio/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/ProductoPrecio/Delete/${data}") class="btn btn-danger text-color-white background-color-red btn-outline-red" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>

@@ -2,7 +2,7 @@ html {
   font-size: 14px;
 }
 .main-background {
-    background-color: #006241;
+    background-color: #fff;
 }
 body {
     background-color: #000;
@@ -11,7 +11,7 @@ body {
     width: 100vw;
     height: 100vw;
     margin: 0;
-    background-color: #006241;
+    background-color: #fff;
 }
 @media (min-width: 768px) {
   html {

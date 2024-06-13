@@ -24,15 +24,24 @@
 	border-radius: .6rem;
 }
 .table-header {
-	background-color: #fff;
+	background-color: #006241;
 	padding: .8rem 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
+.text-color-stbgreen {
+	color: #006241;
+}
+.background-color-stbgreen {
+	background-color: #006241;
+}
+.btn-outline-stbgreen {
+	border-color: #006241;
+}
 .text-color-white {
-color:#fff;
+	color: #fff;
 }
 .text-color-black {
 	color: #000;

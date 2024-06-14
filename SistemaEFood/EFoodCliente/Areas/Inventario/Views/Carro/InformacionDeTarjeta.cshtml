@@ -1,0 +1,127 @@
+﻿@model SistemaEFood.Modelos.ViewModels.CarroCompraVM
+
+@{
+    ViewData["Title"] = "Información de Tarjeta";
+}
+
+<h2>Tarjeta de Crédito o Débito</h2>
+<div class="container my-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0"><i class="fas fa-credit-card"></i> Información de Tarjeta</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("ProcesarPagoConTarjeta", "Carro", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label for="tipoTarjeta"><i class="fas fa-credit-card"></i> Tipo Tarjeta:</label>
+                    <select id="tipoTarjeta" name="TipoTarjeta" class="form-control">
+                        <option value="" selected disabled>Seleccionar tarjeta</option>
+                        @foreach (var tarjeta in Model.TarjetaLista)
+                        {
+                            <option value="@tarjeta.Text">@tarjeta.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="numeroTarjeta"><i class="fas fa-hashtag"></i> Número:</label>
+                    <input type="number" id="numeroTarjeta" name="NumeroTarjeta" class="form-control" pattern="\d*" required />
+                </div>
+                <div class="form-group">
+                    <label for="fechaExpiracion"><i class="fas fa-calendar-alt"></i> Fecha Expiración:</label>
+                    <div class="row">
+                        <div class="col">
+                            <select id="mesExpiracion" name="MesExpiracion" class="form-control" required>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@i">@i.ToString("D2")</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select id="anoExpiracion" name="AnoExpiracion" class="form-control" required>
+                                @for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + 10; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cvv"><i class="fas fa-lock"></i> CVV:</label>
+                    <input type="number" id="cvv" name="CVV" class="form-control" pattern="\d*" required />
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-block" id="submitButton"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <div id="errorTarjeta" class="text-danger mt-2" style="display: none;">Por favor, selecciona una tarjeta.</div>
+                    <div id="errorFecha" class="text-danger mt-2" style="display: none;">La fecha de expiración debe ser mayor a la fecha actual.</div>
+                </div>
+            }
+            <div class="text-center mt-3">
+                @using (Html.BeginForm("VolverAMetodoPago", "Carro", FormMethod.Post))
+                {
+                    <button type="submit" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Anterior</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Importar jQuery y FontAwesome -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $('#submitButton').click(function (event) {
+            var tipoTarjeta = $('#tipoTarjeta').val();
+            var mesExpiracion = parseInt($('#mesExpiracion').val());
+            var anoExpiracion = parseInt($('#anoExpiracion').val());
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear();
+            var currentMonth = currentDate.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+
+            if (tipoTarjeta === null) {
+                event.preventDefault(); // Evitar que se envíe el formulario
+                $('#errorTarjeta').show(); // Mostrar mensaje de error
+            } else {
+                $('#errorTarjeta').hide(); // Ocultar mensaje de error
+            }
+
+            if (anoExpiracion < currentYear || (anoExpiracion === currentYear && mesExpiracion < currentMonth)) {
+                event.preventDefault(); // Evitar que se envíe el formulario
+                $('#errorFecha').show(); // Mostrar mensaje de error
+            } else {
+                $('#errorFecha').hide(); // Ocultar mensaje de error
+            }
+        });
+    });
+</script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>

@@ -34,26 +34,116 @@
 
             <div>
                 <h5>Total: ₡@Model.Orden.TotalOrden.ToString("F2")</h5>
-                <h5>Descuento: ₡@(Model.Orden.TotalOrden * Model.Orden.Descuento / 100).ToString("F2")</h5>
-                <h5>Total a Pagar: ₡@(Model.Orden.TotalOrden - (Model.Orden.TotalOrden * Model.Orden.Descuento / 100)).ToString("F2")</h5>
+                <h5>Descuento: ₡@((Model.Orden.TotalOrden * Model.Orden.Descuento / 100).ToString("F2"))</h5>
+                <h5>Total a Pagar: ₡@((Model.Orden.TotalOrden - (Model.Orden.TotalOrden * Model.Orden.Descuento / 100)).ToString("F2"))</h5>
             </div>
             <hr />
+            <div class="d-flex justify-content-center">
+                <form id="formGuardarPedido" method="post" action="/Inventario/Carro/GuardarPedido">
+                    @Html.HiddenFor(model => model.OrdenDetalle.OrdenId)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Medio)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Tipo)
+                    @Html.HiddenFor(model => model.OrdenDetalle.ChequeNumero)
+                    @Html.HiddenFor(model => model.OrdenDetalle.ChequeCuenta)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Estado)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Monto)
 
-            @using (Html.BeginForm("GuardarPedido", "Carro", FormMethod.Post))
-            {
-                @Html.HiddenFor(model => model.OrdenDetalle.OrdenId)
-                @Html.HiddenFor(model => model.OrdenDetalle.Medio)
-                @Html.HiddenFor(model => model.OrdenDetalle.Tipo)
-                @Html.HiddenFor(model => model.OrdenDetalle.ChequeNumero)
-                @Html.HiddenFor(model => model.OrdenDetalle.ChequeCuenta)
-                @Html.HiddenFor(model => model.OrdenDetalle.Estado)
-                @Html.HiddenFor(model => model.OrdenDetalle.Monto)
+                    <button type="button" class="btn btn-success mr-3" id="btnGuardarPedido">Guardar Pedido</button>
+                </form>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success">Guardar Pedido</button>
-                    <button type="button" class="btn btn-danger">Cancelar Pedido</button>
-                </div>
-            }
+                <form id="formCancelarPedido" method="post" action="/Inventario/Carro/CancelarPedido">
+                    @Html.HiddenFor(model => model.OrdenDetalle.OrdenId)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Medio)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Tipo)
+                    @Html.HiddenFor(model => model.OrdenDetalle.ChequeNumero)
+                    @Html.HiddenFor(model => model.OrdenDetalle.ChequeCuenta)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Estado)
+                    @Html.HiddenFor(model => model.OrdenDetalle.Monto)
+
+                    <button type="button" class="btn btn-danger" id="btnCancelarPedido">Cancelar Pedido</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#btnGuardarPedido').on('click', function () {
+                var form = $('#formGuardarPedido');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            swal({
+                                title: "Pedido Guardado Exitosamente",
+                                text: "Número de Pedido: " + response.ordenId,
+                                icon: "success",
+                                button: "OK"
+                            }).then((result) => {
+                                if (result) {
+                                    window.location.href = '/';
+                                }
+                            });
+                        } else {
+                            swal({
+                                title: "Error",
+                                text: "Hubo un problema al guardar el pedido.",
+                                icon: "error",
+                                button: "OK"
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal({
+                            title: "Error",
+                            text: "Hubo un problema al guardar el pedido.",
+                            icon: "error",
+                            button: "OK"
+                        });
+                    }
+                });
+            });
+            $('#btnCancelarPedido').on('click', function () {
+                var form = $('#formCancelarPedido');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            swal({
+                                title: "Pedido Cancelado Exitosamente",
+                                text: "El pedido ha sido cancelado.",
+                                icon: "success",
+                                button: "OK"
+                            }).then((result) => {
+                                if (result) {
+                                    window.location.href = '/';
+                                }
+                            });
+                        } else {
+                            swal({
+                                title: "Error",
+                                text: "Hubo un problema al cancelar el pedido.",
+                                icon: "error",
+                                button: "OK"
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal({
+                            title: "Error",
+                            text: "Hubo un problema al cancelar el pedido.",
+                            icon: "error",
+                            button: "OK"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

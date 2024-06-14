@@ -18,9 +18,17 @@ namespace SistemaEFood.Modelos.ViewModels
         public IEnumerable<CarroCompra> CarroCompraLista { get; set; }
 
         public IEnumerable<string> ListaPagosActivo { get; set; }
+
+        public IEnumerable<SelectListItem> TarjetaLista { get; set; }
+
         public Orden Orden { get; set; }
 
         public OrdenDetalle OrdenDetalle { get; set; }
+
+        public string TipoTarjeta { get; set; }
+
+        public string NumeroCheque { get; set; }
+        public string Cuenta { get; set; }
 
     }
 }

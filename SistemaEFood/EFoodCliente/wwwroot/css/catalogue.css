@@ -1,0 +1,106 @@
+﻿.card-container {
+	
+	background-color: #fff;
+	backdrop-filter: blur(7px);
+	box-shadow: 0 .4rem .8rem #0005;
+	border-radius: .4rem;
+	
+}
+.form-check-input:checked {
+	background-color: #006241;
+	border-color: #006241;
+}
+
+.form-check-input:focus {
+	border-color: #006241;
+	outline: 0;
+	box-shadow: 0 0 0 .25rem rgba(0, 98, 65, .25);
+}
+
+.btn-outline-stbgreen {
+	color: #006241;
+	border-color: #006241;
+	
+}
+	.btn-outline-stbgreen:hover {
+		color: #fff;
+		background-color: #006241;
+		border-color: #006241;
+	}
+
+.card-header-EFOOD {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: #006241;
+	padding: .8rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.text-color-stbgreen {
+	color: #006241;
+}
+
+.bg-stbgreen {
+	background-color: #006241;
+}
+
+.nav-link-EFOOD {
+	display: block;
+	padding: .5rem 1rem;
+	
+	text-decoration: none;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+	color: #fff;
+}
+
+	.nav-link-EFOOD:hover {
+		color: #fff;
+		text-decoration:underline;
+		text-decoration-color:#fff
+	}
+
+
+.nav-link-icon-EFOOD {
+	display: block;
+	padding: .5rem 1rem;
+	text-decoration: none;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+	color: #fff;
+	border-radius: 50%;
+}
+
+	.nav-link-icon-EFOOD:hover {
+		color: #006241 !important;
+		background-color: #fff;
+		
+		
+	}
+.navbar-brand-EFOOD {
+	margin-left: 20px;
+	margin-top: auto;
+	margin-bottom: auto;
+	padding-top: .3125rem;
+	padding-bottom: .3125rem;
+	padding-left: .2rem;
+	padding-right: .2rem;
+	border-color:transparent;
+	margin-right: 1rem;
+	font-size: 1.25rem;
+	text-decoration: none;
+	white-space: nowrap;
+	color: #fff;
+	border-radius: 5px;
+}
+
+	.navbar-brand-EFOOD:hover {
+		color: #006241 !important;
+		
+		background-color: #fff;
+		
+	}
+
+.btn-outline-stbgreen:focus {
+	box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #006241 !important;
+	
+}

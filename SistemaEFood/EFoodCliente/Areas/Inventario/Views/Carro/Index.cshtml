@@ -6,9 +6,9 @@
     @if (Model.CarroCompraLista.Count() > 0)
     {
         <div>
-            <div class="container">
-                <div class="card">
-                    <div class="card-header bg-dark text-light ml-0 row ">
+            <div class="container form-container">
+                <div class="">
+                    <div class="card-header-EFOOD  text-light ml-0 row ">
                         <div class="col-6">
                             <i class="bi bi-cart2"></i> &nbsp;
                             Carro de Compras
@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="col-12 col-lg-4 text-right row">
                                         <div class="col-4">
-                                            <a asp-action="mas" asp-route-carroId="@item.Id" class="btn btn-outline-primary">
+                                            <a asp-action="mas" asp-route-carroId="@item.Id" class="btn btn-outline-stbgreen">
                                                 <i class="bi bi-plus-square-fill"></i>
                                             </a>
                                         </div>
@@ -61,8 +61,8 @@
                             <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <span class="text-primary"> Total (CRC)</span>
-                                        <strong class="text-primary">₡ <span id="txtTotalOrden">@String.Format("{0:#,##0.00}", Model.Orden.TotalOrden)</span></strong>
+                                        <span class="text-color-stbgreen"> Total (CRC)</span>
+                                        <strong class="text-color-stbgreen">₡ <span id="txtTotalOrden">@String.Format("{0:#,##0.00}", Model.Orden.TotalOrden)</span></strong>
                                     </li>
                                 </ul>
                             </div>
@@ -71,7 +71,7 @@
                     <div class="card-footer">
                         <div class="card-footer row">
                             <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Proceder" class="btn btn-primary form-control">Proceder</a>
+                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Proceder" class="btn stbgreen-btn form-control">Proceder</a>
                             </div>
                         </div>
                     </div>
@@ -80,16 +80,16 @@
         </div>
     }
     <div class="col-12 p-0">
-        <h3 class="text-primary text-center"><i class="bi bi-cart2"></i></h3>
+        <h3 class="text-color-stbgreen text-center"><i class="bi bi-cart2"></i></h3>
     </div>
     <div class="col-12 p-2">
         @if (Model.CarroCompraLista.Count() == 0)
         {
-            <h3 class="text-primary text-center">No hay Datos para Mostrar</h3>
+            <h3 class="text-color-stbgreen text-center">No hay Datos para Mostrar</h3>
         }
 
         <div class="text-center border-0">
-            <a asp-area="Inventario" asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Seguir Comprando</a>
+            <a asp-area="Inventario" asp-controller="Home" asp-action="Index" class="btn btn-outline-stbgreen">Seguir Comprando</a>
         </div>
     </div>
 </form>

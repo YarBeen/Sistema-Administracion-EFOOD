@@ -18,41 +18,43 @@
                         @foreach (var item in Model.CarroCompraLista)
                         {
                             <div class="row">
-                                <div class="d-none d-lg-block col-lg-1 text-center py-2">
+
+                                <div class=" d-none d-lg-block col-lg-1 text-center py-2">
                                     <img src="@item.Producto.ImagenUrl" class="rounded" width="100" />
                                 </div>
-                                <div class="col-12 text-sm-center col-lg-4 text-lg-left">
+                                <div class="col-4 text-sm-right col-lg-2 text-lg-left">
                                     <h5><strong>@item.Producto.Nombre</strong></h5>
                                 </div>
-                                <div class="col-12 text-sm-center col-lg-2 text-lg-left">
+                                <div class="col-2 text-sm-right  col-lg-2 text-lg-left">
                                     <h5><strong>@item.TipoDePrecio</strong></h5>
                                 </div>
-
-                                <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
-                                    <div class="col-6 col-lg-4 text-md-right" style="padding-top:5px;">
-                                        <h6><strong>₡@String.Format("{0:#,##0.00}", item.Precio) <span class="text-muted">x</span> @item.Cantidad </strong></h6>
-                                    </div>
-                                    <div class="col-6 col-lg-4 text-md-right" style="padding-top:5px;">
-                                        <h6> <strong>₡@String.Format("{0:#,##0.00}", item.Precio * item.Cantidad)</strong></h6>
-                                    </div>
-                                    <div class="col-12 col-lg-4 text-right row">
-                                        <div class="col-4">
-                                            <a asp-action="mas" asp-route-carroId="@item.Id" class="btn btn-outline-stbgreen">
-                                                <i class="bi bi-plus-square-fill"></i>
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a asp-action="menos" asp-route-carroId="@item.Id" class="btn btn-outline-danger">
-                                                <i class="bi bi-dash-square-fill"></i>
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a asp-action="remover" asp-route-carroId="@item.Id" class="btn btn-outline-danger">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                                <div class="col-2 text-sm-right  col-lg-2 text-lg-left">
+                                    <h6><strong>₡@String.Format("{0:#,##0.00}", item.Precio) <span class="text-muted">x</span> @item.Cantidad </strong></h6>
                                 </div>
+                                <div class="col-2 text-sm-right  col-lg-2 text-lg-left">
+                                    <h6> <strong>₡@String.Format("{0:#,##0.00}", item.Precio * item.Cantidad)</strong></h6>
+                                </div>
+                                <div class="col-2 col-lg-3 mt-4  row mb-2 btn-container ">
+                                   
+                                    <div class="col-2">
+                                        <a asp-action="mas" asp-route-carroId="@item.Id" class="btn btn-outline-stbgreen">
+                                            <i class="bi bi-plus-square-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2">
+                                        <a asp-action="menos" asp-route-carroId="@item.Id" class="btn btn-outline-danger">
+                                            <i class="bi bi-dash-square-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2">
+                                        <a asp-action="remover" asp-route-carroId="@item.Id" class="btn btn-outline-danger">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
                             </div>
                             <hr />
                         }
@@ -68,10 +70,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
+                    <div class="">
                         <div class="card-footer row">
                             <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Proceder" class="btn stbgreen-btn form-control">Proceder</a>
+                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Proceder" class="btn stbgreen-btn w-100">Proceder</a>
                             </div>
                         </div>
                     </div>

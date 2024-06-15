@@ -31,6 +31,12 @@ body {
 .hello-text:hover {
    color:#000;
 }
+
+.form-select:focus {
+    border-color: #006241 !important;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(0, 98, 65, .25) !important;
+}
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -44,7 +50,19 @@ body {
 }
 /* Side Bar*/
 
+.header-EFOOD {
+    height: 20vh;
+    background-color:#006241 ;
+    background:
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+    transition: all 0.8s ease;
+}
 
+
+
+.header-EFOOD h2 {
+    color:#fff;
+}
 .nav-item {
     position: relative;
 }
@@ -321,3 +339,38 @@ width:100%;
     background-color:aliceblue;
 }
 
+.btn-container .btn {
+   border:none !important;
+}
+
+.button-group {
+    
+   
+}
+
+    .button-group form {
+        display:inline;
+    }
+
+    .button-group .btn {
+        float: right;
+        float:inline-end;
+        margin: 15px;
+    }
+    .button-group .stbgreen-btn {
+      
+       
+    }
+#submitButton {
+   
+}
+.error-text-container {
+    float: left;
+    text-align:left
+}
+
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #6c757d; 
+ 
+}

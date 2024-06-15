@@ -129,8 +129,17 @@ color:#000;
 .image td {
 }
 .btn-return {
-	margin:5px;
+	color: #fff;
+	margin: 5px;
+	background-color: #6c757d !important;
+	border-color: #6c757d !important;
 }
+
+	.btn-return:hover {
+		color: #fff;
+		background-color: #5c636a !important;
+		border-color: #565e64 !important;
+	}
 
 .paginate_button {
 	background:none !important;

@@ -29,7 +29,7 @@ body {
     text-decoration:none;
 }
 .hello-text:hover {
-   color:#000;
+   color:#fff;
 }
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -176,8 +176,7 @@ padding:5px;
    
 }
     .navbar-button:hover {
-        background-color: #F3F3F3;
-        border-radius: 50%;
+      
     }
 .navbar-brand {
     color: #fff;
@@ -200,7 +199,7 @@ padding:5px;
     align-items:center;
 }
 .navbar-brand:hover {
-    color: #000;
+    color: #fff;
     margin-top:auto;
     margin-bottom:auto;
 }
@@ -329,4 +328,8 @@ input:-internal-autofill-selected {
     
     background-color: #fff !important;
     color: fieldtext !important;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #6c757d;
 }

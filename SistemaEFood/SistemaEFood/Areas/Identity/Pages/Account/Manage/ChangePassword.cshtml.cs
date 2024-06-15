@@ -54,7 +54,7 @@ namespace SistemaEFood.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Contraseña actual")]
             public string OldPassword { get; set; }
 
             /// <summary>
@@ -62,9 +62,9 @@ namespace SistemaEFood.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La {0} debe ser minimo de {2} y maximo de {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nueva contraseña")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -72,8 +72,8 @@ namespace SistemaEFood.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Confirma la contraseña nueva")]
+            [Compare("NewPassword", ErrorMessage = "La nueva contraseña y la de confirmación no coinciden.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -118,8 +118,8 @@ namespace SistemaEFood.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _logger.LogInformation("Se cambió la contraseña correctamente.");
+            StatusMessage = "Su contraseña se cambió.";
 
             return RedirectToPage();
         }

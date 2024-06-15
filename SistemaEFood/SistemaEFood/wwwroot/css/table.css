@@ -60,6 +60,11 @@
 .btn-outline-stbgreen {
 	border-color: #006241;
 }
+
+	.btn-outline-stbgreen a {
+		color: #006241;
+		text-decoration:none;
+	}
 .text-color-white {
 	color: #fff;
 }

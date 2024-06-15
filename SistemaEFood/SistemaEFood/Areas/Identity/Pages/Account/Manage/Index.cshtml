@@ -5,24 +5,40 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
+
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
+<div class="row center-form">
+    <div class="col-md-9 manage-form p-5">
+        <div class=" login-form-title ">
+            <h3 class="soda-font-bold">@ViewData["Title"]</h3>
+        </div>
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <input asp-for="Username" class="form-control" placeholder="Usuario." disabled />
                 <label asp-for="Username" class="form-label"></label>
             </div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <input asp-for="Input.Email" class="form-control" placeholder="Email." disabled />
+                <label asp-for="Input.Email" class="form-label"></label>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+
+
+           
+            <btn class="btn btn-outline-stbgreen">
+                <a class=" @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Cambiar Contraseña</a>
+            </btn>
+           
+            
+            <btn class="btn btn-outline-stbgreen">
+                <a class=" @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./DeletePersonalData">Borrar cuenta</a></li>
+
+            </btn>
         </form>
     </div>
+
+
 </div>
 
 @section Scripts {

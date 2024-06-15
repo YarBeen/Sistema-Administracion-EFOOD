@@ -60,11 +60,6 @@
 .btn-outline-stbgreen {
 	border-color: #006241;
 }
-
-	.btn-outline-stbgreen a {
-		color: #006241;
-		text-decoration:none;
-	}
 .text-color-white {
 	color: #fff;
 }
@@ -129,17 +124,8 @@ color:#000;
 .image td {
 }
 .btn-return {
-	color: #fff;
-	margin: 5px;
-	background-color: #6c757d !important;
-	border-color: #6c757d !important;
+	margin:5px;
 }
-
-	.btn-return:hover {
-		color: #fff;
-		background-color: #5c636a !important;
-		border-color: #565e64 !important;
-	}
 
 .paginate_button {
 	background:none !important;

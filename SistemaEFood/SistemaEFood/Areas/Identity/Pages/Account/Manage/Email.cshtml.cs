@@ -69,7 +69,7 @@ namespace SistemaEFood.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nuevo correo")]
             public string NewEmail { get; set; }
         }
 

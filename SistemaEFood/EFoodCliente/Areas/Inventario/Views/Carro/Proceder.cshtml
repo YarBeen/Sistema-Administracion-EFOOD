@@ -3,9 +3,9 @@
 <form id="formulario-procesar" method="post" onsubmit="return validarFormulario()">
     <br />
     <div class="backgroundWhiteBorder">
-        <div class="container">
-            <div class="card">
-                <div class="card-header bg-dark text-light ml-0 row">
+        <div class="container form-container">
+            <div class=" ">
+                <div class="card-header-EFOOD text-light ml-0 row">
                     <div class="col-6">
                         <i class="fa fa-shopping-cart"></i> &nbsp;
                         Detalles de la Orden
@@ -17,7 +17,7 @@
                             <div class="col-12 col-lg-6 pb-4">
                                 <div class="row">
                                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="text-success">Detalles de Envío:</span>
+                                        <span class="text-color-stbgreen">Detalles de Envío:</span>
                                     </h4>
                                 </div>
                                 <div class="row my-1">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-12 col-lg-5 offset-lg-1">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-success">Productos:</span>
+                                    <span class="text-color-stbgreens">Productos:</span>
                                 </h4>
                                 <ul class="list-group mb-3">
                                     @foreach (var item in Model.CarroCompraLista)
@@ -77,8 +77,8 @@
                                         </li>
                                     }
                                     <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <strong class="text-success">Total (CRC)</strong>
-                                        <strong class="text-success">₡@String.Format("{0:#,##0.00}", Model.Orden.TotalOrden)</strong>
+                                        <strong class="text-color-stbgreen">Total (CRC)</strong>
+                                        <strong class="text-color-stbgreen">₡@String.Format("{0:#,##0.00}", Model.Orden.TotalOrden)</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -88,10 +88,10 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-8 pt-2">
-                            <p class="text-success">Fecha del pedido: @Model.Orden.FechaOrden.ToShortDateString()</p>
+                            <p class="text-color-stbgreen">Fecha del pedido: @Model.Orden.FechaOrden.ToShortDateString()</p>
                         </div>
                         <div class="col-12 col-md-4">
-                            <button type="submit" value="Realizar Pedido" class="btn btn-success form-control" id="procederID">Realizar Pedido</button>
+                            <button type="submit" value="Realizar Pedido" class="btn stbgreen-btn form-control" id="procederID">Realizar Pedido</button>
                         </div>
                     </div>
                 </div>

@@ -16,32 +16,11 @@
 	text-decoration-color: #006241;
 }
 
-.manage-form {
-	backdrop-filter: blur(7px);
-	box-shadow: 0 .4rem .8rem #0005;
-	border-radius: .4rem;
-	overflow: hidden;
-	padding-bottom: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.manage-title {
-	color: #006241;
-	text-decoration: underline;
-	text-decoration-color: #006241;
-}
-
-.manage-title h2 {
+.login-form-title h2 {
 	color: #006241;
 	text-decoration: none;
 	text-decoration-color: #006241;
 }
-	.manage-title h3 {
-		color: #006241;
-		text-decoration: none;
-		text-decoration-color: #006241;
-	}
 .form-container {
 	margin-left: 1.2%;
 	margin-right: 1.2%;

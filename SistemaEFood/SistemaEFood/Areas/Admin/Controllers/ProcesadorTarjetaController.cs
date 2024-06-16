@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SistemaEFood.AccesoDatos.Migrations;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Modelos.ViewModels;
@@ -70,7 +71,9 @@ namespace SistemaEFood.Areas.Admin.Controllers
                 {
                     procesadorTarjetaVM.ProcesadorTarjeta.ProcesadorId = id;
                     await _unidadTrabajo.ProcesadorTarjeta.Agregar(procesadorTarjetaVM.ProcesadorTarjeta);
-                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + procesadorTarjetaVM.ProcesadorTarjeta.Tarjeta.Nombre + " asignada exitosamente";
+                    var tarjeta = await _unidadTrabajo.Tarjeta.ObtenerPrimero(X=> X.Id== procesadorTarjetaVM.ProcesadorTarjeta.TarjetaId);
+                   
+                    var mensaje = TempData[DS.Exitosa] = "Tarjeta " + tarjeta.Nombre + " asignada exitosamente";
                     await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 else

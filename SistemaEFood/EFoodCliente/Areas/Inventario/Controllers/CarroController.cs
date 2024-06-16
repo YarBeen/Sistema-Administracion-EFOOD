@@ -240,15 +240,7 @@ namespace EFoodCliente.Areas.Inventario.Controllers
             var ordenes = await _unidadTrabajo.Orden.ObtenerTodos(u => u.Cliente == usuarioId);
             var orden = ordenes.OrderByDescending(u => u.Id).FirstOrDefault();
             var tiquete = await _unidadTrabajo.TiqueteDeDescuento.ObtenerPrimero(t => t.Codigo == orden.CodigoTiqueteDeDescuento);
-            if (tiquete != null)
-            {
-                if (tiquete.Disponibles >= 0)
-                {
-                    tiquete.Disponibles -= 1;
-                    await _unidadTrabajo.Guardar();
-
-                }
-            }
+          
 
 
             _unidadTrabajo.OrdenDetalle.Agregar(carroCompraVM.OrdenDetalle);

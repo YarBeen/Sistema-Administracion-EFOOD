@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\ts\text.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
@@ -29,6 +33,10 @@
 		<ProjectReference Include="..\SistemaEFood.AccesoDatos\SistemaEFood.AccesoDatos.csproj" />
 		<ProjectReference Include="..\SistemaEFood.Modelos\SistemaEFood.Modelos.csproj" />
 		<ProjectReference Include="..\SistemaEFood.Utilidades\SistemaEFood.Utilidades.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Include="wwwroot\ts\text.ts" />
 	</ItemGroup>
 
 	<ItemGroup>

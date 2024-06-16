@@ -84,14 +84,14 @@ namespace SistemaEFood.Areas.Admin.Controllers
             var tipoPrecioDb = await _unidadTrabajo.TipoPrecio.Obtener(id);
             if (tipoPrecioDb == null)
             {
-                var mensaje = TempData[DS.Error] = "Error al grabar tipo de precio";
+                var mensaje = TempData[DS.Error] = "Error al remover tipo de precio";
                 await _unidadTrabajo.BitacoraError.RegistrarError(mensaje.ToString(), 400);
                 return Json(new { success = false, message = "Error al borrar Tipo de Precio" });
             }
 
             _unidadTrabajo.TipoPrecio.Remover(tipoPrecioDb);
             await _unidadTrabajo.Guardar();
-            await _unidadTrabajo.BitacoraError.RegistrarError("Se creó el tipo de precio " + tipoPrecioDb.Nombre + " de forma exitosa", 300);
+            await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre,"Se borro " + tipoPrecioDb.Nombre + " de forma exitosa");
             return Json(new { success = true, message = "Tipo de precio borrado exitosamente" });
         }
 

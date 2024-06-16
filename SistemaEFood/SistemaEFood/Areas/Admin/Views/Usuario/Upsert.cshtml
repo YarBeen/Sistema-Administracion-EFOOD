@@ -55,8 +55,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Rol Actual = @Model.UserModel.Role</label>
-                        <select asp-for="UserModel.Role" asp-items="@Model.ListaRoles" class="form-select">
-                            <option disabled selected> -- Seleccione un rol --</option>
+                        <select asp-for="UserModel.Role" asp-items="@Model.ListaRoles" class="form-select" required>
+                            <option disabled value="" selected> -- Seleccione un rol --</option>
 
                         </select>
                         <span asp-validation-for="UserModel.Role" class="text-danger"></span>
@@ -117,8 +117,7 @@
         border: 1px solid #888;
         width: 80%;
         max-width: 300px; /* Max width */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
+      
         position: relative;
     }
 
@@ -169,9 +168,9 @@
 <button onclick="displayResetPasswordForm()" class="stbgreen-btn reset-password-button">Reset Password</button>
 
 <div id="reset-password-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content form-container">
         <span class="close" onclick="closeResetPasswordForm()">&times;</span>
-        <div id="reset-password-form" class="form-container"></div>
+        <div id="reset-password-form" class=""></div>
     </div>
 </div>
 
@@ -193,7 +192,7 @@
                     <input type="password" id="new-password" name="new-password" required>
                     <label for="confirm-password">Confirm New Password:</label>
                             <input type="password" id="confirm-password" name="confirm-password" required    pattern=".{6,}" oninput="this.setCustomValidity(this.value !== document.getElementById('new-password').value ? 'Passwords must match.' : '')" title="Passwords must match">
-                    <button type="submit">Reset Password</button>
+                                    <button type="submit" class="btn stbgreen-btn">Reset Password</button>
                 </form>
             `;
 
@@ -210,7 +209,7 @@
                
                
                 cambiarContraseña(userId,password);
-                alert('Password reset request submitted');
+              
                 closeResetPasswordForm();
             };
         }

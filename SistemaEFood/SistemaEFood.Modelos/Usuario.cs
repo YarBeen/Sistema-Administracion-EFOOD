@@ -28,6 +28,7 @@ namespace SistemaEFood.Modelos
 
 
         [NotMapped]
+        
         public string Role { get; set; }
 
     }

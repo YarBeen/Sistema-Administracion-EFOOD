@@ -16,7 +16,7 @@
                 <div class="col-md-4 mb-4">
                     <h3>@Model.Producto.Nombre</h3>
                     <img src="@Model.Producto.ImagenUrl" class="img-fluid" alt="" />
-                    
+
                 </div>
 
                 <div class="col-md-6 mb-4">
@@ -68,10 +68,14 @@
                         </p>
 
                         <div class="d-flex justify-content-left mt-2">
-                            <button type="submit" class="btn stbgreen-btn ms-1" id="btnAgregar">
-                                <i class="bi bi-cart2"></i>
-                                Agregar al carrito
-                            </button>
+
+                            @if (Model.ListaPrecios.Any())
+                            {
+                                <button type="submit" class="btn stbgreen-btn ms-1" id="btnAgregar">
+                                    <i class="bi bi-cart2"></i>
+                                    Agregar al carrito
+                                </button>
+                            }
                             <a asp-action="Index" class="btn stbgreen-btn ms-3">
                                 <i class="bi bi-arrow-return-left"></i>
                                 Regresar

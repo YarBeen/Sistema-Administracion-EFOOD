@@ -45,6 +45,18 @@
                                 double descuentoPorcentaje = ((Model.Orden.TotalOrden / 100) * Model.Orden.Descuento);
                             }
                             <h4>Descuento: ₡@descuentoPorcentaje.ToString("F2")</h4>
+                            @if (descuentoPorcentaje == 0)
+                            {
+                                <div class="alert alert-warning" role="alert">
+                                    Tiquete no disponible
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    Descuento de @Model.Orden.Descuento% aplicado
+                                </div>
+                            }
                             <h4>Total: ₡@((Model.Orden.TotalOrden - descuentoPorcentaje).ToString("F2"))</h4>
                         </div>
                     </div>

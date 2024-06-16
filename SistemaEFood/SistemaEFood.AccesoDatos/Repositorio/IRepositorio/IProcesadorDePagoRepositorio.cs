@@ -15,6 +15,14 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
         public Task<IEnumerable<ProcesadorDePago>>ObtenerProcesadorCheques();
         public Task<IEnumerable<ProcesadorDePago>> ObtenerProcesadorTarjetas();
 
+
         Task<ProcesadorDePago> Obtener(int? id);
+        
+        public Task<IEnumerable<string>> ObtenerTiposDePagoActivos();
+
+        public IEnumerable<SelectListItem> ObtenerTodosDropdownLista();
+
+
+
     }
 }

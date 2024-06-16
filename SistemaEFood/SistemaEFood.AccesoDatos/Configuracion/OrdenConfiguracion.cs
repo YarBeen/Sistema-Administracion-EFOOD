@@ -15,6 +15,7 @@ namespace SistemaEFood.AccesoDatos.Configuracion
         public void Configure(EntityTypeBuilder<Orden> builder)
         {
             builder.Property(X => X.Id).IsRequired();
+            builder.Property(X => X.Cliente).IsRequired();
             builder.Property(X => X.FechaOrden).IsRequired();
             builder.Property(X => X.NumeroEnvio).IsRequired(false);
             builder.Property(X => X.TotalOrden).IsRequired();

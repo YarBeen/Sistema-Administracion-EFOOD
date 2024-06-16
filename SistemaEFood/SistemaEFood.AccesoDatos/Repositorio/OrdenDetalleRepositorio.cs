@@ -1,4 +1,5 @@
-﻿using SistemaEFood.AccesoDatos.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaEFood.AccesoDatos.Data;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using System;
@@ -20,6 +21,26 @@ namespace SistemaEFood.AccesoDatos.Repositorio
         public void Actualizar(OrdenDetalle ordenDetalle)
         {
             _db.Update(ordenDetalle);
+        }
+
+        public async Task<IEnumerable<OrdenDetalle>> ObtenerPorFecha(DateTime fecha)
+        {
+            return await _db.OrdenDetalle.Where(x => x.FechaOrden.Date == fecha.Date).ToListAsync();
+        }
+        public async Task<IEnumerable<OrdenDetalle>> ObtenerEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var fechaFinInclusive = fechaFin.AddDays(1).AddTicks(-1);
+            var datos = await _db.OrdenDetalle
+                                        .Where(be => be.FechaOrden >= fechaInicio && be.FechaOrden <= fechaFinInclusive)
+                                        .ToListAsync();
+            return datos;
+        }
+
+        public async Task<IEnumerable<OrdenDetalle>> ObtenerPedidosPorEstado(string estado)
+        {
+            return await _db.OrdenDetalle
+                        .Where(p => p.Estado == estado)
+                        .ToListAsync();
         }
     }
 }

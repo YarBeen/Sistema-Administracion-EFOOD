@@ -1,4 +1,7 @@
-﻿@using SistemaEFood.Utilidades
+@using SistemaEFood.Utilidades
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +10,8 @@
     <title>@ViewData["Title"] - SistemaEFood</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/upsert.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SistemaEFood.styles.css" asp-append-version="true" />
     <script src="~/js/sidebar.js"></script>
     <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
@@ -17,116 +22,157 @@
 </head>
 <body>
     <header>
-        <div class="navbar-button">
-            <button class="open-btn" onclick="openSidebar()">☰ Open Sidebar</button>
-        </div>
-        <div class="sidebar" id="nav-bar-menu">
-            <nav class="">
-                <div class="container-fluid">
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
-                            @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Seguridad) || User.IsInRole(DS.Role_Consulta) || User.IsInRole(DS.Role_Mantenimiento) )
-                            {
-                                <li class="nav-item">
-                                    <a class=" nav-link sodo-font-bold" asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index">Home Admin</a>
-                                </li>
+        <nav class="">
+            <div class="nav-left-items">
+                <div class="navbar-button">
+                    <button id="sideBar-openButton" class="sideBar-button" onclick="checkSideBar()"><i class="bi bi-list"></i></button>
 
-
-                            }
-                            <li class="nav-item">
-                                <a class=" nav-link sodo-font-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-
-
-                            <li class="side-bar-item">
-                                <a class="nav-link sodo-font-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-                            </li>
-                            @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Seguridad))
-                            {
-                                <li class="nav-item dropdown side-bar-dropdown">
-                                    <a class="nav-link dropdown-toggle side-bar-dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Seguridad  ^
-                                    </a>
-
-                                    <ul class="dropdown-menu side-bar-dropdown-items-list">
-                                        <li class="dropdown-item-box">   <a class="dropdown-item  side-bar-dropdown-item font-color-black" asp-area="Identity" asp-page="/Account/Register">Crear Usuario</a></li>
-
-                                        <li class="dropdown-item-box"><a class="dropdown-item side-bar-dropdown-item font-color-black" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Ver usuarios</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item side-bar-dropdown-item font-color-black" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Cambiar contraseña</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Mantenimiento))
-                            {
-                                <li class="nav-item dropdown">
-
-                                    @if (User.IsInRole(DS.Role_Admin))
-                                    {
-                                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">     Administración </a>
-                                    }
-                                    @if (User.IsInRole(DS.Role_Mantenimiento))
-                                    {
-                                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">     Mantenimiento </a>
-                                    }
-
-                                    <ul class="dropdown-menu">
-                                        @if (User.IsInRole(DS.Role_Admin))
-                                        {
-                                            <li class="dropdown-item-box"><a class="dropdown-item-sidebar .font-color-black" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Tarjetas de crédito o débito</a></li>
-                                            <li class="dropdown-item-box"><a class="dropdown-item-sidebar .font-color-black" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Procesadores de pago</a></li>
-                                        }
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="TiqueteDeDescuento" asp-action="Index">Tiquetes de descuento</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="LineaComida" asp-action="Index">Lineas de comidas</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Producto" asp-action="Index">Productos</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="TipoPrecio" asp-action="Index">Tipos de Precio</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Consulta))
-                            {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Consultas
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown-item-box"> <a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Pedidos</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Producto" asp-action="Consultar">Productos</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="Bitacora" asp-action="Index">Bitácora</a></li>
-                                        <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-black" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Bitacora Error</a></li>
-                                    </ul>
-                                </li>
-                            }
-
-
-                        </ul>
-
-                    </div>
                 </div>
-        </div>
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaEFood</a>
-        <div class="Login-Partial">
-            <partial name="_LoginPartial" />
-        </div>
+                <div class="sidebar-container" id="sidebarContainer">
+                    <div class="sidebar" id="sidebar">
+
+                        <div class="container-fluid">
+
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button></br>
+                            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between sidebar-nav">
+                                <ul class="navbar-nav flex-grow-1">
+                                    
+                                    <li class="nav-item">
+                                        <a class=" nav-link sodo-font-bold font-color-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class=" nav-link sodo-font-bold font-color-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
+                                    </li>
+
+                                    <li class="side-bar-item">
+                                        <a class="nav-link sodo-font-bold font-color-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                                    </li>
+                                    @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Seguridad))
+                                    {
+                                        <li class=" ">
+                                            <button class="font-color-white dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#seguridadItemList" aria-expanded="false" aria-controls="seguridadItemList">
+
+                                                Seguridad
+                                            </button>
+                                        </li>
+
+                                        <div class="collapse" id="seguridadItemList">
+                                            <ul>
+                                                <li class="">   <a class=" font-color-white" asp-area="Identity" asp-page="/Account/Register">Crear Usuario</a></li>
+
+                                                <li class=""><a class=" font-color-white" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Ver usuarios</a></li>
+                                                <li class="dropdown-item-box"><a class=" font-color-white" asp-area="Admin" asp-controller="Usuario" asp-action="Index">Cambiar contraseña</a></li>
+                                            </ul>
+                                        </div>
+
+                                    }
+                                    @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Mantenimiento))
+                                    {
+                                        <li class="">
+
+                                            @if (User.IsInRole(DS.Role_Admin))
+                                            {
+                                                <button class="font-color-white dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mantenimientoItemList" aria-expanded="false" aria-controls="mantenimientoItemList">     Administración </button>
+                                            }
+                                            @if (User.IsInRole(DS.Role_Mantenimiento))
+                                            {
+                                                <button class="font-color-white dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mantenimientoItemList" aria-expanded="false" aria-controls="mantenimientoItemList">     Mantenimiento </button>
+                                            }
+                                            <ul class="collapse" id="mantenimientoItemList">
+                                                @if (User.IsInRole(DS.Role_Admin))
+                                                {
+                                                    <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Tarjeta" asp-action="Index">Tarjetas de crédito o débito</a></li>
+                                                    <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="ProcesadorDePago" asp-action="Index">Procesadores de pago</a></li>
+                                                }
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="TiqueteDeDescuento" asp-action="Index">Tiquetes de descuento</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="LineaComida" asp-action="Index">Lineas de comidas</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Producto" asp-action="Index">Productos</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="TipoPrecio" asp-action="Index">Tipos de Precio</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Bitacora Error</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole(DS.Role_Admin) || User.IsInRole(DS.Role_Consulta))
+                                    {
+                                        <li class="nav-item dropdown">
+                                            <button class="font-color-white dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#consultasItemList" aria-expanded="false" aria-controls="consultasItemList">
+                                                Consultas
+                                            </button>
+                                            <ul class="collapse" id="consultasItemList">
+                                                <li class="dropdown-item-box"> <a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Pedido" asp-action="Consultar">Pedidos</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Producto" asp-action="Consultar">Productos</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="Bitacora" asp-action="Index">Bitácora</a></li>
+                                                <li class="dropdown-item-box"><a class="dropdown-item-sidebar font-color-white" asp-area="Admin" asp-controller="BitacoraError" asp-action="Index">Errores</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                       
+                                        <li class="nav-item">
+                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                <button type="submit" class="nav-link btn btn-link font-color-white logout-text">Logout</button>
+                                            </form>
+                                        </li>
+                                    }
+                                    
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+                </div>
+
+                <div class="navbar-brand-container ">   <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaEFood</a></div>
+
+            </div>
+
+            <div class="nav-right-items">
+            <div class="Login-Partial">
+
+                <ul class="">
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                        <li class="">
+                                <a class=" text-color-white Login-Partial-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                        <li class="">
+                                <a class=" text-color-white Login-Partial-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="">
+                                <a class=" text-color-white hello-text" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                        </li>
+                    }
+
+                </ul>
+                </div>
+            </div>
+
         </nav>
 
 
 
-        </div>
+
     </header>
-    <div class=" new-container">
-        <main role="main" class="pb-3">
+    <div class=" new-container2">
+        <main role="main" class="pb-3 main-background">
             <partial name="_Notificaciones" />
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted main-background">
         <div class="container">
             &copy; 2024 - SistemaEFood - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

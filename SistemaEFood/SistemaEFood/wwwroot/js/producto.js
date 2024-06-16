@@ -25,20 +25,30 @@ function loadDataTable() {
             "url": "/Admin/Producto/ObtenerTodos"
         },
         "columns": [
-            { "data": "id", "width": "20%"},
+            {
+                "data": "imagenUrl",
+                "render": function (data) {
+                    return `
+                        <div class="image">
+                        <td>   <img src="${data}"></img></td>
+                        </div>
+                    `;
+                }, "width": "5%"
+            },
+            { "data": "id", "width": "15%"},
             { "data": "nombre", "width": "40%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href= "/Admin/Producto/Upsert/${data}" class="btn btn-success stbgreen-btn btn-outline-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary text-white" style="cursor:pointer">
+                            <a href="/Admin/ProductoPrecio/Index/${data}" class="btn btn-primary btn-secondary btn-outline-white" style="cursor:pointer">
                                 <i class="bi bi-tags"></i> Precios
                             </a>
-                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-color-white background-color-red btn-outline-red" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>

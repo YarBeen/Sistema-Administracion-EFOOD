@@ -1,0 +1,99 @@
+﻿@model SistemaEFood.Modelos.ViewModels.CarroCompraVM
+
+@{
+    ViewData["Title"] = "Información de Cheque";
+}
+
+<h2>Cheque Electrónico</h2>
+
+<div class="container my-5">
+    <div class="card card-container">
+        <div class="card-header-EFOOD  text-white">
+            <h4 class="mb-0"><i class="fas fa-money-check-alt"></i> Información de Cheque</h4>
+        </div>
+        <div class="card-body">
+            <div class="button-group">
+            @using (Html.BeginForm("ProcesarChequeElectronico", "Carro", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label for="numeroCheque"><i class="fas fa-hashtag"></i> Número Cheque:</label>
+                    <input type="number" id="numeroCheque" name="NumeroCheque" class="form-control" pattern="\d*" required />
+                </div>
+                <div class="form-group">
+                    <label for="cuentaCheque"><i class="fas fa-university"></i> Cuenta:</label>
+                    <input type="number" id="cuentaCheque" name="CuentaCheque" class="form-control" pattern="\d*" required />
+                </div>
+                
+                       
+                        <div class="col text-right">
+                            <button type="submit" id="btnSiguiente" name="action" value="siguiente" class="btn stbgreen-btn btn-sm" disabled><i class="fas fa-arrow-right"></i> siguiente</button>
+                        </div>
+
+            }
+                        <div class="col text-left">
+                            @using (Html.BeginForm("VolverAMetodoPago", "Carro", FormMethod.Post, new { @class = "form-inline" }))
+                            {
+
+                                <button type="submit" name="action" value="anterior" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> anterior</button>
+
+                            }
+                        </div>
+
+                 
+            
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Importar jQuery y FontAwesome -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Función para verificar campos antes de habilitar el botón siguiente
+        function verificarCampos() {
+            var numeroCheque = $('#numeroCheque').val();
+            var cuentaCheque = $('#cuentaCheque').val();
+
+            if (numeroCheque.trim() !== '' && cuentaCheque.trim() !== '') {
+                $('#btnSiguiente').prop('disabled', false);
+            } else {
+                $('#btnSiguiente').prop('disabled', true);
+            }
+        }
+
+        // Llama a la función al cargar la página y cada vez que cambia un campo
+        verificarCampos();
+        $('#numeroCheque, #cuentaCheque').on('input', verificarCampos);
+    });
+</script>

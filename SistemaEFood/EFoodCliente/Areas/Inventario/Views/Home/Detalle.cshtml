@@ -7,7 +7,7 @@
 
 <form method="post" action="@Url.Action("Detalle", "Home")">
     <main class="mt-3 pt-2">
-        <div class="container mt-5">
+        <div class="container mt-3 form-container pt-2">
             <input hidden asp-for="CarroCompra.ProductoId" />
             <input hidden asp-for="CarroCompra.Precio" id="precioTotal" />
             <input hidden asp-for="CarroCompra.TipoDePrecio" id="tipoPrecioSeleccionado" />
@@ -68,11 +68,11 @@
                         </p>
 
                         <div class="d-flex justify-content-left mt-2">
-                            <button type="submit" class="btn btn-primary ms-1" id="btnAgregar">
+                            <button type="submit" class="btn stbgreen-btn ms-1" id="btnAgregar">
                                 <i class="bi bi-cart2"></i>
                                 Agregar al carrito
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-primary ms-3">
+                            <a asp-action="Index" class="btn stbgreen-btn ms-3">
                                 <i class="bi bi-arrow-return-left"></i>
                                 Regresar
                             </a>
@@ -117,6 +117,12 @@
 
         document.getElementById("cantidadId").addEventListener("input", actualizarTotal);
 
+        document.querySelectorAll('.form-check input[name="precioSeleccionado"]').forEach(function (input) {
+            input.addEventListener('change', actualizarTotal);
+        });
+
+        document.getElementById("btnAgregar").disabled = true;
+
         $("#btnAgregar").click(function () {
             let stock = document.getElementById("stockId")?.value;
             let cantidad = document.getElementById("cantidadId").value;
@@ -126,6 +132,5 @@
             }
         });
 
-        
     </script>
 }

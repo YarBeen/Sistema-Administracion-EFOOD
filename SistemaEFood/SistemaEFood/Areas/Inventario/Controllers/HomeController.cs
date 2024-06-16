@@ -16,6 +16,7 @@ namespace SistemaEFood.Areas.Inventario.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

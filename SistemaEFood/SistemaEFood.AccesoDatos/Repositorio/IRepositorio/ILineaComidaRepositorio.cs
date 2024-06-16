@@ -11,5 +11,7 @@ namespace SistemaEFood.AccesoDatos.Repositorio.IRepositorio
     {
         void Actualizar(LineaComida lineaComida);
 
+        Task<LineaComida> Obtener(int? id);
+
     }
 }

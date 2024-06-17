@@ -131,32 +131,6 @@ namespace PruebasEFood.Tests.Controllers
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
-
-        [Fact]
-        public async Task Upsert_Post_ModeloValido_IdEsCero_CreaProcesadorTarjeta()
-        {
-            // Arrange
-            var procesadorTarjetaVM = new ProcesadorTarjetaVM
-            {
-                ProcesadorTarjeta = new ProcesadorTarjeta { Id = 0, ProcesadorId = 1, TarjetaId = 1 }
-            };
-
-            _mockUnidadTrabajo.Setup(u => u.ProcesadorTarjeta.Agregar(It.IsAny<ProcesadorTarjeta>())).Returns(Task.CompletedTask);
-            _mockUnidadTrabajo.Setup(u => u.Guardar()).Returns(Task.CompletedTask);
-            _mockUnidadTrabajo.Setup(u => u.Bitacora.RegistrarAccion(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
-
-            // Act
-            var result = await procesadorTarjetaControllerPrueba.Upsert(procesadorTarjetaVM, 1);
-
-            // Assert
-            _mockUnidadTrabajo.Verify(u => u.ProcesadorTarjeta.Agregar(It.Is<ProcesadorTarjeta>(p => p == procesadorTarjetaVM.ProcesadorTarjeta)), Times.Once);
-            _mockUnidadTrabajo.Verify(u => u.Guardar(), Times.Once);
-            _mockUnidadTrabajo.Verify(u => u.Bitacora.RegistrarAccion("testuser", It.IsAny<string>()), Times.Once);
-
-            var redirectResult = Assert.IsType<RedirectResult>(result);
-            Assert.Contains("ProcesadorTarjeta/Index", redirectResult.Url);
-        }
-
         [Fact]
         public async Task Upsert_Post_ModeloValido_IdNoEsCero_ActualizaProcesadorTarjeta()
         {

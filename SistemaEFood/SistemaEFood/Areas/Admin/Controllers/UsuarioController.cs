@@ -36,7 +36,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
             if (id == null)
             {
-                //Ver esto conoce pura vida
+                
                 return View(userVM);
             }
             var userForView = await _unidadTrabajo.Usuario.ObtenerUsuarioPorID(id);

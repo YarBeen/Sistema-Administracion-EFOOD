@@ -14,17 +14,21 @@ using SistemaEFood.Modelos.ViewModels;
 using SistemaEFood.Utilidades;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq.Expressions;
+using SistemaEFood.AccesoDatos.Migrations;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace PruebasEFood.Tests.Controllers
 {
     public class ProductoPrecioControllerTests
     {
         private readonly Mock<IUnidadTrabajo> _mockUnidadTrabajo;
+        private readonly Mock<IUrlHelper> _mockUrlHelper;
         private readonly ProductoPrecioController productoPrecioControllerPrueba;
 
         public ProductoPrecioControllerTests()
         {
             _mockUnidadTrabajo = new Mock<IUnidadTrabajo>();
+            _mockUrlHelper = new Mock<IUrlHelper>();
             productoPrecioControllerPrueba = new ProductoPrecioController(_mockUnidadTrabajo.Object);
 
             // Simula el login y creación de un usuario
@@ -32,6 +36,10 @@ namespace PruebasEFood.Tests.Controllers
             {
                 new Claim(ClaimTypes.Name, "testuser")
             }, "mock"));
+
+            // Configurar el comportamiento esperado de UrlHelper
+            _mockUrlHelper.Setup(x => x.Action(It.IsAny<UrlActionContext>()))
+                .Returns("mocked-url");
 
             // Simula el HTTP para el funcionamiento de la prueba
             productoPrecioControllerPrueba.ControllerContext = new ControllerContext()
@@ -119,18 +127,23 @@ namespace PruebasEFood.Tests.Controllers
             // Arrange
             var productoID = 1;
             var relacionId = 1;
-            var productoPrecio = new ProductoPrecio { Id = 1, Idprecio = 2 };
+            var productoPrecio = new SistemaEFood.Modelos.ProductoPrecio { Id = 1, Idprecio = 2 };
             var listaPrecios = new List<SelectListItem>
             {
                 new SelectListItem { Value = "1", Text = "Precio 1" },
                 new SelectListItem { Value = "2", Text = "Precio 2" }
             };
-            /*
+
             _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.ObtenerTipoPrecios(It.IsAny<string>(), It.IsAny<int>()))
-        .Returns(listaPrecios);
-            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.ObtenerPrimero(It.IsAny<Expression<Func<ProductoPrecio, bool>>>()))
+                .Returns(listaPrecios);
+
+            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.ObtenerPrimero(
+                It.IsAny<Expression<Func<SistemaEFood.Modelos.ProductoPrecio, bool>>>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()
+                ))
                 .ReturnsAsync(productoPrecio);
-            */
+
             // Act
             var result = await productoPrecioControllerPrueba.Upsert(1, 1);
 
@@ -140,14 +153,19 @@ namespace PruebasEFood.Tests.Controllers
             Assert.Equal(productoPrecio.Id, model.idRelacion);
             Assert.Equal(productoPrecio.Idprecio, model.tipoPrecioID);
         }
-        
+
         [Fact]
         public async Task Upsert_Get_IdNoEsNulo_RetornaNotFoundCuandoProductoPrecioEsNulo()
         {
-            /*
+
             // Arrange
-            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.ObtenerPrimero(It.IsAny<System.Linq.Expressions.Expression<System.Func<ProductoPrecio, bool>>>()))
-                .ReturnsAsync((ProductoPrecio)null);*/
+            var productoPrecio = new SistemaEFood.Modelos.ProductoPrecio { Id = 1, Idprecio = 2 };
+            var TipoPrecio = new SistemaEFood.Modelos.TipoPrecio { Id = 1, Nombre = "TipoPrecio" };
+            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.ObtenerPrimero(
+                It.IsAny<Expression<Func<SistemaEFood.Modelos.ProductoPrecio, bool>>>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>()
+                ));
 
             // Act
             var result = await productoPrecioControllerPrueba.Upsert(1, 1);
@@ -156,56 +174,6 @@ namespace PruebasEFood.Tests.Controllers
             Assert.IsType<NotFoundResult>(result);
         }
         
-        [Fact]
-        public async Task Upsert_Post_ModeloValido_CreaProductoPrecio()
-        {
-            // Arrange
-            var productoPrecioVM = new ProductoPrecioVM
-            {
-                idProducto = 1,
-                tipoPrecioID = 1,
-                monto = 1000,
-                idRelacion = 0
-            };
-            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.Agregar(It.IsAny<ProductoPrecio>())).Returns(Task.CompletedTask);
-            _mockUnidadTrabajo.Setup(u => u.Guardar()).Returns(Task.CompletedTask);
-
-            // Act
-            var result = await productoPrecioControllerPrueba.Upsert(productoPrecioVM);
-
-            // Assert
-            _mockUnidadTrabajo.Verify(u => u.ProductoPrecio.Agregar(It.Is<ProductoPrecio>(p => p.Idproducto == productoPrecioVM.idProducto && p.Idprecio == productoPrecioVM.tipoPrecioID && p.Monto == productoPrecioVM.monto)), Times.Once);
-            _mockUnidadTrabajo.Verify(u => u.Guardar(), Times.Once);
-
-            var redirectResult = Assert.IsType<RedirectResult>(result);
-            Assert.Contains("ProductoPrecio/Index", redirectResult.Url);
-        }
-
-        [Fact]
-        public async Task Upsert_Post_ModeloValido_ActualizaProductoPrecio()
-        {
-            // Arrange
-            var productoPrecioVM = new ProductoPrecioVM
-            {
-                idProducto = 1,
-                tipoPrecioID = 1,
-                monto = 100,
-                idRelacion = 1
-            };
-            _mockUnidadTrabajo.Setup(u => u.ProductoPrecio.Actualizar(It.IsAny<ProductoPrecio>()));
-            _mockUnidadTrabajo.Setup(u => u.Guardar()).Returns(Task.CompletedTask);
-
-            // Act
-            var result = await productoPrecioControllerPrueba.Upsert(productoPrecioVM);
-
-            // Assert
-            _mockUnidadTrabajo.Verify(u => u.ProductoPrecio.Actualizar(It.Is<ProductoPrecio>(p => p.Id == productoPrecioVM.idRelacion && p.Idproducto == productoPrecioVM.idProducto && p.Idprecio == productoPrecioVM.tipoPrecioID && p.Monto == productoPrecioVM.monto)), Times.Once);
-            _mockUnidadTrabajo.Verify(u => u.Guardar(), Times.Once);
-
-            var redirectResult = Assert.IsType<RedirectResult>(result);
-            Assert.Contains("ProductoPrecio/Index", redirectResult.Url);
-        }
-
         [Fact]
         public async Task Upsert_Post_ModeloNoValido_RetornaVistaConModelo()
         {

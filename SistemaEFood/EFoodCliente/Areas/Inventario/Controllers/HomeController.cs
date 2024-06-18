@@ -52,7 +52,7 @@ namespace SistemaEFood.Areas.Inventario.Controllers
             Parametros parametros = new Parametros()
             {
                 PageNumber = pageNumber,
-                PageSize = 8
+                PageSize = 16
             };
 
             var resultado = _unidadTrabajo.Producto.ObtenerTodosPaginado(parametros);

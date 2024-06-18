@@ -168,6 +168,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
         {
+            if (nombre == null)
+            {
+                return Json(new { data = false });
+
+            }
             bool valor = false;
             var lista = await _unidadTrabajo.TiqueteDeDescuento.ObtenerTodos();
             if (id == 0)

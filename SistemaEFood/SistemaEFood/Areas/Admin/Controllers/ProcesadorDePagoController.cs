@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Utilidades;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
@@ -163,6 +164,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ActionName("ValidarNombre")]
         public async Task<IActionResult> ValidarNombre(string procesador, int id = 0)
         {
+            if (procesador == null)
+            {
+                return Json(new { data = false });
+
+            }
             bool valor = false;
             var lista = await _unidadTrabajo.ProcesadorDePago.ObtenerTodos();
             if (id == 0)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaEFood.AccesoDatos.Repositorio.IRepositorio;
 using SistemaEFood.Modelos;
 using SistemaEFood.Utilidades;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SistemaEFood.Areas.Admin.Controllers
 {
@@ -98,6 +99,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ActionName("ValidarNombre")]
         public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
         {
+            if (nombre == null)
+            {
+                return Json(new { data = false });
+
+            }
             bool valor = false;
             var lista = await _unidadTrabajo.TiqueteDeDescuento.ObtenerTodos();
             if (id == 0)
@@ -118,6 +124,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ActionName("ValidarCodigo")]
         public async Task<IActionResult> ValidarCodigo(string codigo, int id = 0)
         {
+            if (codigo == null)
+            {
+                return Json(new { data = false });
+
+            }
             bool valor = false;
             var lista = await _unidadTrabajo.TiqueteDeDescuento.ObtenerTodos();
             if (id == 0)

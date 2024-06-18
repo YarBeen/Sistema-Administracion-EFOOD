@@ -201,6 +201,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
         [ActionName("ValidarNombre")]
         public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
         {
+            if (nombre == null)
+            {
+                return Json(new { data = false });
+
+            }
             bool valor = false;
             var lista = await _unidadTrabajo.Producto.ObtenerTodos();
             if (id == 0)

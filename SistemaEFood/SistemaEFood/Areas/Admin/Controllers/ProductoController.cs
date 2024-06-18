@@ -108,6 +108,8 @@ namespace SistemaEFood.Areas.Admin.Controllers
 
                     productoVM.Producto.ImagenUrl = filePath;
                     await _unidadTrabajo.Producto.Agregar(productoVM.Producto);
+                    var mensaje = TempData[DS.Exitosa] = "Producto "+ productoVM.Producto.Nombre +"creado exitosamente"; //Comentario previo: Transacción exitosa
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 else
                 {
@@ -131,11 +133,11 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     }
 
                     _unidadTrabajo.Producto.Actualizar(productoVM.Producto);
-
+                    var mensaje = TempData[DS.Exitosa] = "Producto " + productoVM.Producto.Nombre + "actualizado exitosamente"; ; //Comentario previo: Transacción exitosa
+                    await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
                 }
                 await _unidadTrabajo.Guardar();
-                var mensaje = TempData[DS.Exitosa] = "Producto actualizado exitosamente"; //Comentario previo: Transacción exitosa
-                await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensaje.ToString());
+                
                 return View("Index");
             }
             productoVM.LineaComidaLista = _unidadTrabajo.Producto.ObtenerTodosDropdownLista("LineaComida");

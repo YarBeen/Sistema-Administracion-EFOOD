@@ -128,18 +128,11 @@ namespace SistemaEFood.Areas.Inventario.Controllers
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()
         {
-            var todos = await _unidadTrabajo.Producto.ObtenerTodos(incluirPropiedades:"LineaComida");
-            var jsonToSend = todos.Select(todo =>
-            {
-                
-                todo.ImagenUrl = "https://localhost:7138/imagenes/producto/" + todo.ImagenUrl;
-                return todo;
-            });
-            
-            return Json(new { data = jsonToSend });
+            var todos = await _unidadTrabajo.Producto.ObtenerTodos(incluirPropiedades: "LineaComida");
+            return Json(new { data = todos });
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> ConsultarConFiltro(int? idLineaComida)
         {

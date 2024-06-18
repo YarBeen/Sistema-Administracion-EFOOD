@@ -102,7 +102,7 @@ namespace SistemaEFood.Areas.Admin.Controllers
                     if (filePath=="")
                     {
                         var mensajeError = TempData[DS.Error] = "No se pudo guardar la imagen";
-                        await _unidadTrabajo.Bitacora.RegistrarAccion(usuarioNombre, mensajeError.ToString());
+                        await _unidadTrabajo.BitacoraError.RegistrarError(mensajeError.ToString(), 200);
                         return View("Index");
                     }
 

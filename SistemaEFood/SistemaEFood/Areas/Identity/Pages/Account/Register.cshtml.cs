@@ -187,7 +187,7 @@ namespace SistemaEFood.Areas.Identity.Pages.Account
 
                     if (user.Role ==null )// es un cliente
                     {
-                        await _userManager.AddToRoleAsync(user, DS.Role_Admin);
+                        await _userManager.AddToRoleAsync(user, DS.Role_Usuario);
                     }
                     else
                     {
